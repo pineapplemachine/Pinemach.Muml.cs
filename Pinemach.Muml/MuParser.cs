@@ -78,6 +78,7 @@ public class MuParser : IDisposable {
     private MuToken inAttributesToken;
     private bool isAfterBeginMembers;
     private MuToken isAfterBeginMembersToken;
+    private bool isAfterAttributeName;
     private bool isAfterEquals;
     
     /// <summary>
@@ -120,9 +121,10 @@ public class MuParser : IDisposable {
                 this.Errors.AddUnexpectedEquals(token.Span);
             }
             this.isAfterEquals = true;
-            if(this.inAttributes && this.elTop() is {} el) {
+            if(this.inAttributes && !this.isAfterAttributeName && this.elTop() is {} el) {
                 el.Attributes.Add(null, null);
             }
+            this.isAfterAttributeName = false;
         }
         else if(token.IsBeginAttributes()) {
             if(this.inAttributes || this.isAfterBeginMembers || !this.elHasTop()) {
@@ -131,6 +133,7 @@ public class MuParser : IDisposable {
             }
             this.handleLeaveNeutral();
             this.inAttributes = true;
+            this.isAfterAttributeName = false;
             this.inAttributesToken = token;
         }
         else if(token.IsEndAttributes()) {
@@ -169,6 +172,7 @@ public class MuParser : IDisposable {
         if(this.inAttributes) {
             if(this.isAfterEquals) {
                 this.isAfterEquals = false;
+                this.isAfterAttributeName = false;
                 if(el.Attributes.Count == 0) {
                     el.Attributes.Add(null, token.Text);
                 }
@@ -179,6 +183,7 @@ public class MuParser : IDisposable {
             }
             else {
                 el.Attributes.Add(token.Text, null);
+                this.isAfterAttributeName = true;
             }
         }
         else if(this.isAfterEquals) {
@@ -221,6 +226,9 @@ public class MuParser : IDisposable {
         }
         else if(string.IsNullOrEmpty(mainText)) {
             return addText;
+        }
+        else if(MuUtil.IsWhitespaceChar(mainText[^1]) || MuUtil.IsWhitespaceChar(addText[0])) {
+            return mainText + addText;
         }
         else {
             return mainText + ' ' + addText;
