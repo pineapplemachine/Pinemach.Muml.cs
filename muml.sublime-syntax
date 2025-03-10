@@ -1,0 +1,183 @@
+%YAML 1.2
+---
+name: 'Muml'
+scope: text.muml
+version: 1
+
+# References:
+# https://github.com/sublimehq/Packages/blob/master/XML/XML.sublime-syntax
+# https://github.com/sublimehq/Packages/blob/master/YAML/YAML.sublime-syntax
+
+file_extensions:
+  - 'muml'
+  - 'μml'
+
+variables:
+  escape: '\\[0abtnvfre"''\\]|\\x[0-9a-fA-F]{2}'
+  plain_identifier: '[^ \t\r\n`''"()\[\]{}|&;#=]+'
+
+contexts:
+  main:
+    - include: comments
+    - include: identifier_strings
+    - include: quoted_strings
+    - include: values
+    - include: attributes
+    - include: members
+
+  values:
+    - match: '='
+      scope: punctuation.separator.key-value.muml
+      push:
+        - meta_scope: meta.value.muml
+        - meta_include_prototype: false
+        - include: identifier_strings
+        - match: ''
+          pop: true
+
+  attributes:
+    - match: '\['
+      scope: punctuation.definition.attributes.begin.muml
+      push: in_attributes
+  in_attributes:
+    - meta_scope: meta.attributes.muml
+    - meta_include_prototype: false
+    - include: comments
+    - include: identifier_strings
+    - include: quoted_strings
+    - match: '='
+      scope: punctuation.separator.key-value.muml
+    - match: '\]'
+      scope: punctuation.definition.attributes.end.muml
+      pop: true
+
+  members:
+    - match: '\{'
+      scope: punctuation.definition.members.begin.muml
+      push: in_members
+  in_members:
+    - meta_scope: meta.members.muml
+    - meta_include_prototype: false
+    - include: comments
+    - include: identifier_strings
+    - include: quoted_strings
+    - include: values
+    - include: attributes
+    - include: members
+    - match: '\}'
+      scope: punctuation.definition.members.end.muml
+      pop: true
+
+  comments:
+    - match: '#\['
+      scope: punctuation.definition.comment.begin.muml
+      push: nested_comment
+    - match: '(#{3,})'
+      scope: punctuation.definition.comment.begin.muml
+      push:
+        - meta_scope: comment.block.muml
+        - meta_include_prototype: false
+        - match: '\1'
+          scope: punctuation.definition.comment.end.muml
+          pop: true
+    - match: '#'
+      scope: punctuation.definition.comment.line.number-sign.muml
+      push:
+        - meta_scope: comment.line.number-sign.muml
+        - meta_include_prototype: false
+        - match: '\n'
+          pop: true
+
+  nested_comment:
+    - meta_scope: comment.block.muml
+    - meta_include_prototype: false
+    - match: '#\['
+      scope: punctuation.definition.comment.begin.muml
+      push: nested_comment
+    - match: '#\]'
+      scope: punctuation.definition.comment.end.muml
+      pop: true
+
+  identifier_strings:
+    - match: '{{plain_identifier}}'
+      scope: entity.name.plain.muml
+
+  quoted_strings:
+    - match: '\|[|>;^=][$+*\-]?\.*'
+      scope: storage.modifier.string.muml
+    - match: '\|\{'
+      scope: punctuation.definition.string.begin.muml
+      push:
+      - meta_scope: meta.string.muml string.block.muml
+      - match: '\|\}'
+        pop: true
+    - match: '\|'
+      scope: punctuation.definition.string.begin.muml
+      push:
+      - meta_scope: meta.string.muml string.line.muml
+      - match: '\n'
+        pop: true
+    - match: '("{3,})'
+      scope: punctuation.definition.string.begin.muml
+      push: quoted_strings_double_quote_fence
+    - match: '(''{3,})'
+      scope: punctuation.definition.string.begin.muml
+      push: quoted_strings_single_quote_fence
+    - match: '(`{3,})'
+      scope: punctuation.definition.string.begin.muml
+      push: quoted_strings_backtick_quote_fence
+    - match: '"'
+      scope: punctuation.definition.string.begin.muml
+      push: quoted_strings_double_quote
+    - match: ''''
+      scope: punctuation.definition.string.begin.muml
+      push: quoted_strings_single_quote
+    - match: '`'
+      scope: punctuation.definition.string.begin.muml
+      push: quoted_strings_backtick_quote
+
+  quoted_string_escape:
+    - match: '{{escape}}'
+      scope: constant.character.escape.js
+
+  quoted_strings_double_quote:
+    - meta_scope: meta.string.muml string.quoted.double.muml
+    - include: quoted_string_escape
+    - match: '\n'
+      pop: true
+    - match: '"'
+      scope: punctuation.definition.string.end.muml
+      pop: true
+  quoted_strings_single_quote:
+    - meta_scope: meta.string.muml string.quoted.single.muml
+    - include: quoted_string_escape
+    - match: '\n'
+      pop: true
+    - match: ''''
+      scope: punctuation.definition.string.end.muml
+      pop: true
+  quoted_strings_backtick_quote:
+    - meta_scope: meta.string.muml string.quoted.backtick.muml
+    - match: '``'
+      scope: constant.character.escape.js
+    - match: '`'
+      scope: punctuation.definition.string.end.muml
+      pop: true
+
+  quoted_strings_double_quote_fence:
+    - meta_scope: meta.string.muml string.quoted.double.fenced.muml
+    - include: quoted_string_escape
+    - match: '\1'
+      scope: punctuation.definition.string.end.muml
+      pop: true
+  quoted_strings_single_quote_fence:
+    - meta_scope: meta.string.muml string.quoted.single.fenced.muml
+    - include: quoted_string_escape
+    - match: '\1'
+      scope: punctuation.definition.string.end.muml
+      pop: true
+  quoted_strings_backtick_quote_fence:
+    - meta_scope: meta.string.muml string.quoted.backtick.fenced.muml
+    - match: '\1'
+      scope: punctuation.definition.string.end.muml
+      pop: true
