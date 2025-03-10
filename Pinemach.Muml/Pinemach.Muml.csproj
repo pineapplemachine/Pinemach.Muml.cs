@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <PackageId>Pinemach.Muml</PackageId>
+    <Version>1.0.0</Version>
+    <Title>Micro Markup Language</Title>
+    <Authors>Sophie Kirschner</Authors>
+    <PackageTags>Muml,Markup,XML,Configuration</PackageTags>
+    <Description>Parse and serialize Muml documents.</Description>
+  </PropertyGroup>
+</Project>

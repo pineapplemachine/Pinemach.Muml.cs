@@ -1,0 +1,131 @@
+###
+
+Tests related to parsing text and values in a document preceding any elements.
+
+###
+
+#MUML blank document
+#JSON
+{"Text": null, "Values": [], "Members": []}
+#END
+
+#MUML
+"DocTextDQ"
+#JSON
+{"Text": "DocTextDQ"}
+#END
+
+#MUML
+'DocTextSQ'
+#JSON
+{"Text": "DocTextSQ"}
+#END
+
+#MUML
+'''DocTextSQF'''
+#JSON
+{"Text": "DocTextSQF"}
+#END
+
+#MUML
+"""DocTextDQF"""
+#JSON
+{"Text": "DocTextDQF"}
+#END
+
+#MUML
+|| '''
+    Deindented
+    header
+'''
+#JSON
+{"Text": "Deindented\nheader\n"}
+#END
+
+#MUML
+|> '''
+    Folded
+    header
+'''
+#JSON
+{"Text": "Folded header\n"}
+#END
+
+#MUML
+=value
+#JSON
+{"Values": ["value"]}
+#END
+
+#MUML
+"head"
+=value
+#JSON
+{"Text": "head", "Values": ["value"]}
+#END
+
+#MUML
+"head"=value1=value2
+#JSON
+{"Text": "head", "Values": ["value1", "value2"]}
+#END
+
+#MUML
+"head"
+=value1 =value2
+#JSON
+{"Text": "head", "Values": ["value1", "value2"]}
+#END
+
+#MUML
+=value1
+=value2
+"head"
+#JSON
+{"Text": "head", "Values": ["value1", "value2"]}
+#END
+
+#MUML
+=v1=v2
+"head"
+=v3
+=v4
+#JSON
+{"Text": "head", "Values": ["v1", "v2", "v3", "v4"]}
+#END
+
+#MUML
+=v1=v2 "head" =v3 el
+#JSON
+{"Text": "head", "Values": ["v1", "v2", "v3"], "Members": [{"Name": "el"}]}
+#END
+
+#MUML
+=v1 el =v2
+#JSON
+{"Values": ["v1"], "Members": [{"Name": "el", "Values": ["v2"]}]}
+#END
+
+#MUML
+=v1 'text' el =v2
+#JSON
+{"Text": "text", "Values": ["v1"], "Members": [{"Name": "el", "Values": ["v2"]}]}
+#END
+
+#MUML
+=v1 el =v2 'text'
+#JSON
+{"Values": ["v1"], "Members": [{"Name": "el", "Values": ["v2"], "Text": "text"}]}
+#END
+
+#MUML
+=v1 el=v2 | text
+#JSON
+{"Values": ["v1"], "Members": [{"Name": "el", "Values": ["v2"], "Text": "text"}]}
+#END
+
+#MUML
+=v1 {'el'}=v2 | text
+#JSON
+{"Values": ["v1"], "Members": [{"Name": "el", "Values": ["v2"], "Text": "text"}]}
+#END

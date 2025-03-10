@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pinemach.Muml", "Pinemach.Muml\Pinemach.Muml.csproj", "{92C589C4-503B-46FD-940A-4262C3C80953}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pinemach.Muml.Tests", "Pinemach.Muml.Tests\Pinemach.Muml.Tests.csproj", "{BE7CFA75-541C-44AE-9FF1-0D378FB221C5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{92C589C4-503B-46FD-940A-4262C3C80953}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92C589C4-503B-46FD-940A-4262C3C80953}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92C589C4-503B-46FD-940A-4262C3C80953}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92C589C4-503B-46FD-940A-4262C3C80953}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE7CFA75-541C-44AE-9FF1-0D378FB221C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE7CFA75-541C-44AE-9FF1-0D378FB221C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE7CFA75-541C-44AE-9FF1-0D378FB221C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE7CFA75-541C-44AE-9FF1-0D378FB221C5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
