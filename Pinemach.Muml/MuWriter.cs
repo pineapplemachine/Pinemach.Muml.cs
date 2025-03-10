@@ -27,7 +27,7 @@ public class MuWriter {
     
     public MuWriter(
         string indent = MuWriter.DefaultIndent,
-        string newline = MuWriter.DefaultIndent,
+        string newline = MuWriter.DefaultNewline,
         MuTextType preferHeaderType = MuTextType.Auto,
         MuTextType preferTagType = MuTextType.Auto,
         MuTextType preferValueType = MuTextType.Auto,
@@ -120,6 +120,7 @@ public class MuWriter {
             writer.Write('}');
         }
         if(el.HasValues()) {
+            if(el.Values.Count > 1 && !this.ReduceSpaces) writer.Write(' ');
             this.WriteValues(el.Values, writer, false);
         }
         if(el.HasText()) {
@@ -142,16 +143,15 @@ public class MuWriter {
             return;
         }
         writer.Write('{');
-        bool first = true;
+        string nextIndent = indent + this.Indent;
+        bool anyMembers = false;
         foreach(MuElement member in members) {
-            if(first) {
-                writer.Write(this.Newline);
-                first = false;
-            }
-            writer.Write(indent);
-            this.WriteElement(member, indent + this.Indent, writer);
+            writer.Write(this.Newline);
+            writer.Write(nextIndent);
+            this.WriteElement(member, nextIndent, writer);
+            anyMembers = true;
         }
-        writer.Write(this.Newline);
+        if(anyMembers) writer.Write(this.Newline);
         writer.Write(indent);
         writer.Write('}');
     }
@@ -174,23 +174,32 @@ public class MuWriter {
     }
     
     public void WriteAttribute(MuAttribute attr, TextWriter writer) {
-        writer.Write(MuUtil.ToIdentifierString(attr.Name, this.PreferAttributeNameType));
-        if(!string.IsNullOrEmpty(attr.Value)) {
+        if(attr.Name != null) {
+            writer.Write(MuUtil.ToIdentifierString(attr.Name, this.PreferAttributeNameType));
+        }
+        if(attr.Name == null && attr.Value == null) {
+            writer.Write('=');
+        }
+        if(attr.Value != null) {
             writer.Write('=');
             writer.Write(MuUtil.ToIdentifierString(attr.Value, this.PreferAttributeValueType));
         }
     }
     
     public void WriteValues(IEnumerable<string> values, TextWriter writer, bool lineSep) {
+        bool first = true;
         foreach(string value in values) {
+            if(!first) {
+                if(lineSep) {
+                    writer.Write(this.Newline);
+                }
+                else if(!this.ReduceSpaces) {
+                    writer.Write(' ');
+                }
+            }
+            first = false;
             writer.Write('=');
             writer.Write(MuUtil.ToIdentifierString(value, this.PreferValueType));
-            if(lineSep) {
-                writer.Write(this.Newline);
-            }
-            else if(!this.ReduceSpaces) {
-                writer.Write(' ');
-            }
         }
     }
 }
