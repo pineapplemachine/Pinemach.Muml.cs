@@ -361,8 +361,8 @@ public class MuTokenizer : IDisposable {
     private string parseStringLiteralText(int initial = -1) {
         int chQuote = initial >= 0 ? initial : this.chNext();
         if(chQuote == '|') {
-            int chFormatNext = this.chPeek();
-            if(chFormatNext is ' ' or '\t') {
+            int chFormatPeek = this.chPeek();
+            if(chFormatPeek is ' ' or '\t' or '\r' or '\n') {
                 return this.parseStringLiteralTextLine();
             }
             MuTextFormatSpecifier format = this.parseStringFormatSpecifier();
@@ -386,6 +386,10 @@ public class MuTokenizer : IDisposable {
     }
     
     private string parseStringLiteralTextLine() {
+        if(this.chPeek() == '\n') {
+            this.skipWhitespace();
+            return "";
+        }
         this.skipWhitespace();
         StringBuilder sb = new();
         int whitespaceRun = 0;
