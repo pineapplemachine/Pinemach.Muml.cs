@@ -125,7 +125,6 @@ public static class MuUtil {
         0x1d => @"\x1d",
         0x1e => @"\x1e",
         0x1f => @"\x1f",
-        0x20 => @"\x20",
         0x7f => @"\x7f",
         '\\' => @"\\",
         '"' => escDoubleQuote ? @"\""" : null,
