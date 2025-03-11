@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -449,9 +450,12 @@ public static class MuUtil {
     /// <summary>
     /// Helper to check sequence equality. Considers null and empty sequences equal.
     /// </summary>
-    internal static bool SequencesEqual<T>(IEnumerable<T> seq1, IEnumerable<T> seq2) {
+    internal static bool SequencesEqual<T>(IEnumerable<T> seq1, IEnumerable<T> seq2) => (
+        MuUtil.SequencesEqual(seq1, seq2, EqualityComparer<T>.Default)
+    );
+    internal static bool SequencesEqual<T>(IEnumerable<T> seq1, IEnumerable<T> seq2, IEqualityComparer<T> comparer) {
         if(seq1 == null) return seq2 == null || !seq2.Any();
         else if(seq2 == null) return !seq1.Any();
-        else return seq1.SequenceEqual(seq2);
+        else return seq1.SequenceEqual(seq2, comparer);
     }
 }

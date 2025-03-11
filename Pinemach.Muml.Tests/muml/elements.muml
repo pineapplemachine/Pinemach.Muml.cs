@@ -1,0 +1,226 @@
+###
+
+Test cases related to element parsing in general.
+
+###
+
+#MUML
+e
+#JSON
+{"Members": [
+    {"Name": "e"}
+]}
+#END
+
+#MUML
+a b c
+#JSON
+{"Members": [
+    {"Name": "a"},
+    {"Name": "b"},
+    {"Name": "c"}
+]}
+#END
+
+#MUML
+a
+b
+c
+#JSON
+{"Members": [
+    {"Name": "a"},
+    {"Name": "b"},
+    {"Name": "c"}
+]}
+#END
+
+#MUML
+a b
+c
+#JSON
+{"Members": [
+    {"Name": "a"},
+    {"Name": "b"},
+    {"Name": "c"}
+]}
+#END
+
+#MUML
+a
+b c
+#JSON
+{"Members": [
+    {"Name": "a"},
+    {"Name": "b"},
+    {"Name": "c"}
+]}
+#END
+
+#MUML
+el=v1
+#JSON
+{"Members": [
+    {"Name": "el", "Values": ["v1"]}
+]}
+#END
+
+#MUML
+el=v1=v2
+#JSON
+{"Members": [
+    {"Name": "el", "Values": ["v1", "v2"]}
+]}
+#END
+
+#MUML
+el =v1 =v2 =v3
+#JSON
+{"Members": [
+    {"Name": "el", "Values": ["v1", "v2", "v3"]}
+]}
+#END
+
+#MUML
+el "Hello"
+#JSON
+{"Members": [
+    {"Name": "el", "Text": "Hello"}
+]}
+#END
+
+#MUML
+el=v1 "Hello"
+#JSON
+{"Members": [
+    {"Name": "el", "Values": ["v1"], "Text": "Hello"}
+]}
+#END
+
+#MUML
+el[x=1 y=2]
+#JSON
+{"Members": [{
+    "Name": "el",
+    "Attributes": [
+        {"Name": "x", "Value": "1"},
+        {"Name": "y", "Value": "2"}
+    ]
+}]}
+#END
+
+#MUML
+el=v1 "Hello" [x=1]
+#JSON
+{"Members": [{
+    "Name": "el",
+    "Values": ["v1"],
+    "Text": "Hello",
+    "Attributes": [{"Name": "x", "Value": "1"}]
+}]}
+#END
+
+#MUML
+ape =x =y 'a' [x=1 y=1]
+bear=z [z=3] 'b' 'bb' [x=1 y=2]
+#JSON
+{"Members": [{
+    "Name": "ape",
+    "Values": ["x", "y"],
+    "Text": "a",
+    "Attributes": [
+        {"Name": "x", "Value": "1"},
+        {"Name": "y", "Value": "1"}
+    ]
+}, {
+    "Name": "bear",
+    "Values": ["z"],
+    "Text": "b bb",
+    "Attributes": [
+        {"Name": "z", "Value": "3"},
+        {"Name": "x", "Value": "1"},
+        {"Name": "y", "Value": "2"}
+    ]
+}]}
+#END
+
+#MUML
+animal {lion tiger bear}
+fruit {apple peach citrus tomato}
+direction {east west north south}
+#JSON
+{"Members": [{
+    "Name": "animal",
+    "Members": [
+        {"Name": "lion"},
+        {"Name": "tiger"},
+        {"Name": "bear"}
+    ]
+}, {
+    "Name": "fruit",
+    "Members": [
+        {"Name": "apple"},
+        {"Name": "peach"},
+        {"Name": "citrus"},
+        {"Name": "tomato"}
+    ]
+}, {
+    "Name": "direction",
+    "Members": [
+        {"Name": "east"},
+        {"Name": "west"},
+        {"Name": "north"},
+        {"Name": "south"}
+    ]
+}]}
+#END
+
+#MUML
+a {1 2 3 {a b}}
+b {1 2 {a b c} 3 {a {1 2=v 3 4} b c}}
+c {1 {a '?' {1 {a {1}}}}}
+#JSON
+{"Members": [{
+    "Name": "a",
+    "Members": [
+        {"Name": "1"},
+        {"Name": "2"},
+        {"Name": "3", "Members": [
+            {"Name": "a"},
+            {"Name": "b"}
+        ]}
+    ]
+}, {
+    "Name": "b",
+    "Members": [
+        {"Name": "1"},
+        {"Name": "2", "Members": [
+            {"Name": "a"},
+            {"Name": "b"},
+            {"Name": "c"}
+        ]},
+        {"Name": "3", "Members": [
+            {"Name": "a", "Members": [
+                {"Name": "1"},
+                {"Name": "2", "Values": ["v"]},
+                {"Name": "3"},
+                {"Name": "4"}
+            ]},
+            {"Name": "b"},
+            {"Name": "c"}
+        ]}
+    ]
+}, {
+    "Name": "c",
+    "Members": [
+        {"Name": "1", "Members": [
+            {"Name": "a", "Text": "?", "Members": [
+                {"Name": "1", "Members": [
+                    {"Name": "a", "Members": [
+                        {"Name": "1"}
+                    ]}
+                ]}
+            ]}
+        ]}
+    ]
+}]}
+#END

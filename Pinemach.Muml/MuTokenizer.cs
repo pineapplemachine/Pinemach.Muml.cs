@@ -31,6 +31,8 @@ public readonly struct MuToken {
     public readonly MuSourceSpan Span;
     public readonly string Text;
     
+    public readonly MuSourceLocation Location { get => this.Span.Start; }
+    
     public static MuToken Identifier(MuSourceSpan span, string text) => new(MuTokenType.Identifier, span, text);
     public static MuToken String(MuSourceSpan span, string text) => new(MuTokenType.String, span, text);
     public static MuToken Equals(MuSourceSpan span, string text) => new(MuTokenType.Equals, span, text);
@@ -96,12 +98,13 @@ public class MuTokenizer : IDisposable {
     private readonly TextReader reader;
     private MuSourceLocation location;
     private MuSourceLocation tokenStartLocation;
+    private MuToken queuedToken = MuToken.None;
     
     public MuTokenizer(TextReader reader) : this(null, reader) {}
     public MuTokenizer(string source) : this(null, new StringReader(source)) {}
     public MuTokenizer(string fileName, string source) : this(fileName, new StringReader(source)) {}
     public MuTokenizer(string fileName, TextReader reader) {
-        this.location.FileName = fileName;
+        this.location = new MuSourceLocation(fileName);
         this.tokenStartLocation = this.location;
         this.reader = reader;
     }
@@ -111,6 +114,13 @@ public class MuTokenizer : IDisposable {
     /// Returns MuToken.None when there were no more tokens to parse.
     /// </summary>
     public MuToken NextToken() {
+        // Check for a queued token
+        if(this.queuedToken.IsValid()) {
+            MuToken token = this.queuedToken;
+            this.queuedToken = MuToken.None;
+            return token;
+        }
+        // Get next non-whitespace character
         this.skipWhitespace();
         this.tokenStartLocation = this.location;
         int ch = this.chNext();
@@ -119,9 +129,7 @@ public class MuTokenizer : IDisposable {
         while(ch is '&' or ';' or '(' or ')') {
             if(!unexpectedReservedMeta) {
                 unexpectedReservedMeta = true;
-                this.Errors.AddUnexpectedCharacter(
-                    this.tokenStartLocation.SpanTo(this.location)
-                );
+                this.Errors.AddUnexpectedCharacter(this.tokenStartLocation);
             }
             this.skipWhitespace();
             ch = this.chNext();
@@ -147,7 +155,7 @@ public class MuTokenizer : IDisposable {
             MuSourceLocation braceEndLocation = this.location;
             this.skipWhitespace();
             if(this.chPeek() == '|' || MuUtil.IsQuoteChar(this.chPeek())) {
-                return this.parseBracesIdentifier();
+                return this.parseBracesIdentifier(braceEndLocation);
             }
             return MuToken.BeginMembers(
                 this.tokenStartLocation.SpanTo(braceEndLocation)
@@ -200,7 +208,7 @@ public class MuTokenizer : IDisposable {
         while(true) {
             int ch = this.chNext();
             if(ch < 0 || ch == '\n') break;
-            sb.Append((char) this.chNext());
+            sb.Append((char) ch);
         }
         return MuToken.LineComment(
             this.getTokenSpan(),
@@ -257,7 +265,7 @@ public class MuTokenizer : IDisposable {
                     if(nest <= 0) break;
                 }
             }
-            sb.Append((char) this.chNext());
+            sb.Append((char) ch);
         }
         if(nest > 0) {
             this.Errors.AddUnterminatedNestedBlockComment(this.tokenStartLocation);
@@ -280,14 +288,22 @@ public class MuTokenizer : IDisposable {
         );
     }
     
-    private MuToken parseBracesIdentifier() {
+    private MuToken parseBracesIdentifier(MuSourceLocation braceEndLocation) {
+        MuSourceLocation stringStartLocation = this.location;
         string text = this.parseStringLiteralText();
+        MuSourceLocation stringEndLocation = this.location;
         this.skipWhitespace();
         if(this.chPeek() == '}') {
             this.chNext();
         }
         else {
-            this.Errors.AddMalformedBracesIdentifier(this.getTokenSpan());
+            this.queuedToken = MuToken.String(
+                stringStartLocation.SpanTo(stringEndLocation),
+                text
+            );
+            return MuToken.BeginMembers(
+                this.tokenStartLocation.SpanTo(braceEndLocation)
+            );
         }
         return MuToken.Identifier(
             this.getTokenSpan(),
@@ -366,15 +382,15 @@ public class MuTokenizer : IDisposable {
                 return this.parseStringLiteralTextLine();
             }
             MuTextFormatSpecifier format = this.parseStringFormatSpecifier();
-            MuSourceLocation formatEndLocation = this.location;
             this.skipWhitespace();
-            chQuote = this.chNext();
+            chQuote = this.chPeek();
             if(!MuUtil.IsQuoteChar(chQuote)) {
                 this.Errors.AddExpectedStringAfterFormatSpecifier(
-                    this.tokenStartLocation.SpanTo(formatEndLocation)
+                    this.tokenStartLocation
                 );
                 return null;
             }
+            this.chNext();
             return format.ApplyFormat(
                 this.parseStringLiteralTextBody(chQuote)
             );
@@ -479,12 +495,11 @@ public class MuTokenizer : IDisposable {
     private string parseStringLiteralTextQuoted(int chQuote) {
         StringBuilder sb = new();
         bool escape = false;
-        bool newline = false;
         while(true) {
             int ch = this.chNext();
             if(ch < 0) {
                 this.Errors.AddUnterminatedStringLiteral(this.tokenStartLocation);
-                return null;
+                break;
             }
             if(escape) {
                 escape = false;
@@ -497,10 +512,9 @@ public class MuTokenizer : IDisposable {
             else if(ch == chQuote) {
                 break;
             }
-            else if(ch == '\n' && !newline) {
-                newline = true;
+            else if(ch == '\n') {
                 this.Errors.AddUnexpectedNewlineInStringLiteral(this.tokenStartLocation);
-                sb.Append((char) ch);
+                break;
             }
             else {
                 sb.Append((char) ch);
@@ -548,6 +562,7 @@ public class MuTokenizer : IDisposable {
     private int chPeek() => this.reader.Peek();
     private int chNext() {
         int ch = this.reader.Read();
+        this.location.Index++;
         if(ch == '\n') {
             this.location.LineNumber++;
             this.location.LineStartIndex = this.location.Index;

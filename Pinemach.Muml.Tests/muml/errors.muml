@@ -1,0 +1,323 @@
+###
+
+Tests cases related to the graceful handling of many possible parsing errors.
+
+###
+
+#MUML reserved metacharacters
+hello & '&;()' ; # &;()
+{'&;()'} ( '' )
+#JSON
+{"Members": [
+    {"Name": "hello", "Text": "&;()"},
+    {"Name": "&;()", "Text": ""}
+]}
+#ERRORS
+UnexpectedCharacter L1:7
+UnexpectedCharacter L1:16
+UnexpectedCharacter L2:10
+UnexpectedCharacter L2:15
+#END
+
+#MUML reserved metacharacters error condensing
+hello &;() 'world' ;()&
+#JSON
+{"Members": [{"Name": "hello", "Text": "world"}]}
+#ERRORS
+UnexpectedCharacter L1:7
+UnexpectedCharacter L1:20
+#END
+
+#MUML open bracket before first element
+"test" [ el
+#JSON
+{"Text": "test", "Members": [{"Name": "el"}]}
+#ERRORS
+UnexpectedOpenBracket L1:8
+#END
+
+#MUML
+}
+#JSON
+{}
+#ERRORS
+UnexpectedCloseBrace L1:1
+#END
+
+#MUML
+]
+#JSON
+{}
+#ERRORS
+UnexpectedCloseBracket L1:1
+#END
+
+#MUML
+[
+#JSON
+{}
+#ERRORS
+UnexpectedOpenBracket L1:1
+#END
+
+#MUML
+[]
+#JSON
+{}
+#ERRORS
+UnexpectedOpenBracket L1:1
+UnexpectedCloseBracket L1:2
+#END
+
+#MUML
+[] 'some text'
+#JSON
+{"Text": "some text"}
+#ERRORS
+UnexpectedOpenBracket L1:1
+UnexpectedCloseBracket L1:2
+#END
+
+#MUML
+el {{}
+#JSON
+{"Members": [{"Name": "el"}]}
+#ERRORS
+UnexpectedOpenBrace L1:5
+#END
+
+#MUML
+'x' }] el
+#JSON
+{"Text": "x", "Members": [{"Name": "el"}]}
+#ERRORS
+UnexpectedCloseBrace L1:5
+UnexpectedCloseBracket L1:6
+#END
+
+#MUML
+'x' [] el
+#JSON
+{"Text": "x", "Members": [{"Name": "el"}]}
+#ERRORS
+UnexpectedOpenBracket L1:5
+UnexpectedCloseBracket L1:6
+#END
+
+#MUML
+'x' [a=b] el
+#JSON
+{"Text": "x", "Members": [
+    {"Name": "a", "Values": ["b"]},
+    {"Name": "el"}
+]}
+#ERRORS
+UnexpectedOpenBracket L1:5
+UnexpectedCloseBracket L1:9
+#END
+
+#MUML
+el [=]
+#JSON
+{"Members": [{"Name": "el", "Attributes": [
+    {"Name": null, "Value": null}
+]}]}
+#ERRORS
+UnexpectedCloseBracket L1:6
+#END
+
+#MUML
+el {"hello" abc "x"}
+#JSON
+{"Members": [{"Name": "el", "Members": [
+    {"Name": "abc", "Text": "x"}
+]}]}
+#ERRORS
+UnexpectedStringLiteral L1:5
+#END
+
+#MUML
+el "hello dq
+
+#JSON
+{"Members": [{"Name": "el", "Text": "hello dq"}]}
+#ERRORS
+UnexpectedNewlineInStringLiteral L1:4
+#END
+
+#MUML
+el 'hello sq
+
+#JSON
+{"Members": [{"Name": "el", "Text": "hello sq"}]}
+#ERRORS
+UnexpectedNewlineInStringLiteral L1:4
+#END
+
+#MUML
+el 'hello sq
+etc '
+
+#JSON
+{"Members": [
+    {"Name": "el", "Text": "hello sq"},
+    {"Name": "etc", "Text": ""}
+]}
+#ERRORS
+UnexpectedNewlineInStringLiteral L1:4
+UnexpectedNewlineInStringLiteral L2:5
+#END
+
+#MUML
+el "unterminated
+#JSON
+{"Members": [{"Name": "el", "Text": "unterminated"}]}
+#ERRORS
+UnterminatedStringLiteral L1:4
+#END
+
+#MUML
+el [
+#JSON
+{"Members": [{"Name": "el"}]}
+#ERRORS
+UnterminatedAttributes L1:4
+#END
+
+#MUML
+el [x=1
+#JSON
+{"Members": [{
+    "Name": "el",
+    "Attributes": [{"Name": "x", "Value": "1"}]
+}]}
+#ERRORS
+UnterminatedAttributes L1:4
+#END
+
+#MUML
+el {
+#JSON
+{"Members": [{"Name": "el"}]}
+#ERRORS
+UnterminatedMembers L1:4
+#END
+
+#MUML
+el { hello
+#JSON
+{"Members": [{"Name": "el", "Members": [{"Name": "hello"}]}]}
+#ERRORS
+UnterminatedMembers L1:4
+#END
+
+#MUML
+el { hello {}
+#JSON
+{"Members": [{"Name": "el", "Members": [{"Name": "hello"}]}]}
+#ERRORS
+UnterminatedMembers L1:4
+#END
+
+#MUML
+el { hello {
+#JSON
+{"Members": [{"Name": "el", "Members": [{"Name": "hello"}]}]}
+#ERRORS
+UnterminatedMembers L1:4
+UnterminatedMembers L1:12
+#END
+
+#MUML no consecutive brace errors
+el {{{{{{{ hello {{{
+#JSON
+{"Members": [{"Name": "el", "Members": [{"Name": "hello"}]}]}
+#ERRORS
+UnterminatedMembers L1:4
+UnexpectedOpenBrace L1:5
+UnterminatedMembers L1:18
+UnexpectedOpenBrace L1:19
+#END
+
+#MUML
+el "\a\b \Q"
+#JSON
+{"Members": [{"Name": "el", "Text": "\u0007\u0008 \\Q"}]}
+#ERRORS
+MalformedStringEscapeSequence L1:4
+#END
+
+#MUML
+el "\x10 \x0a \xOK"
+#JSON
+{"Members": [{"Name": "el", "Text": "\u0010 \u000a \\xOK"}]}
+#ERRORS
+MalformedStringEscapeSequence L1:4
+#END
+
+#MUML only one escape sequence error per string
+a '\Q'
+b '\Q \Q \Q'
+#JSON
+{"Members": [
+    {"Name": "a", "Text": "\\Q"},
+    {"Name": "b", "Text": "\\Q \\Q \\Q"}
+]}
+#ERRORS
+MalformedStringEscapeSequence L1:3
+MalformedStringEscapeSequence L2:3
+#END
+
+#MUML
+hello ||
+#JSON
+{"Members": [{"Name": "hello"}]}
+#ERRORS
+ExpectedStringAfterFormatSpecifier L1:7
+#END
+
+#MUML
+hello || [x=1]
+#JSON
+{"Members": [{
+    "Name": "hello",
+    "Attributes": [{"Name": "x", "Value": "1"}]
+}]}
+#ERRORS
+ExpectedStringAfterFormatSpecifier L1:7
+#END
+
+#MUML
+hello || {el}
+#JSON
+{"Members": [{
+    "Name": "hello",
+    "Members": [{"Name": "el"}]
+}]}
+#ERRORS
+ExpectedStringAfterFormatSpecifier L1:7
+#END
+
+#MUML
+hello || world
+#JSON
+{"Members": [{"Name": "hello"}, {"Name": "world"}]}
+#ERRORS
+ExpectedStringAfterFormatSpecifier L1:7
+#END
+
+#MUML
+el #[
+#JSON
+{"Members": [{"Name": "el"}]}
+#ERRORS
+UnterminatedNestedBlockComment L1:4
+#END
+
+#MUML
+el1 #[ #] #[#] el2 #[ #[
+#JSON
+{"Members": [{"Name": "el1"}, {"Name": "el2"}]}
+#ERRORS
+UnterminatedNestedBlockComment L1:20
+#END

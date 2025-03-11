@@ -1,0 +1,243 @@
+###
+
+Test cases related to attribute parsing.
+
+###
+
+#MUML
+el [x]
+#JSON
+{"Members": [{"Name": "el", "Attributes": [
+    {"Name": "x", "Value": null}
+]}]}
+#END
+
+#MUML
+el [x=]
+#JSON
+{"Members": [{"Name": "el", "Attributes": [
+    {"Name": "x", "Value": null}
+]}]}
+#END
+
+#MUML
+el [x=""]
+#JSON
+{"Members": [{"Name": "el", "Attributes": [
+    {"Name": "x", "Value": ""}
+]}]}
+#END
+
+#MUML
+el [=""]
+#JSON
+{"Members": [{"Name": "el", "Attributes": [
+    {"Name": null, "Value": ""}
+]}]}
+#END
+
+#MUML
+el [hello=world]
+#JSON
+{"Members": [{"Name": "el", "Attributes": [
+    {"Name": "hello", "Value": "world"}
+]}]}
+#END
+
+#MUML
+el ['x'='y']
+#JSON
+{"Members": [{"Name": "el", "Attributes": [
+    {"Name": "x", "Value": "y"}
+]}]}
+#END
+
+#MUML
+el [attr='1' 'attr'=1 `attr`=`1`]
+#JSON
+{"Members": [{"Name": "el", "Attributes": [
+    {"Name": "attr", "Value": "1"},
+    {"Name": "attr", "Value": "1"},
+    {"Name": "attr", "Value": "1"}
+]}]}
+#END
+
+#MUML
+el [one=1] [two=2 three=3 two=4]
+#JSON
+{"Members": [{"Name": "el", "Attributes": [
+    {"Name": "one", "Value": "1"},
+    {"Name": "two", "Value": "2"},
+    {"Name": "three", "Value": "3"},
+    {"Name": "two", "Value": "4"}
+]}]}
+#END
+
+#MUML
+el ["one"="1""two"="2"three="3""four"=4"five"="5"]
+#JSON
+{"Members": [{"Name": "el", "Attributes": [
+    {"Name": "one", "Value": "1"},
+    {"Name": "two", "Value": "2"},
+    {"Name": "three", "Value": "3"},
+    {"Name": "four", "Value": "4"},
+    {"Name": "five", "Value": "5"}
+]}]}
+#END
+
+#MUML
+el [x
+
+=1"y"=
+
+2
+
+
+z
+
+=
+
+3]
+#JSON
+{"Members": [{"Name": "el", "Attributes": [
+    {"Name": "x", "Value": "1"},
+    {"Name": "y", "Value": "2"},
+    {"Name": "z", "Value": "3"}
+]}]}
+#END
+
+#MUML
+el [|>-'''
+    Folded
+    attribute
+    name
+'''=|>-```
+    Folded
+    attribute
+    value
+```]
+#JSON
+{"Members": [{"Name": "el", "Attributes": [
+    {
+        "Name": "Folded attribute name",
+        "Value": "Folded attribute value"
+    }
+]}]}
+#END
+
+#MUML
+el [
+    title=| Hello world
+    body=
+    | body value
+    | new attr
+]
+#JSON
+{"Members": [{"Name": "el", "Attributes": [
+    {"Name": "title", "Value": "Hello world"},
+    {"Name": "body", "Value": "body value"},
+    {"Name": "new attr", "Value": null}
+]}]}
+#END
+
+#MUML
+el [attr=| please don't do this ]
+]
+#JSON
+{"Members": [{"Name": "el", "Attributes": [
+    {"Name": "attr", "Value": "please don't do this ]"}
+]}]}
+#END
+
+#MUML
+el [attr=[]
+#JSON
+{"Members": [{"Name": "el", "Attributes": [
+    {"Name": "attr", "Value": null}
+]}]}
+#ERRORS
+UnexpectedOpenBracket L1:10
+#END
+
+#MUML
+el [attr={]
+#JSON
+{"Members": [{"Name": "el", "Attributes": [
+    {"Name": "attr", "Value": null}
+]}]}
+#ERRORS
+UnexpectedOpenBrace L1:10
+#END
+
+#MUML
+el [attr=1]]
+#JSON
+{"Members": [{"Name": "el", "Attributes": [
+    {"Name": "attr", "Value": "1"}
+]}]}
+#ERRORS
+UnexpectedCloseBracket L1:12
+#END
+
+#MUML
+el [attr=1}]
+#JSON
+{"Members": [{"Name": "el", "Attributes": [
+    {"Name": "attr", "Value": "1"}
+]}]}
+#ERRORS
+UnexpectedCloseBrace L1:11
+#END
+
+#MUML
+el [=]
+#JSON
+{"Members": [{"Name": "el", "Attributes": [
+    {"Name": null, "Value": null}
+]}]}
+#ERRORS
+UnexpectedCloseBracket L1:6
+#END
+
+#MUML
+el [= = =]
+#JSON
+{"Members": [{"Name": "el", "Attributes": [
+    {"Name": null, "Value": null},
+    {"Name": null, "Value": null},
+    {"Name": null, "Value": null}
+]}]}
+#ERRORS
+UnexpectedEquals L1:7
+UnexpectedCloseBracket L1:10
+#END
+
+#MUML
+el [=] [] [= =]
+#JSON
+{"Members": [{"Name": "el", "Attributes": [
+    {"Name": null, "Value": null},
+    {"Name": null, "Value": null},
+    {"Name": null, "Value": null}
+]}]}
+#ERRORS
+UnexpectedCloseBracket L1:6
+UnexpectedEquals L1:14
+UnexpectedCloseBracket L1:15
+#END
+
+#MUML
+el [] [=] [] [= =] "x" [] [=] []
+#JSON
+{"Members": [{"Name": "el", "Text": "x", "Attributes": [
+    {"Name": null, "Value": null},
+    {"Name": null, "Value": null},
+    {"Name": null, "Value": null},
+    {"Name": null, "Value": null}
+]}]}
+#ERRORS
+UnexpectedCloseBracket L1:9
+UnexpectedEquals L1:17
+UnexpectedCloseBracket L1:18
+UnexpectedCloseBracket L1:29
+#END

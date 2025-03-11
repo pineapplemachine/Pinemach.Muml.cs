@@ -12,7 +12,7 @@ public class MuParser : IDisposable {
     public readonly MuDocument Document;
     public readonly bool KeepComments;
     
-    public readonly MuSourceErrors Errors = new();
+    public readonly MuSourceErrors Errors;
     public bool IsOk() => (this.Errors?.Count ?? 0) == 0;
     
     private readonly MuTokenizer tokenizer;
@@ -31,6 +31,7 @@ public class MuParser : IDisposable {
     {}
     public MuParser(MuTokenizer tokenizer, bool keepComments = false) {
         this.tokenizer = tokenizer;
+        this.Errors = tokenizer.Errors;
         this.KeepComments = keepComments;
         this.Document = new(this.Errors);
     }
@@ -77,9 +78,20 @@ public class MuParser : IDisposable {
     private bool inAttributes;
     private MuToken inAttributesToken;
     private bool isAfterBeginMembers;
-    private MuToken isAfterBeginMembersToken;
+    private List<MuToken> beginMembersTokenStack = new();
     private bool isAfterAttributeName;
     private bool isAfterEquals;
+    
+    private MuSourceError lastError;
+    private void interruptErrorCoalsece() {
+        this.lastError = MuSourceError.None;
+    }
+    private void addErrorCoalesce(MuSourceError error) {
+        if(error.Type != this.lastError.Type) {
+            this.Errors.Add(error);
+            this.lastError = error;
+        }
+    }
     
     /// <summary>
     /// Parse tokens in the source text until finished.
@@ -93,6 +105,7 @@ public class MuParser : IDisposable {
     /// </summary>
     public bool ParseNextToken() {
         MuToken token = this.tokenizer.NextToken();
+        bool noInterruptErrorCoalsece = false;
         if(!token.IsValid()) {
             this.handleEof();
             return false;
@@ -111,14 +124,15 @@ public class MuParser : IDisposable {
         }
         else if(token.IsString()) {
             if(this.isAfterBeginMembers) {
-                this.Errors.AddUnexpectedStringLiteral(token.Span);
+                this.Errors.AddUnexpectedStringLiteral(token.Location);
                 return true;
             }
             this.handleString(false, token);
         }
         else if(token.IsEquals()) {
             if(this.isAfterEquals || this.isAfterBeginMembers) {
-                this.Errors.AddUnexpectedEquals(token.Span);
+                this.addErrorCoalesce(MuSourceError.UnexpectedEquals(token.Location));
+                noInterruptErrorCoalsece = true;
             }
             this.isAfterEquals = true;
             if(this.inAttributes && !this.isAfterAttributeName && this.elTop() is {} el) {
@@ -128,7 +142,7 @@ public class MuParser : IDisposable {
         }
         else if(token.IsBeginAttributes()) {
             if(this.inAttributes || this.isAfterBeginMembers || !this.elHasTop()) {
-                this.Errors.AddUnexpectedOpenBracket(token.Span);
+                this.addErrorCoalesce(MuSourceError.UnexpectedOpenBracket(token.Location));
                 return true;
             }
             this.handleLeaveNeutral();
@@ -138,31 +152,45 @@ public class MuParser : IDisposable {
         }
         else if(token.IsEndAttributes()) {
             if(!this.inAttributes || this.isAfterBeginMembers) {
-                this.Errors.AddUnexpectedCloseBracket(token.Span);
+                this.addErrorCoalesce(MuSourceError.UnexpectedCloseBracket(token.Location));
                 return true;
+            }
+            if(this.isAfterEquals && (
+                this.elTop() == null ||
+                this.elTop().Attributes.Count <= 0 ||
+                this.elTop().Attributes[^1].Equals(null, null)
+            )) {
+                this.addErrorCoalesce(MuSourceError.UnexpectedCloseBracket(token.Location));
+                noInterruptErrorCoalsece = true;
             }
             this.inAttributes = false;
             this.isAfterEquals = false;
         }
         else if(token.IsBeginMembers()) {
             if(this.inAttributes || this.isAfterBeginMembers || !this.elHasTop()) {
-                this.Errors.AddUnexpectedOpenBrace(token.Span);
+                this.addErrorCoalesce(MuSourceError.UnexpectedOpenBrace(token.Location));
                 return true;
             }
             this.handleLeaveNeutral();
             this.isAfterBeginMembers = true;
-            this.isAfterBeginMembersToken = token;
+            this.beginMembersTokenStack.Add(token);
         }
         else if(token.IsEndMembers()) {
             if(this.inAttributes || !this.elHasTop()) {
-                this.Errors.AddUnexpectedCloseBrace(token.Span);
+                this.addErrorCoalesce(MuSourceError.UnexpectedCloseBrace(token.Location));
                 return true;
             }
             this.handleLeaveNeutral();
             if(!this.isAfterBeginMembers) {
                 this.elPop();
             }
+            if(this.beginMembersTokenStack.Count > 0) {
+                this.beginMembersTokenStack.RemoveAt(this.beginMembersTokenStack.Count - 1);
+            }
             this.isAfterBeginMembers = false;
+        }
+        if(!noInterruptErrorCoalsece) {
+            this.interruptErrorCoalsece();
         }
         return true;
     }
@@ -222,7 +250,7 @@ public class MuParser : IDisposable {
     
     private static string appendText(string mainText, string addText) {
         if(string.IsNullOrEmpty(addText)) {
-            return string.IsNullOrEmpty(mainText) ? mainText : mainText + '\n';
+            return string.IsNullOrEmpty(mainText) ? mainText ?? addText : mainText + '\n';
         }
         else if(string.IsNullOrEmpty(mainText)) {
             return addText;
@@ -244,13 +272,23 @@ public class MuParser : IDisposable {
     
     private void handleEof() {
         if(this.inAttributes) {
-            this.Errors.AddUnterminatedAttributes(this.inAttributesToken.Span);
+            this.Errors.AddUnterminatedAttributes(this.inAttributesToken.Location);
         }
         else {
             this.handleLeaveNeutral();
         }
-        if(this.elStack.Count > 1) {
-            this.Errors.AddUnterminatedMembers(this.isAfterBeginMembersToken.Span);
+        int lastBeginMembersIndex = -1;
+        foreach(MuToken beginMembersToken in this.beginMembersTokenStack) {
+            if(
+                lastBeginMembersIndex < 0 ||
+                beginMembersToken.Location.Index > lastBeginMembersIndex + 1
+            ) {
+                this.Errors.AddUnterminatedMembers(beginMembersToken.Location);
+            }
+            lastBeginMembersIndex = beginMembersToken.Location.Index;
+        }
+        if(this.Errors.Count < 4096) {
+            this.Errors.Sort();
         }
     }
     

@@ -1,10 +1,10 @@
 ###
 
-Tests related to parsing text and values in a document preceding any elements.
+Test cases related to parsing text and values at the beginning of a document, preceding any elements.
 
 ###
 
-#MUML blank document
+#MUML_BLANK blank document
 #JSON
 {"Text": null, "Values": [], "Members": []}
 #END
@@ -31,6 +31,36 @@ Tests related to parsing text and values in a document preceding any elements.
 """DocTextDQF"""
 #JSON
 {"Text": "DocTextDQF"}
+#END
+
+#MUML
+'One' "Two" `Three`
+#JSON
+{"Text": "One Two Three"}
+#END
+
+#MUML
+'One' "Two" '' `Three`
+#JSON
+{"Text": "One Two\nThree"}
+#END
+
+#MUML
+| Hello world
+#JSON
+{"Text": "Hello world"}
+#END
+
+#MUML
+| First
+| Second
+|
+| Third
+|
+|
+| Fourth
+#JSON
+{"Text": "First Second\nThird\n\nFourth"}
 #END
 
 #MUML
@@ -92,6 +122,26 @@ Tests related to parsing text and values in a document preceding any elements.
 =v4
 #JSON
 {"Text": "head", "Values": ["v1", "v2", "v3", "v4"]}
+#END
+
+#MUML
+=v1
+"h1"
+=v2
+"h2"
+#JSON
+{"Text": "h1 h2", "Values": ["v1", "v2"]}
+#END
+
+#MUML
+"h0"
+=v1
+"h1"
+=v2
+"h2"
+=v3
+#JSON
+{"Text": "h0 h1 h2", "Values": ["v1", "v2", "v3"]}
 #END
 
 #MUML

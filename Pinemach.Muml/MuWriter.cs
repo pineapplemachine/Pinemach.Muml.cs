@@ -123,7 +123,7 @@ public class MuWriter {
             if(el.Values.Count > 1 && !this.ReduceSpaces) writer.Write(' ');
             this.WriteValues(el.Values, writer, false);
         }
-        if(el.HasText()) {
+        if(el.Text != null) {
             if(!this.ReduceSpaces) writer.Write(' ');
             writer.Write(MuUtil.ToQuotedString(el.Text, this.PreferTextType));
         }

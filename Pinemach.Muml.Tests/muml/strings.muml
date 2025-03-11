@@ -1,0 +1,15 @@
+###
+
+Test cases related to string parsing.
+
+###
+
+# TODO
+
+#MUML
+e ''
+#JSON
+{"Members": [{"Name": "e", "Text":
+    ""
+}]}
+#END

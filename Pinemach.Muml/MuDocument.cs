@@ -30,6 +30,24 @@ public enum MuCommentType {
 }
 
 /// <summary>
+/// Comparer which checks equality of document content.
+/// </summary>
+public class MuDocumentContentComparer : IEqualityComparer<MuDocument> {
+    public static readonly MuDocumentContentComparer Instance = new();
+    public bool Equals(MuDocument doc1, MuDocument doc2) => doc1?.ContentEquals(doc2) ?? false;
+    public int GetHashCode(MuDocument doc) => doc?.GetHashCode() ?? 0;
+}
+
+/// <summary>
+/// Comparer which checks equality of element content.
+/// </summary>
+public class MuElementContentComparer : IEqualityComparer<MuElement> {
+    public static readonly MuElementContentComparer Instance = new();
+    public bool Equals(MuElement el1, MuElement el2) => el1?.ContentEquals(el2) ?? false;
+    public int GetHashCode(MuElement el) => el?.GetHashCode() ?? 0;
+}
+
+/// <summary>
 /// Interface implemented by MuDocument and MuElement.
 /// </summary>
 public interface IMuHasMembers {
@@ -171,12 +189,12 @@ public class MuDocument : IMuHasValues, IMuHasMembers {
     
     public override string ToString() => MuWriter.Default.WriteDocument(this);
     
-    public override bool Equals(object obj) => this.Equals(obj as MuDocument);
-    public bool Equals(MuDocument doc) => (
+    public bool ContentEquals(object obj) => this.ContentEquals(obj as MuDocument);
+    public bool ContentEquals(MuDocument doc) => (
         doc != null &&
         this.Text == doc.Text &&
         MuUtil.SequencesEqual(this.Values, doc.Values) &&
-        MuUtil.SequencesEqual(this.Members, doc.Members)
+        MuUtil.SequencesEqual(this.Members, doc.Members, MuElementContentComparer.Instance)
     );
 }
 
@@ -241,15 +259,15 @@ public class MuElement : IMuHasValues, IMuHasAttributes, IMuHasMembers {
     
     public override string ToString() => MuWriter.Default.WriteElement(this);
     
-    public override bool Equals(object obj) => this.Equals(obj as MuElement);
-    public bool Equals(MuElement el) => (
+    public bool ContentEquals(object obj) => this.ContentEquals(obj as MuElement);
+    public bool ContentEquals(MuElement el) => (
         el != null &&
         this.Name == el.Name &&
         this.CommentType == el.CommentType &&
         this.Text == el.Text &&
         MuUtil.SequencesEqual(this.Values, el.Values) &&
         MuUtil.SequencesEqual(this.Attributes, el.Attributes) &&
-        MuUtil.SequencesEqual(this.Members, el.Members)
+        MuUtil.SequencesEqual(this.Members, el.Members, MuElementContentComparer.Instance)
     );
 }
 
@@ -481,6 +499,10 @@ public struct MuAttribute {
     public bool Equals(KeyValuePair<string, string> attr) => (
         this.Name == attr.Key &&
         this.Value == attr.Value
+    );
+    public bool Equals(string name, string value) => (
+        this.Name == name &&
+        this.Value == value
     );
 
     public static bool operator ==(MuAttribute left, MuAttribute right) => left.Equals(right);

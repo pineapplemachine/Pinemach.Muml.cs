@@ -11,6 +11,7 @@ public struct MuSourceLocation {
     public int LineStartIndex;
     public int LineNumber;
     
+    public MuSourceLocation(string fileName) : this(fileName, 0, 0, 1) {}
     public MuSourceLocation(int index, int lineStartIndex, int lineNumber) :
         this(null, index, lineStartIndex, lineNumber)
     {}
