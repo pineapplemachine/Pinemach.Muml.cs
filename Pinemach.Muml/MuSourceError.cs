@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Pinemach.Muml;
@@ -28,24 +29,72 @@ public enum MuSourceErrorType {
 /// <summary>
 /// Represents an error encountered while parsing Muml source.
 /// </summary>
-public readonly struct MuSourceError {
+public readonly struct MuSourceError : IComparable {
+    public static readonly MuSourceError None = new(MuSourceErrorType.None, MuSourceSpan.None);
+    
     public readonly MuSourceErrorType Type;
     public readonly MuSourceSpan Span;
+    
+    public readonly MuSourceLocation Location { get => this.Span.Start; }
     
     public MuSourceError(MuSourceErrorType type, MuSourceLocation location) : this(
         type,
         new MuSourceSpan(location)
     ) {}
-    
     public MuSourceError(MuSourceErrorType type, MuSourceSpan span) {
         this.Type = type;
         this.Span = span;
     }
     
-    public override string ToString() => (
-        $"{MuSourceError.TypeToString(this.Type)} ({this.Span})"
-    );
+    public static MuSourceError UnexpectedCharacter(MuSourceSpan span) => new(MuSourceErrorType.UnexpectedCharacter, span);
+    public static MuSourceError UnexpectedCharacter(MuSourceLocation loc) => new(MuSourceErrorType.UnexpectedCharacter, loc);
+    public static MuSourceError UnexpectedOpenBracket(MuSourceSpan span) => new(MuSourceErrorType.UnexpectedOpenBracket, span);
+    public static MuSourceError UnexpectedOpenBracket(MuSourceLocation loc) => new(MuSourceErrorType.UnexpectedOpenBracket, loc);
+    public static MuSourceError UnexpectedOpenBrace(MuSourceSpan span) => new(MuSourceErrorType.UnexpectedOpenBrace, span);
+    public static MuSourceError UnexpectedOpenBrace(MuSourceLocation loc) => new(MuSourceErrorType.UnexpectedOpenBrace, loc);
+    public static MuSourceError UnexpectedCloseBracket(MuSourceSpan span) => new(MuSourceErrorType.UnexpectedCloseBracket, span);
+    public static MuSourceError UnexpectedCloseBracket(MuSourceLocation loc) => new(MuSourceErrorType.UnexpectedCloseBracket, loc);
+    public static MuSourceError UnexpectedCloseBrace(MuSourceSpan span) => new(MuSourceErrorType.UnexpectedCloseBrace, span);
+    public static MuSourceError UnexpectedCloseBrace(MuSourceLocation loc) => new(MuSourceErrorType.UnexpectedCloseBrace, loc);
+    public static MuSourceError UnexpectedEquals(MuSourceSpan span) => new(MuSourceErrorType.UnexpectedEquals, span);
+    public static MuSourceError UnexpectedEquals(MuSourceLocation loc) => new(MuSourceErrorType.UnexpectedEquals, loc);
+    public static MuSourceError UnexpectedStringLiteral(MuSourceSpan span) => new(MuSourceErrorType.UnexpectedStringLiteral, span);
+    public static MuSourceError UnexpectedStringLiteral(MuSourceLocation loc) => new(MuSourceErrorType.UnexpectedStringLiteral, loc);
+    public static MuSourceError UnexpectedNewlineInStringLiteral(MuSourceSpan span) => new(MuSourceErrorType.UnexpectedNewlineInStringLiteral, span);
+    public static MuSourceError UnexpectedNewlineInStringLiteral(MuSourceLocation loc) => new(MuSourceErrorType.UnexpectedNewlineInStringLiteral, loc);
+    public static MuSourceError UnterminatedStringLiteral(MuSourceSpan span) => new(MuSourceErrorType.UnterminatedStringLiteral, span);
+    public static MuSourceError UnterminatedStringLiteral(MuSourceLocation loc) => new(MuSourceErrorType.UnterminatedStringLiteral, loc);
+    public static MuSourceError UnterminatedNestedBlockComment(MuSourceSpan span) => new(MuSourceErrorType.UnterminatedNestedBlockComment, span);
+    public static MuSourceError UnterminatedNestedBlockComment(MuSourceLocation loc) => new(MuSourceErrorType.UnterminatedNestedBlockComment, loc);
+    public static MuSourceError UnterminatedAttributes(MuSourceSpan span) => new(MuSourceErrorType.UnterminatedAttributes, span);
+    public static MuSourceError UnterminatedAttributes(MuSourceLocation loc) => new(MuSourceErrorType.UnterminatedAttributes, loc);
+    public static MuSourceError UnterminatedMembers(MuSourceSpan span) => new(MuSourceErrorType.UnterminatedMembers, span);
+    public static MuSourceError UnterminatedMembers(MuSourceLocation loc) => new(MuSourceErrorType.UnterminatedMembers, loc);
+    public static MuSourceError MalformedBracesIdentifier(MuSourceSpan span) => new(MuSourceErrorType.MalformedBracesIdentifier, span);
+    public static MuSourceError MalformedBracesIdentifier(MuSourceLocation loc) => new(MuSourceErrorType.MalformedBracesIdentifier, loc);
+    public static MuSourceError MalformedStringEscapeSequence(MuSourceSpan span) => new(MuSourceErrorType.MalformedStringEscapeSequence, span);
+    public static MuSourceError MalformedStringEscapeSequence(MuSourceLocation loc) => new(MuSourceErrorType.MalformedStringEscapeSequence, loc);
+    public static MuSourceError ExpectedStringAfterFormatSpecifier(MuSourceSpan span) => new(MuSourceErrorType.ExpectedStringAfterFormatSpecifier, span);
+    public static MuSourceError ExpectedStringAfterFormatSpecifier(MuSourceLocation loc) => new(MuSourceErrorType.ExpectedStringAfterFormatSpecifier, loc);
     
+    public override string ToString() => (
+        $"{MuSourceError.TypeToString(this.Type)} {this.Span}"
+    );
+
+    public int CompareTo(object obj) => (
+        obj is MuSourceError error ?
+        this.CompareTo(error) :
+        throw new ArgumentException(null, nameof(obj))
+    );
+    public int CompareTo(MuSourceError error) {
+        if(this.Location.Index != error.Location.Index) {
+            return this.Location.Index - error.Location.Index;
+        }
+        else {
+            return this.Type - error.Type;
+        }
+    }
+
     /// <summary>
     /// Get a string representation of a MuSourceErrorType.
     /// </summary>
@@ -73,7 +122,7 @@ public readonly struct MuSourceError {
 /// Represents the list of errors encountered while parsing Muml source.
 /// </summary>
 public class MuSourceErrors : List<MuSourceError> {
-    public MuSourceErrors() : base() {}
+    public MuSourceErrors() {}
     public MuSourceErrors(int capacity) : base(capacity) {}
     public MuSourceErrors(IEnumerable<MuSourceError> collection) : base(collection) {}
     
@@ -81,6 +130,10 @@ public class MuSourceErrors : List<MuSourceError> {
         errors is MuSourceErrors list ? list :
         errors != null ? new(errors) :
         new()
+    );
+    
+    public bool IsLastErrorType(MuSourceErrorType type) => (
+        this.Count > 0 && this[^1].Type == type
     );
     
     public void Add(MuSourceErrorType type, MuSourceLocation location) {
