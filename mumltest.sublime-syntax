@@ -1,0 +1,48 @@
+%YAML 1.2
+---
+name: 'Muml Test Cases'
+scope: text.mumltest
+version: 1
+
+# References:
+# https://github.com/sublimehq/Packages/blob/master/Markdown/Markdown.sublime-syntax
+
+file_extensions:
+  - 'mumltest'
+  - 'μmltest'
+
+contexts:
+  main:
+    - match: '(?=^#MUML)'
+      set: body
+    - match: '.'
+      scope: text.documentation.mumltest
+  
+  body:
+    - match: '^#MUML_BLANK.*'
+      scope: comment.section.muml.blank.mumltest
+    - match: '^#MUML.*'
+      scope: comment.section.muml.mumltest
+      embed: scope:text.muml
+      embed_scope: markup.raw.code-fence.muml.mumltest text.muml
+      escape: '(?=^#(JSON|ERRORS|END))'
+    - match: '^#JSON.*'
+      scope: comment.section.json.mumltest
+      embed: scope:source.json
+      embed_scope: markup.raw.code-fence.json.mumltest source.json
+      escape: '(?=^#)'
+    - match: '^#ERRORS.*'
+      scope: comment.section.errors.mumltest
+      push: errors
+    - match: '^#END.*'
+      scope: comment.section.end.mumltest
+    - match: '.'
+      scope: text.documentation.mumltest
+
+  errors:
+    - match: '(UnexpectedCharacter|UnexpectedOpenBracket|UnexpectedOpenBrace|UnexpectedCloseBracket|UnexpectedCloseBrace|UnexpectedEquals|UnexpectedStringLiteral|UnexpectedNewlineInStringLiteral|UnterminatedStringLiteral|UnterminatedNestedBlockComment|UnterminatedAttributes|UnterminatedMembers|MalformedBracesIdentifier|MalformedStringEscapeSequence|ExpectedStringAfterFormatSpecifier)'
+      scope: constant.language.error.mumltest
+    - match: 'L\d+:\d+(?:\.\.\d+)?|L\d+:\d+\.\.L\d+:\d+'
+      scope: constant.numeric.value.mumltest
+    - match: '(?=^#)'
+      pop: true
