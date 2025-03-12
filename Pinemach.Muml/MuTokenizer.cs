@@ -461,13 +461,23 @@ public class MuTokenizer : IDisposable {
     private string parseStringLiteralTextFenced(int chQuote, int fenceLength) {
         StringBuilder sb = new();
         int chQuoteCount = 0;
+        bool escape = false;
         while(true) {
             int ch = this.chNext();
             if(ch < 0) {
                 this.Errors.AddUnterminatedStringLiteral(this.tokenStartLocation);
-                return null;
+                break;
             }
-            if(ch == chQuote) {
+            if(escape) {
+                escape = false;
+                sb.Append((char) ch);
+            }
+            else if(chQuote != '`' && ch == '\\') {
+                escape = true;
+                chQuoteCount = 0;
+                sb.Append((char) ch);
+            }
+            else if(ch == chQuote) {
                 chQuoteCount++;
                 if(chQuoteCount >= fenceLength) {
                     break;
@@ -479,7 +489,8 @@ public class MuTokenizer : IDisposable {
                 sb.Append((char) ch);
             }
         }
-        string text = sb.ToString()[..^(fenceLength - 1)];
+        string text = sb.ToString();
+        if(chQuoteCount > 0) text = text[..^(fenceLength - 1)];
         if(chQuote == '`') {
             return text;
         }
@@ -534,7 +545,7 @@ public class MuTokenizer : IDisposable {
             int ch = this.chNext();
             if(ch < 0) {
                 this.Errors.AddUnterminatedStringLiteral(this.tokenStartLocation);
-                return null;
+                break;
             }
             if(ch == '`') {
                 if(this.chPeek() == '`') {

@@ -1,0 +1,191 @@
+###
+
+Test cases related to string parsing.
+
+###
+
+#MUML
+e ''
+#JSON
+{"Members": [{"Name": "e", "Text": ""}]}
+#END
+
+#MUML
+e ""
+#JSON
+{"Members": [{"Name": "e", "Text": ""}]}
+#END
+
+#MUML
+e ``
+#JSON
+{"Members": [{"Name": "e", "Text": ""}]}
+#END
+
+#MUML
+e "hello world"
+#JSON
+{"Members": [{"Name": "e", "Text":
+    "hello world"
+}]}
+#END
+
+#MUML
+e ` ``hello world`` `
+#JSON
+{"Members": [{"Name": "e", "Text":
+    " `hello world` "
+}]}
+#END
+
+#MUML
+e '''\'hello\''''
+#JSON
+{"Members": [{"Name": "e", "Text":
+    "'hello'"
+}]}
+#END
+
+#MUML
+e ''''\'hello\'''''
+#JSON
+{"Members": [{"Name": "e", "Text":
+    "'hello'"
+}]}
+#END
+
+#MUML
+e """\"hello\""""
+#JSON
+{"Members": [{"Name": "e", "Text":
+    "\"hello\""
+}]}
+#END
+
+#MUML
+e ```hello```
+#JSON
+{"Members": [{"Name": "e", "Text":
+    "hello"
+}]}
+#END
+
+#MUML
+e ``````hello``````
+#JSON
+{"Members": [{"Name": "e", "Text":
+    "hello"
+}]}
+#END
+
+#MUML
+e ```` ``` ````
+#JSON
+{"Members": [{"Name": "e", "Text":
+    " ``` "
+}]}
+#END
+
+#MUML escape sequences
+e '\0\a\b\t\n\v\f\r\e'
+#JSON
+{"Members": [{"Name": "e", "Text":
+    "\u0000\u0007\u0008\u0009\u000a\u000b\u000c\u000d\u001b"
+}]}
+#END
+
+#MUML escape sequences
+e '\\ \' \"'
+#JSON
+{"Members": [{"Name": "e", "Text":
+    "\u005c \u0027 \u0022"
+}]}
+#END
+
+#MUML escape sequences
+e '\x00\x01\x10\x0a\x1B\x7f'
+#JSON
+{"Members": [{"Name": "e", "Text":
+    "\u0000\u0001\u0010\u000a\u001b\u007f"
+}]}
+#END
+
+#MUML escape sequences
+e '\u0000\u0001 \U00000000\U00000001'
+#JSON
+{"Members": [{"Name": "e", "Text":
+    "\u0000\u0001 \u0000\u0001"
+}]}
+#END
+
+#MUML unicode escape sequence 'Ä'
+e 'Ä \xc3\x84 \u00c4 \U000000C4'
+#JSON
+{"Members": [{"Name": "e", "Text":
+    "Ä Ä Ä Ä"
+}]}
+#END
+
+#MUML unicode escape sequence '☺'
+e '☺ \xE2\x98\xBA \u263A \U0000263A'
+#JSON
+{"Members": [{"Name": "e", "Text":
+    "☺ ☺ ☺ ☺"
+}]}
+#END
+
+#MUML unicode escape sequence '𐍈' (surrogate pair)
+e '𐍈 \xF0\x90\x8D\x88 \uD800\uDF48 \U00010348'
+#JSON
+{"Members": [{"Name": "e", "Text":
+    "𐍈 𐍈 𐍈 𐍈"
+}]}
+#END
+
+#MUML unicode escape sequence maximum allowed U+10ffff
+e '􏿿 \xf4\x0f\x3f\x3f \udbff\udfff \U0010ffff'
+#JSON
+{"Members": [{"Name": "e", "Text":
+    "􏿿 􏿿 􏿿 􏿿"
+}]}
+#END
+
+#MUML
+e `hello
+#JSON
+{"Members": [{"Name": "e", "Text":
+    "hello"
+}]}
+#ERRORS
+UnterminatedStringLiteral L1:3
+#END
+
+#MUML
+e '''\'hello''''
+#JSON
+{"Members": [{"Name": "e", "Text":
+    "'hello\n"
+}]}
+#ERRORS
+UnterminatedStringLiteral L1:16
+#END
+
+#MUML
+e """\"hello""""
+#JSON
+{"Members": [{"Name": "e", "Text":
+    "\"hello\n"
+}]}
+#ERRORS
+UnterminatedStringLiteral L1:16
+#END
+
+#MUML
+e ```hello````
+#JSON
+{"Members": [{"Name": "e", "Text":
+    "hello\n"
+}]}
+#ERRORS
+UnterminatedStringLiteral L1:14
+#END

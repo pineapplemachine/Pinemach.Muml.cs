@@ -145,10 +145,10 @@ public static class MuUtil {
         int j = 0;
         int invalidEscapeIndex = -1;
         for(; i < text.Length; i++) {
-            (int length, char chEsc) = MuUtil.getQuotedStringUnescape(text, i);
+            (int length, string esc) = MuUtil.getQuotedStringUnescape(text, i);
             if(length > 0) {
                 if(i > j) sb.Append(text[j..i]);
-                sb.Append(chEsc);
+                sb.Append(esc);
                 i += length;
                 j = i;
                 i--;
@@ -166,39 +166,112 @@ public static class MuUtil {
     /// escape sequences within a string.
     /// If the returned int is -1, this indicates an invalid escape sequence.
     /// </summary>
-    private static (int, char) getQuotedStringUnescape(string text, int index) {
+    private static (int, string) getQuotedStringUnescape(string text, int index) {
         if(index >= text.Length || text[index] != '\\') {
-            return (0, '\0');
+            return (0, "\0");
         }
         else if(index >= text.Length - 1) {
-            return (-1, '\0');
+            return (-1, "\0");
         }
         char chInitial = text[index + 1];
         if(chInitial == 'x') {
-            if(index >= text.Length - 3) return (-1, '\0');
-            int h = MuUtil.ParseHexDigit(text[index + 2]);
-            int l = MuUtil.ParseHexDigit(text[index + 3]);
-            return (
-                h >= 0 && l >= 0 ?
-                (4, (char) ((h << 4) | l)) :
-                (-1, '\0')
-            );
+            return MuUtil.getQuotedStringUnescapeUtf8(text, index);
+        }
+        else if(chInitial == 'u') {
+            int hex = MuUtil.getQuotedStringUnescapeHex4(text, index);
+            return hex >= 0 ? (6, ((char) hex).ToString()) : (-1, "\0");
+        }
+        else if(chInitial == 'U') {
+            int hex = MuUtil.getQuotedStringUnescapeHex8(text, index);
+            if(hex < 0) return (-1, "\0");
+            string utf16 = MuUnicode.EncodeUtf16CodePoint(hex);
+            return string.IsNullOrEmpty(utf16) ? (-1, "\0") : (10, utf16);
         }
         return chInitial switch {
-            '0' => (2, (char) 0x00),
-            'a' => (2, (char) 0x07),
-            'b' => (2, (char) 0x08),
-            't' => (2, (char) 0x09),
-            'n' => (2, (char) 0x0a),
-            'v' => (2, (char) 0x0b),
-            'f' => (2, (char) 0x0c),
-            'r' => (2, (char) 0x0d),
-            'e' => (2, (char) 0x1b),
-            '\\' => (2, '\\'),
-            '\'' => (2, '\''),
-            '"' => (2, '"'),
-            _ => (-1, '\0'),
+            '0' => (2, ((char) 0x00).ToString()),
+            'a' => (2, ((char) 0x07).ToString()),
+            'b' => (2, ((char) 0x08).ToString()),
+            't' => (2, ((char) 0x09).ToString()),
+            'n' => (2, ((char) 0x0a).ToString()),
+            'v' => (2, ((char) 0x0b).ToString()),
+            'f' => (2, ((char) 0x0c).ToString()),
+            'r' => (2, ((char) 0x0d).ToString()),
+            'e' => (2, ((char) 0x1b).ToString()),
+            '\\' => (2, "\\"),
+            '\'' => (2, "'"),
+            '"' => (2, "\""),
+            _ => (-1, "\0"),
         };
+    }
+    
+    private static (int, string) getQuotedStringUnescapeUtf8(string text, int index) {
+        // First code unit
+        int hex1 = MuUtil.getQuotedStringUnescapeHex2(text, index);
+        if(hex1 < 0) return (-1, "\0");
+        int len = MuUnicode.GetUtf8CodePointLength(hex1);
+        if(len is < 0 or > 4) return (-1, "\0");
+        else if(len == 1) {
+            return (4, ((char) hex1).ToString());
+        };
+        // Second code unit
+        int hex2 = MuUtil.getQuotedStringUnescapeHex2(text, index + 4);
+        if(hex2 < 0) return (-1, "\0");
+        if(len == 2) {
+            int point2 = MuUnicode.DecodeUtf8CodePoint(hex1, hex2);
+            return (8, ((char) point2).ToString());
+        }
+        // Third code unit
+        int hex3 = MuUtil.getQuotedStringUnescapeHex2(text, index + 8);
+        if(hex3 < 0) return (-1, "\0");
+        if(len == 3) {
+            int point3 = MuUnicode.DecodeUtf8CodePoint(hex1, hex2, hex3);
+            return (12, ((char) point3).ToString());
+        }
+        // Fourth code unit
+        int hex4 = MuUtil.getQuotedStringUnescapeHex2(text, index + 12);
+        if(hex4 < 0) return (-1, "\0");
+        int point4 = MuUnicode.DecodeUtf8CodePoint(hex1, hex2, hex3, hex4);
+        string utf16 = MuUnicode.EncodeUtf16CodePoint(point4);
+        return string.IsNullOrEmpty(utf16) ? (-1, "\0") : (16, utf16);
+    }
+    
+    private static int getQuotedStringUnescapeHex2(string text, int index) {
+        if(index >= text.Length - 3) return -1;
+        int h = MuUtil.ParseHexDigit(text[index + 2]);
+        int l = MuUtil.ParseHexDigit(text[index + 3]);
+        return h >= 0 && l >= 0 ? ((h << 4) | l) : -1;
+    }
+    
+    private static int getQuotedStringUnescapeHex4(string text, int index) {
+        if(index >= text.Length - 5) return -1;
+        int b3 = MuUtil.ParseHexDigit(text[index + 2]);
+        int b2 = MuUtil.ParseHexDigit(text[index + 3]);
+        int b1 = MuUtil.ParseHexDigit(text[index + 4]);
+        int b0 = MuUtil.ParseHexDigit(text[index + 5]);
+        if(b0 < 0 || b1 < 0 || b2 < 0 || b3 < 0) return -1;
+        return b0 | (b1 << 4) | (b2 << 8) | (b3 << 12);
+    }
+    
+    private static int getQuotedStringUnescapeHex8(string text, int index) {
+        if(index >= text.Length - 9) return -1;
+        int b7 = MuUtil.ParseHexDigit(text[index + 2]);
+        int b6 = MuUtil.ParseHexDigit(text[index + 3]);
+        int b5 = MuUtil.ParseHexDigit(text[index + 4]);
+        int b4 = MuUtil.ParseHexDigit(text[index + 5]);
+        int b3 = MuUtil.ParseHexDigit(text[index + 6]);
+        int b2 = MuUtil.ParseHexDigit(text[index + 7]);
+        int b1 = MuUtil.ParseHexDigit(text[index + 8]);
+        int b0 = MuUtil.ParseHexDigit(text[index + 9]);
+        if(
+            b0 < 0 || b1 < 0 || b2 < 0 || b3 < 0 ||
+            b4 < 0 || b5 < 0 || b6 < 0 || b7 < 0
+        ) {
+            return -1;
+        }
+        return (
+            b0 | (b1 << 4) | (b2 << 8) | (b3 << 12) |
+            (b4 << 16) | (b5 << 20) | (b6 << 24) | (b7 << 28)
+        );
     }
     
     /// <summary>

@@ -45,10 +45,10 @@ public class MuTests {
         );
         string testCasesText = File.ReadAllText(path);
         foreach(Match match in Regex.Matches(testCasesText, testCasePattern)) {
-            yield return new MuTestCase(
+            yield return new(
                 muml: match.Groups[1].Value.StartsWith("_BLANK") ? "" : match.Groups[2].Value,
                 json: match.Groups[3].Value,
-                errors: (match.Groups[4].Value ?? "").Split("\n").Select(l => l.Trim()).Where(l => l.Length > 0).ToList()
+                errors: match.Groups[4].Value.Split("\n").Select(l => l.Trim()).Where(l => l.Length > 0).ToList()
             );
         }
     }
@@ -87,13 +87,16 @@ public class MuTests {
     
     [Fact]
     public void RunTestsInFiles() {
-        // this.RunTestsInFile("muml/scratch.muml");
-        this.RunTestsInFile("muml/strings.muml");
+        // this.RunTestsInFile("TestCases/scratch.mumltest");
+        this.RunTestsInFile("TestCases/strings.mumltest");
         
-        this.RunTestsInFile("muml/errors.muml");
-        this.RunTestsInFile("muml/doc.muml");
-        this.RunTestsInFile("muml/attributes.muml");
-        this.RunTestsInFile("muml/elements.muml");
+        this.RunTestsInFile("TestCases/errors.mumltest");
+        this.RunTestsInFile("TestCases/doc.mumltest");
+        this.RunTestsInFile("TestCases/attributes.mumltest");
+        this.RunTestsInFile("TestCases/elements.mumltest");
+        
+        
+        // TODO: invalid unicode? arbitary byte sequence?
     }
     
     [Fact]

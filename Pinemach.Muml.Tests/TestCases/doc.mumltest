@@ -1,6 +1,7 @@
 ###
 
-Test cases related to parsing text and values at the beginning of a document, preceding any elements.
+Test cases related to parsing text and values at the
+beginning of a document, preceding any elements.
 
 ###
 
@@ -147,35 +148,47 @@ Test cases related to parsing text and values at the beginning of a document, pr
 #MUML
 =v1=v2 "head" =v3 el
 #JSON
-{"Text": "head", "Values": ["v1", "v2", "v3"], "Members": [{"Name": "el"}]}
+{"Text": "head", "Values": ["v1", "v2", "v3"], "Members": [
+    {"Name": "el"}
+]}
 #END
 
 #MUML
 =v1 el =v2
 #JSON
-{"Values": ["v1"], "Members": [{"Name": "el", "Values": ["v2"]}]}
+{"Values": ["v1"], "Members": [
+    {"Name": "el", "Values": ["v2"]}
+]}
 #END
 
 #MUML
 =v1 'text' el =v2
 #JSON
-{"Text": "text", "Values": ["v1"], "Members": [{"Name": "el", "Values": ["v2"]}]}
+{"Text": "text", "Values": ["v1"],
+    "Members": [{"Name": "el", "Values": ["v2"]}
+]}
 #END
 
 #MUML
 =v1 el =v2 'text'
 #JSON
-{"Values": ["v1"], "Members": [{"Name": "el", "Values": ["v2"], "Text": "text"}]}
+{"Values": ["v1"], "Members": [
+    {"Name": "el", "Values": ["v2"], "Text": "text"}
+]}
 #END
 
 #MUML
 =v1 el=v2 | text
 #JSON
-{"Values": ["v1"], "Members": [{"Name": "el", "Values": ["v2"], "Text": "text"}]}
+{"Values": ["v1"], "Members": [
+    {"Name": "el", "Values": ["v2"], "Text": "text"}
+]}
 #END
 
 #MUML
 =v1 {'el'}=v2 | text
 #JSON
-{"Values": ["v1"], "Members": [{"Name": "el", "Values": ["v2"], "Text": "text"}]}
+{"Values": ["v1"], "Members": [
+    {"Name": "el", "Values": ["v2"], "Text": "text"}
+]}
 #END
