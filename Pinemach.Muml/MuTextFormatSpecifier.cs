@@ -94,15 +94,19 @@ public struct MuTextFormatSpecifier {
     public string ApplyFormat(string text) {
         return MuTextFormatSpecifier.applyEndFormat(
             this.EndLines,
-            MuTextFormatSpecifier.applyBlockFormat(this.BlockLines, text)
+            MuTextFormatSpecifier.applyBlockFormat(this.BlockLines, this.FirstLineIndent, text)
         );
     }
     
-    private static string applyBlockFormat(MuTextFormatSpecifierBlock format, string text) => format switch {
+    private static string applyBlockFormat(
+        MuTextFormatSpecifierBlock format,
+        int firstLineIndent,
+        string text
+    ) => format switch {
         MuTextFormatSpecifierBlock.Keep => text,
         MuTextFormatSpecifierBlock.Strip => text.TrimStart(' ', '\t', '\r', '\n'),
-        MuTextFormatSpecifierBlock.Deindent => string.Join("", MuTextFormatSpecifier.iterLinesDeindented(text)),
-        MuTextFormatSpecifierBlock.Fold => string.Join("", MuTextFormatSpecifier.iterLinesFolded(text)),
+        MuTextFormatSpecifierBlock.Deindent => string.Join("", MuTextFormatSpecifier.iterLinesDeindented(text, firstLineIndent)),
+        MuTextFormatSpecifierBlock.Fold => string.Join("", MuTextFormatSpecifier.iterLinesFolded(text, firstLineIndent)),
         _ => text,
     };
     
