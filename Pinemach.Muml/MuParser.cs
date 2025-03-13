@@ -263,22 +263,18 @@ public class MuParser : IDisposable {
     }
     
     private void handleEof() {
+        // Handle being mid-attributes
         if(this.inAttributes) {
             this.Errors.AddUnterminatedAttributes(this.inAttributesToken.Location);
         }
         else {
             this.handleLeaveNeutral();
         }
-        int lastBeginMembersIndex = -1;
+        // Handle being mid-members
         foreach(MuToken beginMembersToken in this.beginMembersTokenStack) {
-            if(
-                lastBeginMembersIndex < 0 ||
-                beginMembersToken.Location.Index > lastBeginMembersIndex + 1
-            ) {
-                this.Errors.AddUnterminatedMembers(beginMembersToken.Location);
-            }
-            lastBeginMembersIndex = beginMembersToken.Location.Index;
+            this.Errors.AddUnterminatedMembers(beginMembersToken.Location);
         }
+        // Sort errors by source pos, provided there isn't an extreme number
         if(this.Errors.Count < 4096) {
             this.Errors.Sort();
         }
