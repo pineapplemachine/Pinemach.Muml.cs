@@ -1,3 +1,5 @@
+using System;
+
 namespace Pinemach.Muml;
 
 /// <summary>
@@ -46,6 +48,26 @@ public struct MuSourceLocation {
         endLineStartIndex: end.LineStartIndex,
         endLineNumber: end.LineNumber
     );
+    
+    public override int GetHashCode() => HashCode.Combine(
+        this.FileName,
+        this.Index,
+        this.LineStartIndex,
+        this.LineNumber
+    );
+    
+    public override bool Equals(object obj) => (
+        (obj is MuSourceLocation loc && this.Equals(loc))
+    );
+    public bool Equals(MuSourceLocation loc) => (
+        this.FileName == loc.FileName &&
+        this.Index == loc.Index &&
+        this.LineStartIndex == loc.LineStartIndex &&
+        this.LineNumber == loc.LineNumber
+    );
+
+    public static bool operator ==(MuSourceLocation left, MuSourceLocation right) => left.Equals(right);
+    public static bool operator !=(MuSourceLocation left, MuSourceLocation right) => !(left == right);
     
     public string ToLString() => (
         this.IsValid() ? $"L{this.LineNumber}:{this.ColumnNumber}" : "?"
@@ -121,6 +143,32 @@ public struct MuSourceSpan {
     public readonly MuSourceLocation End {
         get => new MuSourceLocation(this.FileName, this.EndIndex, this.EndLineStartIndex, this.EndLineNumber);
     }
+    
+    public override int GetHashCode() => HashCode.Combine(
+        this.FileName,
+        this.StartIndex,
+        this.StartLineStartIndex,
+        this.StartLineNumber,
+        this.EndIndex,
+        this.EndLineStartIndex,
+        this.EndLineNumber
+    );
+    
+    public override bool Equals(object obj) => (
+        (obj is MuSourceSpan span && this.Equals(span))
+    );
+    public bool Equals(MuSourceSpan span) => (
+        this.FileName == span.FileName &&
+        this.StartIndex == span.StartIndex &&
+        this.StartLineStartIndex == span.StartLineStartIndex &&
+        this.StartLineNumber == span.StartLineNumber &&
+        this.EndIndex == span.EndIndex &&
+        this.EndLineStartIndex == span.EndLineStartIndex &&
+        this.EndLineNumber == span.EndLineNumber
+    );
+
+    public static bool operator ==(MuSourceSpan left, MuSourceSpan right) => left.Equals(right);
+    public static bool operator !=(MuSourceSpan left, MuSourceSpan right) => !(left == right);
     
     public readonly string StartToLString() => (
         this.IsStartValid() ? $"L{this.StartLineNumber}:{this.StartColumnNumber}" : "?"

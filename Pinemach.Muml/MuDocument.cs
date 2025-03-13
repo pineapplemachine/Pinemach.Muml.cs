@@ -68,6 +68,16 @@ public static class MuHasValuesExtensions {
     public static string GetLastValue(this IMuHasValues obj) => (
         obj.Values == null ? null : obj.Values[^1]
     );
+    public static bool TryGetFirstValue(this IMuHasValues obj, out string value) {
+        bool ok = obj.Values is { Count: >= 0 };
+        value = ok ? obj.Values[0] : null;
+        return ok;
+    }
+    public static bool TryGetLastValue(this IMuHasValues obj, out string value) {
+        bool ok = obj.Values is { Count: >= 0 };
+        value = ok ? obj.Values[^1] : null;
+        return ok;
+    }
     
     public static void AddValue(this IMuHasValues obj, string el) {
         obj.Values ??= new();
@@ -274,6 +284,79 @@ public class MuMembers : List<MuElement> {
     );
     
     public override string ToString() => MuWriter.Default.WriteMembers(this);
+    
+    /// <summary>
+    /// Enumerate all elements in a tree, depth-first.
+    /// </summary>
+    public IEnumerable<MuElement> EnumerateTreeDepthFirst() => (
+        this.EnumerateTreeDepthFirst(null)
+    );
+    public IEnumerable<MuElement> EnumerateTreeDepthFirst(MuElement elRoot) {
+        if(this.Count <= 0) yield break;
+        List<(MuElement, MuMembers, int)> stack = new();
+        stack.Add((elRoot, this, 0));
+        while(stack.Count > 0) {
+            (MuElement el, MuMembers members, int index) = stack[^1];
+            if(index < members.Count) {
+                MuElement elChild = members[index];
+                stack[^1] = (el, members, index + 1);
+                stack.Add((elChild, elChild.Members, 0));
+            }
+            else {
+                stack.RemoveAt(stack.Count - 1);
+                if(el != null) yield return el;
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Enumerate all elements in a tree, breadth-first.
+    /// </summary>
+    public IEnumerable<MuElement> EnumerateTreeBreadthFirst() => (
+        this.EnumerateTreeBreadthFirst(null)
+    );
+    public IEnumerable<MuElement> EnumerateTreeBreadthFirst(MuElement elRoot) {
+        if(this.Count <= 0) yield break;
+        if(elRoot != null) yield return elRoot;
+        List<(MuMembers, int)> stack = new();
+        stack.Add((this, 0));
+        while(stack.Count > 0) {
+            (MuMembers members, int index) = stack[^1];
+            if(index < members.Count) {
+                MuElement elChild = members[index];
+                stack[^1] = (members, index + 1);
+                stack.Add((elChild.Members, 0));
+                yield return elChild;
+            }
+            else {
+                stack.RemoveAt(stack.Count - 1);
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Get the greatest depth of the element tree.
+    /// This is a potentially expensive operation!
+    /// It involves traversing the entire element tree.
+    /// </summary>
+    public int GetDepth() {
+        List<(MuMembers, int)> stack = new();
+        stack.Add((this, 0));
+        int maxStackCount = 1;
+        while(stack.Count > 0) {
+            (MuMembers members, int index) = stack[^1];
+            if(index < members.Count) {
+                MuElement elChild = members[index];
+                stack[^1] = (members, index + 1);
+                stack.Add((elChild.Members, 0));
+                maxStackCount = Math.Max(maxStackCount, stack.Count);
+            }
+            else {
+                stack.RemoveAt(stack.Count - 1);
+            }
+        }
+        return maxStackCount - 1;
+    }
 }
 
 /// <summary>

@@ -56,6 +56,22 @@ public readonly struct MuToken {
         this.Text = text;
     }
     
+    public override int GetHashCode() {
+        return HashCode.Combine(this.Type, this.Span, this.Text);
+    }
+    
+    public override bool Equals(object obj) => (
+        (obj is MuToken token && this.Equals(token))
+    );
+    public bool Equals(MuToken token) => (
+        this.Type == token.Type &&
+        this.Span == token.Span &&
+        this.Text == token.Text
+    );
+
+    public static bool operator ==(MuToken left, MuToken right) => left.Equals(right);
+    public static bool operator !=(MuToken left, MuToken right) => !(left == right);
+    
     public override string ToString() => (
         this.Type != MuTokenType.None && this.Span.IsStartValid() && this.Text != null ?
         $"{this.Span.ToLString()} {this.Type} {MuUtil.ToQuotedString(this.Text)}" :
