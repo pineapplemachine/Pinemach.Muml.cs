@@ -92,24 +92,6 @@ public class MuWriter {
     }
     
     public void WriteElement(MuElement el, string indent, TextWriter writer) {
-        if(el.CommentType == MuCommentType.Line) {
-            writer.Write('#');
-            writer.Write(el.Text);
-            writer.Write('\n');
-        }
-        else if(el.CommentType == MuCommentType.Fenced) {
-            int fenceLength = (
-                Math.Max(3, 1 + MuUtil.CountMaxConsecutiveChars(el.Text, '#'))
-            );
-            for(int i = 0; i < fenceLength; i++) writer.Write('#');
-            writer.Write(el.Text);
-            for(int i = 0; i < fenceLength; i++) writer.Write('#');
-        }
-        else if(el.CommentType == MuCommentType.NestedBlock) {
-            writer.Write("#[");
-            writer.Write(el.Text);
-            writer.Write("#]");
-        }
         string name = MuUtil.ToIdentifierString(el.Name, this.PreferTagType);
         if(el.HasIdentifierName()) {
             writer.Write(name);
