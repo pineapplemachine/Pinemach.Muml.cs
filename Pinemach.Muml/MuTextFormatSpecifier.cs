@@ -132,7 +132,7 @@ public struct MuTextFormatSpecifier {
         }
     }
     
-    private static IEnumerable<string> iterLines(string text) {
+    private static IEnumerable<string> iterLines(string? text) {
         if(string.IsNullOrEmpty(text)) yield break;
         int i = 0;
         while(i < text.Length) {
@@ -147,15 +147,15 @@ public struct MuTextFormatSpecifier {
         }
     }
     
-    private static IEnumerable<string> iterLinesDeindented(string text, int firstLineIndent = 0) {
-        string indent = null;
+    private static IEnumerable<string> iterLinesDeindented(string? text, int firstLineIndent = 0) {
+        string? indent = null;
         foreach(string line in MuTextFormatSpecifier.iterLines(text)) {
             if(string.IsNullOrEmpty(line)) {
                 if(indent != null) yield return "";
             }
             else if(indent == null) {
                 int i = 0;
-                while(i < line!.Length && MuUtil.IsWhitespaceChar(line[i])) i++;
+                while(i < line.Length && MuUtil.IsWhitespaceChar(line[i])) i++;
                 if(i >= line.Length) continue;
                 i -= firstLineIndent;
                 indent = line[..i];
@@ -163,21 +163,21 @@ public struct MuTextFormatSpecifier {
             }
             else {
                 int i = 0;
-                while(i < line!.Length && i < indent.Length && line[i] == indent[i]) i++;
+                while(i < line.Length && i < indent.Length && line[i] == indent[i]) i++;
                 yield return line[i..];
             }
         }
     }
     
-    private static IEnumerable<string> iterLinesFolded(string text, int firstLineIndent = 0) {
+    private static IEnumerable<string> iterLinesFolded(string? text, int firstLineIndent = 0) {
         IEnumerable<string> lines = MuTextFormatSpecifier.iterLinesDeindented(
             text,
             firstLineIndent
         );
         List<string> para = new();
-        string paraLineEnding = "\n";
+        string? paraLineEnding = "\n";
         foreach(string line in lines) {
-            (string trimmedLine, string lineEnding) = (
+            (string? trimmedLine, string? lineEnding) = (
                 MuTextFormatSpecifier.splitTrailingWhitespace(line)
             );
             if(string.IsNullOrEmpty(trimmedLine)) {
@@ -204,7 +204,7 @@ public struct MuTextFormatSpecifier {
         }
     }
     
-    private static (string, string) splitTrailingWhitespace(string text) {
+    private static (string?, string?) splitTrailingWhitespace(string text) {
         if(string.IsNullOrEmpty(text)) return (null, null);
         for(int i = text.Length - 1; i >= 0; i--) {
             if(!MuUtil.IsWhitespaceChar(text[i])) {

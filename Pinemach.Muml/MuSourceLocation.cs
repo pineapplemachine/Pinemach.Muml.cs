@@ -8,16 +8,16 @@ namespace Pinemach.Muml;
 public struct MuSourceLocation {
     public static readonly MuSourceLocation None = new(null, -1, 0, 0);
     
-    public string FileName;
+    public string? FileName;
     public int Index;
     public int LineStartIndex;
     public int LineNumber;
     
-    public MuSourceLocation(string fileName) : this(fileName, 0, 0, 1) {}
+    public MuSourceLocation(string? fileName) : this(fileName, 0, 0, 1) {}
     public MuSourceLocation(int index, int lineStartIndex, int lineNumber) :
         this(null, index, lineStartIndex, lineNumber)
     {}
-    public MuSourceLocation(string fileName, int index, int lineStartIndex, int lineNumber) {
+    public MuSourceLocation(string? fileName, int index, int lineStartIndex, int lineNumber) {
         this.FileName = fileName;
         this.Index = index;
         this.LineStartIndex = lineStartIndex;
@@ -56,7 +56,7 @@ public struct MuSourceLocation {
         this.LineNumber
     );
     
-    public override bool Equals(object obj) => (
+    public override bool Equals(object? obj) => (
         (obj is MuSourceLocation loc && this.Equals(loc))
     );
     public bool Equals(MuSourceLocation loc) => (
@@ -86,7 +86,7 @@ public struct MuSourceLocation {
 public struct MuSourceSpan {
     public static readonly MuSourceSpan None = new(null, -1, 0, 0, -1, 0, 0);
     
-    public string FileName;
+    public string? FileName;
     public int StartIndex;
     public int StartLineStartIndex;
     public int StartLineNumber;
@@ -106,7 +106,7 @@ public struct MuSourceSpan {
     ) {}
     
     public MuSourceSpan(
-        string fileName,
+        string? fileName,
         int startIndex,
         int startLineStartIndex,
         int startLineNumber,
@@ -154,7 +154,7 @@ public struct MuSourceSpan {
         this.EndLineNumber
     );
     
-    public override bool Equals(object obj) => (
+    public override bool Equals(object? obj) => (
         (obj is MuSourceSpan span && this.Equals(span))
     );
     public bool Equals(MuSourceSpan span) => (

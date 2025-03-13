@@ -40,7 +40,7 @@ contexts:
       scope: text.documentation.mumltest
 
   errors:
-    - match: '(UnexpectedCharacter|UnexpectedOpenBracket|UnexpectedOpenBrace|UnexpectedCloseBracket|UnexpectedCloseBrace|UnexpectedEquals|UnexpectedStringLiteral|UnexpectedNewlineInStringLiteral|UnterminatedStringLiteral|UnterminatedNestedBlockComment|UnterminatedAttributes|UnterminatedMembers|MalformedBracesIdentifier|MalformedStringEscapeSequence|ExpectedStringAfterFormatSpecifier)'
+    - match: '(UnexpectedCharacter|UnexpectedOpenBracket|UnexpectedOpenBrace|UnexpectedCloseBracket|UnexpectedCloseBrace|UnexpectedEquals|UnexpectedStringLiteral|UnexpectedNewlineInStringLiteral|UnterminatedStringLiteral|UnterminatedNestedBlockComment|UnterminatedAttributes|UnterminatedMembers|MalformedBracesIdentifier|MalformedStringEscapeSequence|ExpectedStringAfterFormatSpecifier|ExpectedValueAfterEquals)'
       scope: constant.language.error.mumltest
     - match: 'L\d+:\d+(?:\.\.\d+)?|L\d+:\d+\.\.L\d+:\d+'
       scope: constant.numeric.value.mumltest

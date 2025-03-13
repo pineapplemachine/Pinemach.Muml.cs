@@ -24,6 +24,7 @@ public enum MuSourceErrorType {
     MalformedBracesIdentifier,
     MalformedStringEscapeSequence,
     ExpectedStringAfterFormatSpecifier,
+    ExpectedValueAfterEquals,
 }
 
 /// <summary>
@@ -76,12 +77,14 @@ public readonly struct MuSourceError : IComparable {
     public static MuSourceError MalformedStringEscapeSequence(MuSourceLocation loc) => new(MuSourceErrorType.MalformedStringEscapeSequence, loc);
     public static MuSourceError ExpectedStringAfterFormatSpecifier(MuSourceSpan span) => new(MuSourceErrorType.ExpectedStringAfterFormatSpecifier, span);
     public static MuSourceError ExpectedStringAfterFormatSpecifier(MuSourceLocation loc) => new(MuSourceErrorType.ExpectedStringAfterFormatSpecifier, loc);
+    public static MuSourceError ExpectedValueAfterEquals(MuSourceSpan span) => new(MuSourceErrorType.ExpectedValueAfterEquals, span);
+    public static MuSourceError ExpectedValueAfterEquals(MuSourceLocation loc) => new(MuSourceErrorType.ExpectedValueAfterEquals, loc);
     
     public override string ToString() => (
         $"{MuSourceError.TypeToString(this.Type)} {this.Span}"
     );
 
-    public int CompareTo(object obj) => (
+    public int CompareTo(object? obj) => (
         obj is MuSourceError error ?
         this.CompareTo(error) :
         throw new ArgumentException(null, nameof(obj))
@@ -98,7 +101,7 @@ public readonly struct MuSourceError : IComparable {
     /// <summary>
     /// Get a string representation of a MuSourceErrorType.
     /// </summary>
-    public static string TypeToString(MuSourceErrorType type) => type switch {
+    public static string? TypeToString(MuSourceErrorType type) => type switch {
         MuSourceErrorType.UnexpectedCharacter => "UnexpectedCharacter",
         MuSourceErrorType.UnexpectedOpenBracket => "UnexpectedOpenBracket",
         MuSourceErrorType.UnexpectedOpenBrace => "UnexpectedOpenBrace",
@@ -114,6 +117,7 @@ public readonly struct MuSourceError : IComparable {
         MuSourceErrorType.MalformedBracesIdentifier => "MalformedBracesIdentifier",
         MuSourceErrorType.MalformedStringEscapeSequence => "MalformedStringEscapeSequence",
         MuSourceErrorType.ExpectedStringAfterFormatSpecifier => "ExpectedStringAfterFormatSpecifier",
+        MuSourceErrorType.ExpectedValueAfterEquals => "ExpectedValueAfterEquals",
         _ => null,
     };
 }
@@ -126,7 +130,7 @@ public class MuSourceErrors : List<MuSourceError> {
     public MuSourceErrors(int capacity) : base(capacity) {}
     public MuSourceErrors(IEnumerable<MuSourceError> collection) : base(collection) {}
     
-    public static MuSourceErrors From(IEnumerable<MuSourceError> errors) => (
+    public static MuSourceErrors From(IEnumerable<MuSourceError>? errors) => (
         errors is MuSourceErrors list ? list :
         errors != null ? new(errors) :
         new()
@@ -173,6 +177,8 @@ public class MuSourceErrors : List<MuSourceError> {
     public void AddMalformedStringEscapeSequence(MuSourceLocation loc) => this.Add(MuSourceErrorType.MalformedStringEscapeSequence, loc);
     public void AddExpectedStringAfterFormatSpecifier(MuSourceSpan span) => this.Add(MuSourceErrorType.ExpectedStringAfterFormatSpecifier, span);
     public void AddExpectedStringAfterFormatSpecifier(MuSourceLocation loc) => this.Add(MuSourceErrorType.ExpectedStringAfterFormatSpecifier, loc);
+    public void AddExpectedValueAfterEquals(MuSourceSpan span) => this.Add(MuSourceErrorType.ExpectedValueAfterEquals, span);
+    public void AddExpectedValueAfterEquals(MuSourceLocation loc) => this.Add(MuSourceErrorType.ExpectedValueAfterEquals, loc);
     
     public override string ToString() => string.Join("\n", this);
 }

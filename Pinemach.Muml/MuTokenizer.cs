@@ -29,20 +29,20 @@ public readonly struct MuToken {
     
     public readonly MuTokenType Type;
     public readonly MuSourceSpan Span;
-    public readonly string Text;
+    public readonly string? Text;
     
     public readonly MuSourceLocation Location { get => this.Span.Start; }
     
     public static MuToken Identifier(MuSourceSpan span, string text) => new(MuTokenType.Identifier, span, text);
-    public static MuToken String(MuSourceSpan span, string text) => new(MuTokenType.String, span, text);
+    public static MuToken String(MuSourceSpan span, string? text) => new(MuTokenType.String, span, text);
     public static MuToken Equals(MuSourceSpan span, string text) => new(MuTokenType.Equals, span, text);
     public static MuToken BeginAttributes(MuSourceSpan span, string text) => new(MuTokenType.BeginAttributes, span, text);
     public static MuToken EndAttributes(MuSourceSpan span, string text) => new(MuTokenType.EndAttributes, span, text);
     public static MuToken BeginMembers(MuSourceSpan span, string text) => new(MuTokenType.BeginMembers, span, text);
     public static MuToken EndMembers(MuSourceSpan span, string text) => new(MuTokenType.EndMembers, span, text);
-    public static MuToken LineComment(MuSourceSpan span, string text) => new(MuTokenType.LineComment, span, text);
-    public static MuToken FencedComment(MuSourceSpan span, string text) => new(MuTokenType.FencedComment, span, text);
-    public static MuToken NestedBlockComment(MuSourceSpan span, string text) => new(MuTokenType.NestedBlockComment, span, text);
+    public static MuToken LineComment(MuSourceSpan span) => new(MuTokenType.LineComment, span);
+    public static MuToken FencedComment(MuSourceSpan span) => new(MuTokenType.FencedComment, span);
+    public static MuToken NestedBlockComment(MuSourceSpan span) => new(MuTokenType.NestedBlockComment, span);
     
     public static MuToken Equals(MuSourceSpan span) => MuToken.Equals(span, "=");
     public static MuToken BeginAttributes(MuSourceSpan span) => MuToken.BeginAttributes(span, "[");
@@ -50,7 +50,8 @@ public readonly struct MuToken {
     public static MuToken BeginMembers(MuSourceSpan span) => MuToken.BeginMembers(span, "{");
     public static MuToken EndMembers(MuSourceSpan span) => MuToken.EndMembers(span, "}");
     
-    public MuToken(MuTokenType type, MuSourceSpan span, string text) {
+    public MuToken(MuTokenType type, MuSourceSpan span) : this(type, span, null) {}
+    public MuToken(MuTokenType type, MuSourceSpan span, string? text) {
         this.Type = type;
         this.Span = span;
         this.Text = text;
@@ -60,7 +61,7 @@ public readonly struct MuToken {
         return HashCode.Combine(this.Type, this.Span, this.Text);
     }
     
-    public override bool Equals(object obj) => (
+    public override bool Equals(object? obj) => (
         (obj is MuToken token && this.Equals(token))
     );
     public bool Equals(MuToken token) => (
@@ -72,7 +73,7 @@ public readonly struct MuToken {
     public static bool operator ==(MuToken left, MuToken right) => left.Equals(right);
     public static bool operator !=(MuToken left, MuToken right) => !(left == right);
     
-    public override string ToString() => (
+    public override string? ToString() => (
         this.Type != MuTokenType.None && this.Span.IsStartValid() && this.Text != null ?
         $"{this.Span.ToLString()} {this.Type} {MuUtil.ToQuotedString(this.Text)}" :
         null
@@ -105,7 +106,7 @@ public readonly struct MuToken {
 /// </summary>
 public class MuTokenizer : IDisposable {
     public readonly MuSourceErrors Errors = new();
-    public bool IsOk() => (this.Errors?.Count ?? 0) == 0;
+    public bool IsOk() => (this.Errors.Count == 0);
     
     private readonly TextReader reader;
     private MuSourceLocation location;
@@ -114,8 +115,8 @@ public class MuTokenizer : IDisposable {
     
     public MuTokenizer(TextReader reader) : this(null, reader) {}
     public MuTokenizer(string source) : this(null, new StringReader(source)) {}
-    public MuTokenizer(string fileName, string source) : this(fileName, new StringReader(source)) {}
-    public MuTokenizer(string fileName, TextReader reader) {
+    public MuTokenizer(string? fileName, string source) : this(fileName, new StringReader(source)) {}
+    public MuTokenizer(string? fileName, TextReader reader) {
         this.location = new MuSourceLocation(fileName);
         this.tokenStartLocation = this.location;
         this.reader = reader;
@@ -203,7 +204,7 @@ public class MuTokenizer : IDisposable {
                 return this.parseFencedComment();
             }
             else {
-                return this.parseLineComment("#");
+                return this.parseLineComment();
             }
         }
         else if(this.chPeek() == '[') {
@@ -215,15 +216,12 @@ public class MuTokenizer : IDisposable {
         }
     }
     
-    private MuToken parseLineComment(string initial = null) {
+    private MuToken parseLineComment() {
         while(true) {
             int ch = this.chNext();
             if(ch < 0 || ch == '\n') break;
         }
-        return MuToken.LineComment(
-            this.getTokenSpan(),
-            null
-        );
+        return MuToken.LineComment(this.getTokenSpan());
     }
     
     private MuToken parseFencedComment() {
@@ -248,10 +246,7 @@ public class MuTokenizer : IDisposable {
                 run = 0;
             }
         }
-        return MuToken.FencedComment(
-            this.getTokenSpan(),
-            null
-        );
+        return MuToken.FencedComment(this.getTokenSpan());
     }
     
     private MuToken parseNestedBlockComment() {
@@ -275,10 +270,7 @@ public class MuTokenizer : IDisposable {
         if(nest > 0) {
             this.Errors.AddUnterminatedNestedBlockComment(this.tokenStartLocation);
         }
-        return MuToken.NestedBlockComment(
-            this.getTokenSpan(),
-            null
-        );
+        return MuToken.NestedBlockComment(this.getTokenSpan());
     }
     
     private MuToken parseIdentifier(int initial = -1) {
@@ -295,7 +287,7 @@ public class MuTokenizer : IDisposable {
     
     private MuToken parseBracesIdentifier(MuSourceLocation braceEndLocation) {
         MuSourceLocation stringStartLocation = this.location;
-        string text = this.parseStringLiteralText();
+        string text = this.parseStringLiteralText() ?? string.Empty;
         MuSourceLocation stringEndLocation = this.location;
         this.skipWhitespace();
         if(this.chPeek() == '}') {
@@ -379,7 +371,7 @@ public class MuTokenizer : IDisposable {
         return format;
     }
     
-    private string parseStringLiteralText(int initial = -1) {
+    private string? parseStringLiteralText(int initial = -1) {
         int chQuote = initial >= 0 ? initial : this.chNext();
         if(chQuote == '|') {
             int chFormatPeek = this.chPeek();
@@ -432,7 +424,7 @@ public class MuTokenizer : IDisposable {
         return sb.ToString();
     }
     
-    private string parseStringLiteralTextBody(int chQuote, MuTextFormatSpecifier format) {
+    private string? parseStringLiteralTextBody(int chQuote, MuTextFormatSpecifier format) {
         bool doubleQuote = this.chPeek() == chQuote;
         int fenceLength = 0;
         if(doubleQuote) {
@@ -596,7 +588,7 @@ public class MuTokenizer : IDisposable {
     /// Dispose of the underlying TextReader object.
     /// </summary>
     public void Dispose() {
-        this.reader?.Dispose();
+        this.reader.Dispose();
         GC.SuppressFinalize(this);
     }
 }

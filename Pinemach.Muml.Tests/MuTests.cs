@@ -229,14 +229,7 @@ public class MuTests {
         Assert.Null(attrC);
         // Attributes.GetDictionary
         Assert.Empty(elNone.Attributes.GetDictionary());
-        var vecAttrs = elVector.Attributes.GetDictionary();
-        Assert.Equal(3, vecAttrs.Count);
-        Assert.Equal(new MuAttribute("x", "1"), vecAttrs["x"]);
-        Assert.Equal(new MuAttribute("y", "2"), vecAttrs["y"]);
-        Assert.Equal(new MuAttribute("z", "3"), vecAttrs["z"]);
-        // Attributes.GetValueDictionary
-        Assert.Empty(elNone.Attributes.GetValueDictionary());
-        var vecValues = elVector.Attributes.GetValueDictionary();
+        var vecValues = elVector.Attributes.GetDictionary();
         Assert.Equal(3, vecValues.Count);
         Assert.Equal("1", vecValues["x"]);
         Assert.Equal("2", vecValues["y"]);
@@ -336,6 +329,7 @@ public class MuTests {
     public void InvalidUtf16SurrogatePair() {
         MuDocument doc = MuDocument.Parse("test | \uDF48\uD800");
         string text = doc.Members[0].Text;
+        Assert.NotNull(text);
         Assert.Equal(2, text.Length);
         Assert.Equal("\uDF48\uD800", text);
         Assert.Equal('\uDF48', text[0]);
@@ -346,6 +340,7 @@ public class MuTests {
     public void NullCharacter() {
         MuDocument doc = MuDocument.Parse("test | null\u0000null");
         string text = doc.Members[0].Text;
+        Assert.NotNull(text);
         Assert.Equal(9, text.Length);
         Assert.Equal("null\u0000null", text);
         Assert.Equal(0, text[4]);

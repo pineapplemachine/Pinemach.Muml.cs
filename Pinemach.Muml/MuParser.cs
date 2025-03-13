@@ -12,7 +12,7 @@ public class MuParser : IDisposable {
     public readonly MuDocument Document;
     
     public readonly MuSourceErrors Errors;
-    public bool IsOk() => (this.Errors?.Count ?? 0) == 0;
+    public bool IsOk() => (this.Errors.Count == 0);
     
     private readonly MuTokenizer tokenizer;
     
@@ -22,10 +22,10 @@ public class MuParser : IDisposable {
     public MuParser(TextReader reader) :
         this(null, reader)
     {}
-    public MuParser(string fileName, string source) :
+    public MuParser(string? fileName, string source) :
         this(fileName, new StringReader(source))
     {}
-    public MuParser(string fileName, TextReader reader) :
+    public MuParser(string? fileName, TextReader reader) :
         this(new MuTokenizer(fileName, reader))
     {}
     public MuParser(MuTokenizer tokenizer) {
@@ -38,7 +38,7 @@ public class MuParser : IDisposable {
     private bool elHasTop() => (
         this.elStack.Count > 0
     );
-    private MuElement elTop() => (
+    private MuElement? elTop() => (
         this.elStack.Count > 0 ? this.elStack[^1] : null
     );
     private void elAddAfterTop(MuElement el) {
@@ -79,6 +79,7 @@ public class MuParser : IDisposable {
     private List<MuToken> beginMembersTokenStack = new();
     private bool isAfterAttributeName;
     private bool isAfterEquals;
+    private MuToken isAfterEqualsToken;
     
     private MuSourceError lastError;
     private void interruptErrorCoalsece() {
@@ -103,7 +104,7 @@ public class MuParser : IDisposable {
     /// </summary>
     public bool ParseNextToken() {
         MuToken token = this.tokenizer.NextToken();
-        bool noInterruptErrorCoalsece = false;
+        bool noInterruptErrorCoalesce = false;
         if(!token.IsValid()) {
             this.handleEof();
             return false;
@@ -124,9 +125,10 @@ public class MuParser : IDisposable {
         else if(token.IsEquals()) {
             if(this.isAfterEquals || this.isAfterBeginMembers) {
                 this.addErrorCoalesce(MuSourceError.UnexpectedEquals(token.Location));
-                noInterruptErrorCoalsece = true;
+                noInterruptErrorCoalesce = true;
             }
             this.isAfterEquals = true;
+            this.isAfterEqualsToken = token;
             if(this.inAttributes && !this.isAfterAttributeName && this.elTop() is {} el) {
                 el.Attributes.Add(null, null);
             }
@@ -147,13 +149,14 @@ public class MuParser : IDisposable {
                 this.addErrorCoalesce(MuSourceError.UnexpectedCloseBracket(token.Location));
                 return true;
             }
+            MuElement? el = this.elTop();
             if(this.isAfterEquals && (
-                this.elTop() == null ||
-                this.elTop().Attributes.Count <= 0 ||
-                this.elTop().Attributes[^1].Equals(null, null)
+                el == null ||
+                el.Attributes.Count <= 0 ||
+                el.Attributes[^1].Equals(null, null)
             )) {
                 this.addErrorCoalesce(MuSourceError.UnexpectedCloseBracket(token.Location));
-                noInterruptErrorCoalsece = true;
+                noInterruptErrorCoalesce = true;
             }
             this.inAttributes = false;
             this.isAfterEquals = false;
@@ -181,15 +184,15 @@ public class MuParser : IDisposable {
             }
             this.isAfterBeginMembers = false;
         }
-        if(!noInterruptErrorCoalsece) {
+        if(!noInterruptErrorCoalesce) {
             this.interruptErrorCoalsece();
         }
         return true;
     }
     
     private void handleString(bool isIdentifier, MuToken token) {
-        MuElement el = this.elTop();
-        if(this.inAttributes) {
+        MuElement? el = this.elTop();
+        if(this.inAttributes && el != null) {
             if(this.isAfterEquals) {
                 this.isAfterEquals = false;
                 this.isAfterAttributeName = false;
@@ -208,11 +211,13 @@ public class MuParser : IDisposable {
         }
         else if(this.isAfterEquals) {
             this.isAfterEquals = false;
-            if(el != null) {
-                el.Values.Add(token.Text);
-            }
-            else {
-                this.Document.Values.Add(token.Text);
+            if(token.Text != null) {
+                if(el != null) {
+                    el.Values.Add(token.Text);
+                }
+                else {
+                    this.Document.Values.Add(token.Text);
+                }
             }
         }
         else if(!isIdentifier) {
@@ -227,20 +232,20 @@ public class MuParser : IDisposable {
             if(this.isAfterBeginMembers) {
                 this.elAddMember(new MuElement(
                     sourceSpan: token.Span,
-                    name: token.Text
+                    name: token.Text ?? ""
                 ));
                 this.isAfterBeginMembers = false;
             }
             else {
                 this.elAddNext(new MuElement(
                     sourceSpan: token.Span,
-                    name: token.Text
+                    name: token.Text ?? ""
                 ));
             }
         }
     }
     
-    private static string appendText(string mainText, string addText) {
+    private static string? appendText(string? mainText, string? addText) {
         if(string.IsNullOrEmpty(addText)) {
             return string.IsNullOrEmpty(mainText) ? mainText ?? addText : mainText + '\n';
         }
@@ -256,10 +261,10 @@ public class MuParser : IDisposable {
     }
     
     private void handleLeaveNeutral() {
-        if(this.isAfterEquals && this.elTop() is {} el) {
-            el.Values.Add(null);
+        if(this.isAfterEquals) {
+            this.Errors.AddExpectedValueAfterEquals(this.isAfterEqualsToken.Location);
+            this.isAfterEquals = false;
         }
-        this.isAfterEquals = false;
     }
     
     private void handleEof() {
@@ -284,7 +289,7 @@ public class MuParser : IDisposable {
     /// Dispose of the tokenizer's underlying TextReader object.
     /// </summary>
     public void Dispose() {
-        this.tokenizer?.Dispose();
+        this.tokenizer.Dispose();
         GC.SuppressFinalize(this);
     }
 }

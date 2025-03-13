@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +12,7 @@ public enum MuTextType {
     DoubleQuoteFence, // """text"""
     SingleQuoteFence, // '''text'''
     BacktickFence, // ```text```
-    Default = DoubleQuote,
+    Default = MuTextType.DoubleQuote,
 }
 
 /// <summary>
@@ -128,9 +127,9 @@ public static class MuUtil {
         0x1f => @"\x1f",
         0x7f => @"\x7f",
         '\\' => @"\\",
-        '"' => escDoubleQuote ? @"\""" : null,
-        '\'' => escSingleQuote ? @"\'" : null,
-        _ => null,
+        '"' => escDoubleQuote ? @"\""" : "",
+        '\'' => escSingleQuote ? @"\'" : "",
+        _ => "",
     };
     
     /// <summary>
@@ -184,7 +183,7 @@ public static class MuUtil {
         else if(chInitial == 'U') {
             int hex = MuUtil.getQuotedStringUnescapeHex8(text, index);
             if(hex < 0) return (-1, "\0");
-            string utf16 = MuUnicode.EncodeUtf16CodePoint(hex);
+            string? utf16 = MuUnicode.EncodeUtf16CodePoint(hex);
             return string.IsNullOrEmpty(utf16) ? (-1, "\0") : (10, utf16);
         }
         return chInitial switch {
@@ -210,9 +209,9 @@ public static class MuUtil {
         if(hex1 < 0) return (-1, "\0");
         int len = MuUnicode.GetUtf8CodePointLength(hex1);
         if(len is < 0 or > 4) return (-1, "\0");
-        else if(len == 1) {
+        if(len == 1) {
             return (4, ((char) hex1).ToString());
-        };
+        }
         // Second code unit
         int hex2 = MuUtil.getQuotedStringUnescapeHex2(text, index + 4);
         if(hex2 < 0) return (-1, "\0");
@@ -231,7 +230,7 @@ public static class MuUtil {
         int hex4 = MuUtil.getQuotedStringUnescapeHex2(text, index + 12);
         if(hex4 < 0) return (-1, "\0");
         int point4 = MuUnicode.DecodeUtf8CodePoint(hex1, hex2, hex3, hex4);
-        string utf16 = MuUnicode.EncodeUtf16CodePoint(point4);
+        string? utf16 = MuUnicode.EncodeUtf16CodePoint(point4);
         return string.IsNullOrEmpty(utf16) ? (-1, "\0") : (16, utf16);
     }
     
@@ -400,10 +399,10 @@ public static class MuUtil {
     private static string toQuotedStringBody(
         string text,
         int chQuote = -1,
-        string fence = null
+        string? fence = null
     ) {
         StringBuilder sb = new(4 + text.Length + (text.Length / 8));
-        if(fence != null) sb.Append(fence);
+        if(!string.IsNullOrEmpty(fence)) sb.Append(fence);
         if(chQuote >= 0) sb.Append((char) chQuote);
         int i = 0;
         int j = 0;
@@ -413,7 +412,7 @@ public static class MuUtil {
                 escDoubleQuote: chQuote == '"',
                 escSingleQuote: chQuote == '\''
             );
-            if(esc != null) {
+            if(!string.IsNullOrEmpty(esc)) {
                 if(i > j) sb.Append(text[j..i]);
                 sb.Append(esc);
                 j = i + 1;
@@ -498,34 +497,12 @@ public static class MuUtil {
     }
     
     /// <summary>
-    /// Used by ToQuotedStringDoubleQuoteFence and ToQuotedStringSingleQuoteFence.
-    /// </summary>
-    private static string toQuotedStringFenceBody(string text, string fence) {
-        // TODO update this
-        StringBuilder sb = new();
-        sb.Append('\'');
-        int i = 0;
-        int j = 0;
-        for(; i < text.Length; i++) {
-            if(i < text.Length - 2 && text[i..(i+2)] == fence) {
-                if(i > j) sb.Append(text[j..i]);
-                sb.Append("\\" + fence);
-                i += 2;
-                j = i + 1;
-            }
-        }
-        if(i > j) sb.Append(text[j..i]);
-        sb.Append('\'');
-        return sb.ToString();
-    }
-    
-    /// <summary>
     /// Helper to check sequence equality. Considers null and empty sequences equal.
     /// </summary>
     internal static bool SequencesEqual<T>(IEnumerable<T> seq1, IEnumerable<T> seq2) => (
         MuUtil.SequencesEqual(seq1, seq2, EqualityComparer<T>.Default)
     );
-    internal static bool SequencesEqual<T>(IEnumerable<T> seq1, IEnumerable<T> seq2, IEqualityComparer<T> comparer) {
+    internal static bool SequencesEqual<T>(IEnumerable<T>? seq1, IEnumerable<T>? seq2, IEqualityComparer<T> comparer) {
         if(seq1 == null) return seq2 == null || !seq2.Any();
         else if(seq2 == null) return !seq1.Any();
         else return seq1.SequenceEqual(seq2, comparer);

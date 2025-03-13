@@ -48,7 +48,7 @@ internal static class MuUnicode {
         }
     }
     
-    internal static string EncodeUtf16CodePoint(int codePoint) {
+    internal static string? EncodeUtf16CodePoint(int codePoint) {
         // Not representable
         if(codePoint < 0 || codePoint > 0x10ffff) {
             return null;

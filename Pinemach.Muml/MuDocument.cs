@@ -12,7 +12,7 @@ namespace Pinemach.Muml;
 /// </summary>
 public class MuDocumentContentComparer : IEqualityComparer<MuDocument> {
     public static readonly MuDocumentContentComparer Instance = new();
-    public bool Equals(MuDocument doc1, MuDocument doc2) => doc1?.ContentEquals(doc2) ?? false;
+    public bool Equals(MuDocument? doc1, MuDocument? doc2) => doc1?.ContentEquals(doc2) ?? false;
     public int GetHashCode(MuDocument doc) => doc.GetHashCode();
 }
 
@@ -21,7 +21,7 @@ public class MuDocumentContentComparer : IEqualityComparer<MuDocument> {
 /// </summary>
 public class MuElementContentComparer : IEqualityComparer<MuElement> {
     public static readonly MuElementContentComparer Instance = new();
-    public bool Equals(MuElement el1, MuElement el2) => el1?.ContentEquals(el2) ?? false;
+    public bool Equals(MuElement? el1, MuElement? el2) => el1?.ContentEquals(el2) ?? false;
     public int GetHashCode(MuElement el) => el.GetHashCode();
 }
 
@@ -34,7 +34,7 @@ public interface IMuHasMembers {
 
 public static class MuHasMembersExtensions {
     public static bool HasMembers(this IMuHasMembers obj) => (
-        obj.Members != null && obj.Members.Count > 0
+        obj.Members.Count > 0
     );
 }
 
@@ -47,21 +47,21 @@ public interface IMuHasValues {
 
 public static class MuHasValuesExtensions {
     public static bool HasValues(this IMuHasValues obj) => (
-        obj.Values != null && obj.Values.Count > 0
+        obj.Values.Count > 0
     );
     
-    public static string GetFirstValue(this IMuHasValues obj) => (
+    public static string? GetFirstValue(this IMuHasValues obj) => (
         obj.Values is { Count: > 0 } ? obj.Values[0] : null
     );
-    public static string GetLastValue(this IMuHasValues obj) => (
+    public static string? GetLastValue(this IMuHasValues obj) => (
         obj.Values is { Count: > 0 } ? obj.Values[^1] : null
     );
-    public static bool TryGetFirstValue(this IMuHasValues obj, out string value) {
+    public static bool TryGetFirstValue(this IMuHasValues obj, out string? value) {
         bool ok = obj.Values is { Count: > 0 };
         value = ok ? obj.Values[0] : null;
         return ok;
     }
-    public static bool TryGetLastValue(this IMuHasValues obj, out string value) {
+    public static bool TryGetLastValue(this IMuHasValues obj, out string? value) {
         bool ok = obj.Values is { Count: > 0 };
         value = ok ? obj.Values[^1] : null;
         return ok;
@@ -77,7 +77,7 @@ public interface IMuHasAttributes {
 
 public static class MuHasAttributesExtensions {
     public static bool HasAttributes(this IMuHasAttributes obj) => (
-        obj.Attributes != null && obj.Attributes.Count > 0
+        obj.Attributes.Count > 0
     );
 }
 
@@ -88,9 +88,9 @@ public static class MuHasAttributesExtensions {
 /// </summary>
 public class MuDocument : IMuHasValues, IMuHasMembers {
     public readonly MuSourceErrors Errors = new();
-    public bool IsOk() => (this.Errors?.Count ?? 0) == 0;
+    public bool IsOk() => (this.Errors.Count == 0);
     
-    public string Text;
+    public string? Text;
     public MuValues Values { get; set; } = new();
     public MuMembers Members { get; set; } = new();
     
@@ -99,10 +99,10 @@ public class MuDocument : IMuHasValues, IMuHasMembers {
         this.Errors = errors;
     }
     public MuDocument(
-        string text = null,
-        IEnumerable<string> values = null,
-        IEnumerable<MuElement> members = null,
-        IEnumerable<MuSourceError> errors = null
+        string? text = null,
+        IEnumerable<string>? values = null,
+        IEnumerable<MuElement>? members = null,
+        IEnumerable<MuSourceError>? errors = null
     ) {
         this.Text = text;
         this.Values = MuValues.From(values);
@@ -115,8 +115,8 @@ public class MuDocument : IMuHasValues, IMuHasMembers {
     
     public static MuDocument Parse(string source) => MuDocument.Parse(null, new StringReader(source));
     public static MuDocument Parse(TextReader reader) => MuDocument.Parse(null, reader);
-    public static MuDocument Parse(string fileName, string source) => MuDocument.Parse(fileName, new StringReader(source));
-    public static MuDocument Parse(string fileName, TextReader reader) {
+    public static MuDocument Parse(string? fileName, string source) => MuDocument.Parse(fileName, new StringReader(source));
+    public static MuDocument Parse(string? fileName, TextReader reader) {
         MuParser parser = new(fileName, reader);
         parser.Parse();
         return parser.Document;
@@ -139,7 +139,7 @@ public class MuDocument : IMuHasValues, IMuHasMembers {
     public override string ToString() => MuWriter.Condensed.WriteDocument(this);
     
     public bool ContentEquals(object obj) => this.ContentEquals(obj as MuDocument);
-    public bool ContentEquals(MuDocument doc) => (
+    public bool ContentEquals(MuDocument? doc) => (
         doc != null &&
         this.Text == doc.Text &&
         MuUtil.SequencesEqual(this.Values, doc.Values) &&
@@ -156,19 +156,19 @@ public class MuDocument : IMuHasValues, IMuHasMembers {
 public class MuElement : IMuHasValues, IMuHasAttributes, IMuHasMembers {
     public string Name;
     public MuSourceSpan SourceSpan;
-    public string Text;
+    public string? Text;
     public MuValues Values { get; set; } = new();
     public MuAttributes Attributes { get; set; } = new();
     public MuMembers Members { get; set; } = new();
     
-    public MuElement() {}
+    public MuElement() : this("") {}
     
     public MuElement(
-        string name = null,
-        string text = null,
-        IEnumerable<string> values = null,
-        IEnumerable<MuAttribute> attributes = null,
-        IEnumerable<MuElement> members = null
+        string name,
+        string? text = null,
+        IEnumerable<string>? values = null,
+        IEnumerable<MuAttribute>? attributes = null,
+        IEnumerable<MuElement>? members = null
     ) : this(
         MuSourceSpan.None,
         name,
@@ -180,11 +180,11 @@ public class MuElement : IMuHasValues, IMuHasAttributes, IMuHasMembers {
     
     public MuElement(
         MuSourceSpan sourceSpan,
-        string name = null,
-        string text = null,
-        IEnumerable<string> values = null,
-        IEnumerable<MuAttribute> attributes = null,
-        IEnumerable<MuElement> members = null
+        string name,
+        string? text = null,
+        IEnumerable<string>? values = null,
+        IEnumerable<MuAttribute>? attributes = null,
+        IEnumerable<MuElement>? members = null
     ) {
         this.Name = name;
         this.SourceSpan = sourceSpan;
@@ -201,7 +201,7 @@ public class MuElement : IMuHasValues, IMuHasAttributes, IMuHasMembers {
     public override string ToString() => MuWriter.Condensed.WriteElement(this);
     
     public bool ContentEquals(object obj) => this.ContentEquals(obj as MuElement);
-    public bool ContentEquals(MuElement el) => (
+    public bool ContentEquals(MuElement? el) => (
         el != null &&
         this.Name == el.Name &&
         this.Text == el.Text &&
@@ -220,7 +220,7 @@ public class MuValues : List<string> {
     public MuValues(int capacity) : base(capacity) {}
     public MuValues(IEnumerable<string> collection) : base(collection) {}
     
-    public static MuValues From(IEnumerable<string> values) => (
+    public static MuValues From(IEnumerable<string>? values) => (
         values is MuValues list ? list :
         values != null ? new(values) :
         new()
@@ -231,7 +231,8 @@ public class MuValues : List<string> {
     /// </summary>
     public HashSet<string> GetHashSet() => new(this);
     
-    public bool ContainsValue(string value) {
+    public bool ContainsValue(string? value) {
+        if(value == null) return false;
         foreach(string val in this) {
             if(val == value) return true;
         }
@@ -250,7 +251,7 @@ public class MuMembers : List<MuElement> {
     public MuMembers(int capacity) : base(capacity) {}
     public MuMembers(IEnumerable<MuElement> collection) : base(collection) {}
     
-    public static MuMembers From(IEnumerable<MuElement> members) => (
+    public static MuMembers From(IEnumerable<MuElement>? members) => (
         members is MuMembers list ? list :
         members != null ? new(members) :
         new()
@@ -264,12 +265,12 @@ public class MuMembers : List<MuElement> {
     public IEnumerable<MuElement> EnumerateTreeDepthFirst() => (
         this.EnumerateTreeDepthFirst(null)
     );
-    public IEnumerable<MuElement> EnumerateTreeDepthFirst(MuElement elRoot) {
+    public IEnumerable<MuElement> EnumerateTreeDepthFirst(MuElement? elRoot) {
         if(this.Count <= 0) yield break;
-        List<(MuElement, MuMembers, int)> stack = new();
+        List<(MuElement?, MuMembers, int)> stack = new();
         stack.Add((elRoot, this, 0));
         while(stack.Count > 0) {
-            (MuElement el, MuMembers members, int index) = stack[^1];
+            (MuElement? el, MuMembers members, int index) = stack[^1];
             if(index < members.Count) {
                 MuElement elChild = members[index];
                 stack[^1] = (el, members, index + 1);
@@ -288,7 +289,7 @@ public class MuMembers : List<MuElement> {
     public IEnumerable<MuElement> EnumerateTreeBreadthFirst() => (
         this.EnumerateTreeBreadthFirst(null)
     );
-    public IEnumerable<MuElement> EnumerateTreeBreadthFirst(MuElement elRoot) {
+    public IEnumerable<MuElement> EnumerateTreeBreadthFirst(MuElement? elRoot) {
         if(this.Count <= 0) yield break;
         if(elRoot != null) yield return elRoot;
         List<(MuMembers, int)> stack = new();
@@ -339,16 +340,16 @@ public class MuAttributes : List<MuAttribute> {
     public MuAttributes() {}
     public MuAttributes(int capacity) : base(capacity) {}
     public MuAttributes(IEnumerable<MuAttribute> collection) : base(collection) {}
-    public MuAttributes(IEnumerable<KeyValuePair<string, string>> collection) :
+    public MuAttributes(IEnumerable<KeyValuePair<string?, string?>> collection) :
         base(collection.Select(attr => new MuAttribute(attr.Key, attr.Value)))
     {}
     
-    public static MuAttributes From(IEnumerable<MuAttribute> attrs) => (
+    public static MuAttributes From(IEnumerable<MuAttribute>? attrs) => (
         attrs is MuAttributes list ? list :
         attrs != null ? new(attrs) :
         new()
     );
-    public static MuAttributes From(IEnumerable<KeyValuePair<string, string>> attrs) => (
+    public static MuAttributes From(IEnumerable<KeyValuePair<string?, string?>>? attrs) => (
         attrs != null ? new(attrs) : new()
     );
     
@@ -357,23 +358,10 @@ public class MuAttributes : List<MuAttribute> {
     /// The first instance of an attribute with any given name will be
     /// included in the returned Dictionary.
     /// </summary>
-    public Dictionary<string, MuAttribute> GetDictionary() {
-        Dictionary<string, MuAttribute> dict = new();
+    public Dictionary<string, string?> GetDictionary() {
+        Dictionary<string, string?> dict = new();
         for(int i = this.Count - 1; i >= 0; i--) {
-            dict[this[i].Name] = this[i];
-        }
-        return dict;
-    }
-    
-    /// <summary>
-    /// Get a Dictionary representation of this attribute list.
-    /// The first instance of an attribute with any given name will be
-    /// included in the returned Dictionary.
-    /// </summary>
-    public Dictionary<string, string> GetValueDictionary() {
-        Dictionary<string, string> dict = new();
-        for(int i = this.Count - 1; i >= 0; i--) {
-            dict[this[i].Name] = this[i].Value;
+            if(this[i].Name != null) dict[this[i].Name!] = this[i].Value;
         }
         return dict;
     }
@@ -384,7 +372,7 @@ public class MuAttributes : List<MuAttribute> {
     /// overwrite the value of the first matching attribute.
     /// If not, then add a new attribute with the given name and value.
     /// </summary>
-    public void Set(string name, string value) {
+    public void Set(string? name, string? value) {
         int i = this.IndexOf(name);
         if(i >= 0) {
             this[i] = new MuAttribute(name, value);
@@ -397,29 +385,29 @@ public class MuAttributes : List<MuAttribute> {
     /// <summary>
     /// Add a new attribute to the list.
     /// </summary>
-    public void Add(string name) => base.Add(new MuAttribute(name, null));
+    public void Add(string? name) => base.Add(new(name, null));
     
     /// <summary>
     /// Add a new attribute to the list.
     /// </summary>
-    public void Add(string name, string value) => base.Add(new MuAttribute(name, value));
+    public void Add(string? name, string? value) => base.Add(new(name, value));
     
     /// <summary>
     /// Add a new attribute to the list.
     /// </summary>
-    public void Add(KeyValuePair<string, string> attr) => base.Add(new MuAttribute(attr.Key, attr.Value));
+    public void Add(KeyValuePair<string?, string?> attr) => base.Add(new(attr.Key, attr.Value));
     
     /// <summary>
     /// Add new attributes to the list.
     /// </summary>
-    public void AddRange(IEnumerable<KeyValuePair<string, string>> attrs) => this.AddRange(
+    public void AddRange(IEnumerable<KeyValuePair<string?, string?>> attrs) => this.AddRange(
         attrs.Select(attr => new MuAttribute(attr.Key, attr.Value))
     );
     
     /// <summary>
     /// Check whether the list contains any attribute with a given name.
     /// </summary>
-    public bool ContainsName(string name) {
+    public bool ContainsName(string? name) {
         foreach(MuAttribute attr in this) {
             if(attr.Name == name) return true;
         }
@@ -430,7 +418,7 @@ public class MuAttributes : List<MuAttribute> {
     /// Get the index of the first attribute with a matching name.
     /// Returns -1 when there was no matching attribute.
     /// </summary>
-    public int IndexOf(string name) {
+    public int IndexOf(string? name) {
         for(int i = 0; i < this.Count; i++) {
             if(this[i].Name == name) return i;
         }
@@ -441,7 +429,7 @@ public class MuAttributes : List<MuAttribute> {
     /// Get the index of the last attribute with a matching name.
     /// Returns -1 when there was no matching attribute.
     /// </summary>
-    public int LastIndexOf(string name) {
+    public int LastIndexOf(string? name) {
         for(int i = this.Count - 1; i >= 0; i--) {
             if(this[i].Name == name) return i;
         }
@@ -452,13 +440,13 @@ public class MuAttributes : List<MuAttribute> {
     /// Get the value of the first attribute with a matching name.
     /// Returns null when there was no matching attribute.
     /// </summary>
-    public string GetValue(string name) => this.GetValue(name, null);
+    public string? GetValue(string? name) => this.GetValue(name, null);
     
     /// <summary>
     /// Get the value of the first attribute with a matching name.
     /// Returns the fallback value when there was no matching attribute.
     /// </summary>
-    public string GetValue(string name, string fallback) {
+    public string? GetValue(string? name, string? fallback) {
         foreach(MuAttribute attr in this) {
             if(attr.Name == name) return attr.Value;
         }
@@ -468,7 +456,7 @@ public class MuAttributes : List<MuAttribute> {
     /// <summary>
     /// Get the value of the first attribute with a matching name.
     /// </summary>
-    public bool TryGetValue(string name, out string value) {
+    public bool TryGetValue(string? name, out string? value) {
         foreach(MuAttribute attr in this) {
             if(attr.Name == name) {
                 value = attr.Value;
@@ -482,7 +470,7 @@ public class MuAttributes : List<MuAttribute> {
     /// <summary>
     /// Get an enumerable of all values of attributes with matching names.
     /// </summary>
-    public IEnumerable<string> GetAllValues(string name) {
+    public IEnumerable<string?> GetAllValues(string? name) {
         foreach(MuAttribute attr in this) {
             if(attr.Name == name) yield return attr.Value;
         }
@@ -499,11 +487,11 @@ public class MuAttributes : List<MuAttribute> {
 /// An attribute is fundamentally a key, value pair.
 /// </summary>
 public struct MuAttribute {
-    public string Name;
-    public string Value;
+    public string? Name;
+    public string? Value;
     
-    public MuAttribute(string name) : this(name, null) {}
-    public MuAttribute(string name, string value) {
+    public MuAttribute(string? name) : this(name, null) {}
+    public MuAttribute(string? name, string? value) {
         this.Name = name;
         this.Value = value;
     }
@@ -516,19 +504,19 @@ public struct MuAttribute {
         return HashCode.Combine(this.Name, this.Value);
     }
     
-    public override bool Equals(object obj) => (
+    public override bool Equals(object? obj) => (
         (obj is MuAttribute attr && this.Equals(attr)) ||
-        (obj is KeyValuePair<string, string> pair && this.Equals(pair))
+        (obj is KeyValuePair<string?, string?> pair && this.Equals(pair))
     );
     public bool Equals(MuAttribute attr) => (
         this.Name == attr.Name &&
         this.Value == attr.Value
     );
-    public bool Equals(KeyValuePair<string, string> attr) => (
+    public bool Equals(KeyValuePair<string?, string?> attr) => (
         this.Name == attr.Key &&
         this.Value == attr.Value
     );
-    public bool Equals(string name, string value) => (
+    public bool Equals(string? name, string? value) => (
         this.Name == name &&
         this.Value == value
     );
@@ -536,10 +524,10 @@ public struct MuAttribute {
     public static bool operator ==(MuAttribute left, MuAttribute right) => left.Equals(right);
     public static bool operator !=(MuAttribute left, MuAttribute right) => !(left == right);
     
-    public static implicit operator (string, string)(MuAttribute attr) {
+    public static implicit operator (string?, string?)(MuAttribute attr) {
         return (attr.Name, attr.Value);
     }
-    public static implicit operator KeyValuePair<string, string>(MuAttribute attr) {
+    public static implicit operator KeyValuePair<string?, string?>(MuAttribute attr) {
         return new(attr.Name, attr.Value);
     }
     
@@ -560,7 +548,7 @@ public struct MuAttribute {
     /// <summary>
     /// Get the attribute's value as a string. No coercion necessary.
     /// </summary>
-    public string AsString() => this.Value;
+    public string? AsString() => this.Value;
     
     /// <summary>
     /// Get the attribute's value, coerced to a boolean.

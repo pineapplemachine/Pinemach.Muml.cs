@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -15,8 +14,8 @@ public class MuWriter {
     public const string DefaultIndent = "  ";
     public const string DefaultNewline = "\n";
     
-    public string Indent;
-    public string Newline;
+    public string? Indent;
+    public string? Newline;
     public MuTextType PreferHeaderType;
     public MuTextType PreferTagType;
     public MuTextType PreferValueType;
@@ -26,14 +25,14 @@ public class MuWriter {
     public bool ReduceSpaces;
     
     public MuWriter() : this(MuWriter.DefaultIndent, MuWriter.DefaultNewline) {}
-    public MuWriter(string indent) : this(indent, MuWriter.DefaultNewline) {}
-    public MuWriter(string indent, string newline, bool reduceSpaces = false) :
+    public MuWriter(string? indent) : this(indent, MuWriter.DefaultNewline) {}
+    public MuWriter(string? indent, string? newline, bool reduceSpaces = false) :
         this(indent, newline, MuTextType.Default, reduceSpaces: reduceSpaces)
     {}
     
     public MuWriter(
-        string indent,
-        string newline,
+        string? indent,
+        string? newline,
         MuTextType preferTextType,
         bool reduceSpaces = false
     ) : this(
@@ -49,8 +48,8 @@ public class MuWriter {
     ) {}
     
     public MuWriter(
-        string indent,
-        string newline,
+        string? indent,
+        string? newline,
         MuTextType preferHeaderType,
         MuTextType preferTagType,
         MuTextType preferValueType,
@@ -75,12 +74,12 @@ public class MuWriter {
         this.WriteDocument(doc, writer);
         return writer.ToString();
     }
-    public string WriteElement(MuElement el, string indent = null) {
+    public string WriteElement(MuElement el, string? indent = null) {
         StringWriter writer = new();
         this.WriteElement(el, indent, writer);
         return writer.ToString();
     }
-    public string WriteMembers(IEnumerable<MuElement> members, string indent = null) {
+    public string WriteMembers(IEnumerable<MuElement> members, string? indent = null) {
         StringWriter writer = new();
         this.WriteMembers(members, indent, writer);
         return writer.ToString();
@@ -101,8 +100,9 @@ public class MuWriter {
         return writer.ToString();
     }
     
-    public void WriteDocument(MuDocument doc, TextWriter writer) {
-        if(doc.HasText()) {
+    public void WriteDocument(MuDocument? doc, TextWriter writer) {
+        if(doc == null) return;
+        if(doc.Text != null) {
             writer.Write(MuUtil.ToQuotedString(doc.Text, this.PreferTextType));
             writer.Write(this.Newline);
         }
@@ -114,7 +114,8 @@ public class MuWriter {
         }
     }
     
-    public void WriteElement(MuElement el, string indent, TextWriter writer) {
+    public void WriteElement(MuElement? el, string? indent, TextWriter writer) {
+        if(el == null) return;
         string name = MuUtil.ToIdentifierString(el.Name, this.PreferTagType);
         if(el.HasIdentifierName()) {
             writer.Write(name);
@@ -142,7 +143,7 @@ public class MuWriter {
         }
     }
     
-    public void WriteMembers(IEnumerable<MuElement> members, string indent, TextWriter writer) {
+    public void WriteMembers(IEnumerable<MuElement>? members, string? indent, TextWriter writer) {
         if(members == null) {
             writer.Write("{}");
             return;
@@ -161,7 +162,7 @@ public class MuWriter {
         writer.Write('}');
     }
     
-    public void WriteAttributes(IEnumerable<MuAttribute> attrs, TextWriter writer) {
+    public void WriteAttributes(IEnumerable<MuAttribute>? attrs, TextWriter writer) {
         if(attrs == null) {
             writer.Write("[]");
             return;
@@ -191,7 +192,8 @@ public class MuWriter {
         }
     }
     
-    public void WriteValues(IEnumerable<string> values, TextWriter writer, bool lineSep) {
+    public void WriteValues(IEnumerable<string>? values, TextWriter writer, bool lineSep) {
+        if(values == null) return;
         bool first = true;
         foreach(string value in values) {
             if(!first) {
