@@ -57,7 +57,9 @@ public readonly struct MuToken {
     }
     
     public override string ToString() => (
-        $"{this.Span.ToLString()} {this.Type} {MuUtil.ToQuotedString(this.Text)}"
+        this.Type != MuTokenType.None && this.Span.IsStartValid() && this.Text != null ?
+        $"{this.Span.ToLString()} {this.Type} {MuUtil.ToQuotedString(this.Text)}" :
+        null
     );
     
     public bool IsValid() => this.Type != MuTokenType.None;
@@ -384,12 +386,13 @@ public class MuTokenizer : IDisposable {
                 return null;
             }
             this.chNext();
-            return format.ApplyFormat(
-                this.parseStringLiteralTextBody(chQuote)
-            );
+            return this.parseStringLiteralTextBody(chQuote, format);
         }
         if(MuUtil.IsQuoteChar(chQuote)) {
-            return this.parseStringLiteralTextBody(chQuote);
+            return this.parseStringLiteralTextBody(
+                chQuote,
+                MuTextFormatSpecifier.Default
+            );
         }
         return null;
     }
@@ -419,7 +422,7 @@ public class MuTokenizer : IDisposable {
         return sb.ToString();
     }
     
-    private string parseStringLiteralTextBody(int chQuote) {
+    private string parseStringLiteralTextBody(int chQuote, MuTextFormatSpecifier format) {
         bool doubleQuote = this.chPeek() == chQuote;
         int fenceLength = 0;
         if(doubleQuote) {
@@ -437,21 +440,25 @@ public class MuTokenizer : IDisposable {
             }
         }
         if(fenceLength >= 3) {
-            return this.parseStringLiteralTextFenced(chQuote, fenceLength);
+            return this.parseStringLiteralTextFenced(chQuote, fenceLength, format);
         }
         else if(chQuote == '"') {
-            return this.parseStringLiteralTextQuoted(chQuote);
+            return this.parseStringLiteralTextQuoted(chQuote, format);
         }
         else if(chQuote == '\'') {
-            return this.parseStringLiteralTextQuoted(chQuote);
+            return this.parseStringLiteralTextQuoted(chQuote, format);
         }
         else if(chQuote == '`') {
-            return this.parseStringLiteralTextBacktick();
+            return this.parseStringLiteralTextBacktick(format);
         }
         return null;
     }
     
-    private string parseStringLiteralTextFenced(int chQuote, int fenceLength) {
+    private string parseStringLiteralTextFenced(
+        int chQuote,
+        int fenceLength,
+        MuTextFormatSpecifier format
+    ) {
         StringBuilder sb = new();
         int chQuoteCount = 0;
         bool escape = false;
@@ -484,6 +491,7 @@ public class MuTokenizer : IDisposable {
         }
         string text = sb.ToString();
         if(chQuoteCount > 0) text = text[..^(fenceLength - 1)];
+        text = format.ApplyFormat(text);
         if(chQuote == '`') {
             return text;
         }
@@ -496,7 +504,7 @@ public class MuTokenizer : IDisposable {
         }
     }
     
-    private string parseStringLiteralTextQuoted(int chQuote) {
+    private string parseStringLiteralTextQuoted(int chQuote, MuTextFormatSpecifier format) {
         StringBuilder sb = new();
         bool escape = false;
         while(true) {
@@ -524,7 +532,7 @@ public class MuTokenizer : IDisposable {
                 sb.Append((char) ch);
             }
         }
-        string text = sb.ToString();
+        string text = format.ApplyFormat(sb.ToString());
         (int badEscIndex, string escText) = MuUtil.UnescapeQuotedString(text);
         if(badEscIndex >= 0) {
             this.Errors.AddMalformedStringEscapeSequence(this.tokenStartLocation);
@@ -532,7 +540,7 @@ public class MuTokenizer : IDisposable {
         return escText;
     }
     
-    private string parseStringLiteralTextBacktick() {
+    private string parseStringLiteralTextBacktick(MuTextFormatSpecifier format) {
         StringBuilder sb = new();
         while(true) {
             int ch = this.chNext();
@@ -550,7 +558,7 @@ public class MuTokenizer : IDisposable {
             }
             sb.Append((char) ch);
         }
-        return sb.ToString();
+        return format.ApplyFormat(sb.ToString());
     }
     
     private MuSourceSpan getTokenSpan() => (
