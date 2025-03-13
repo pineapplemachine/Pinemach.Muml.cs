@@ -204,20 +204,17 @@ public class MuTokenizer : IDisposable {
     }
     
     private MuToken parseLineComment(string initial = null) {
-        StringBuilder sb = new(initial);
         while(true) {
             int ch = this.chNext();
             if(ch < 0 || ch == '\n') break;
-            sb.Append((char) ch);
         }
         return MuToken.LineComment(
             this.getTokenSpan(),
-            sb.ToString()
+            null
         );
     }
     
     private MuToken parseFencedComment() {
-        StringBuilder sb = new();
         int fenceLength = 3;
         while(this.chPeek() == '#') {
             fenceLength++;
@@ -229,7 +226,6 @@ public class MuTokenizer : IDisposable {
             if(ch == '#') {
                 run++;
                 if(run >= fenceLength) {
-                    sb.Length -= (run - 1);
                     break;
                 }
             }
@@ -239,16 +235,14 @@ public class MuTokenizer : IDisposable {
             else {
                 run = 0;
             }
-            sb.Append((char) this.chNext());
         }
         return MuToken.FencedComment(
             this.getTokenSpan(),
-            sb.ToString()
+            null
         );
     }
     
     private MuToken parseNestedBlockComment() {
-        StringBuilder sb = new();
         int nest = 1;
         while(true) {
             int ch = this.chNext();
@@ -265,14 +259,13 @@ public class MuTokenizer : IDisposable {
                     if(nest <= 0) break;
                 }
             }
-            sb.Append((char) ch);
         }
         if(nest > 0) {
             this.Errors.AddUnterminatedNestedBlockComment(this.tokenStartLocation);
         }
         return MuToken.NestedBlockComment(
             this.getTokenSpan(),
-            sb.ToString()
+            null
         );
     }
     

@@ -10,29 +10,27 @@ namespace Pinemach.Muml;
 /// </summary>
 public class MuParser : IDisposable {
     public readonly MuDocument Document;
-    public readonly bool KeepComments;
     
     public readonly MuSourceErrors Errors;
     public bool IsOk() => (this.Errors?.Count ?? 0) == 0;
     
     private readonly MuTokenizer tokenizer;
     
-    public MuParser(string source, bool keepComments = false) :
-        this(null, new StringReader(source), keepComments)
+    public MuParser(string source) :
+        this(null, new StringReader(source))
     {}
-    public MuParser(TextReader reader, bool keepComments = false) :
-        this(null, reader, keepComments)
+    public MuParser(TextReader reader) :
+        this(null, reader)
     {}
-    public MuParser(string fileName, string source, bool keepComments = false) :
-        this(fileName, new StringReader(source), keepComments)
+    public MuParser(string fileName, string source) :
+        this(fileName, new StringReader(source))
     {}
-    public MuParser(string fileName, TextReader reader, bool keepComments = false) :
-        this(new MuTokenizer(fileName, reader), keepComments)
+    public MuParser(string fileName, TextReader reader) :
+        this(new MuTokenizer(fileName, reader))
     {}
-    public MuParser(MuTokenizer tokenizer, bool keepComments = false) {
+    public MuParser(MuTokenizer tokenizer) {
         this.tokenizer = tokenizer;
         this.Errors = tokenizer.Errors;
-        this.KeepComments = keepComments;
         this.Document = new(this.Errors);
     }
     
@@ -111,13 +109,7 @@ public class MuParser : IDisposable {
             return false;
         }
         else if(token.IsComment()) {
-            if(!this.KeepComments) return true;
-            this.elAddAfterTop(new MuElement(
-                sourceSpan: token.Span,
-                name: null,
-                commentType: token.GetCommentType(),
-                text: token.Text
-            ));
+            return true;
         }
         else if(token.IsIdentifier()) {
             this.handleString(true, token);
