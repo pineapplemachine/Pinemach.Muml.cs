@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
     <PackageId>Pinemach.Muml</PackageId>
     <Version>1.0.0</Version>
     <Title>Micro Markup Language</Title>
