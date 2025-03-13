@@ -1,0 +1,320 @@
+###
+
+Test cases related to string formatting specifiers.
+
+###
+
+#MUML
+a |= '''
+    keep all same
+    
+'''
+b |=* '''
+    keep all same
+    
+'''
+c |=.. '''
+    keep all same
+    
+'''
+d |=*.. '''
+    keep all same
+    
+'''
+#JSON
+{"Members": [
+    {"Name": "a", "Text": "\n    keep all same\n    \n"},
+    {"Name": "b", "Text": "\n    keep all same\n    \n"},
+    {"Name": "c", "Text": "\n    keep all same\n    \n"},
+    {"Name": "d", "Text": "\n    keep all same\n    \n"}
+]}
+#END
+
+#MUML strip start and end
+a |; '  test  '
+b |;- '  test  '
+c |; ` 
+test 
+`
+d |;- ` 
+test 
+`
+#JSON
+{"Members": [
+    {"Name": "a", "Text": "test"},
+    {"Name": "b", "Text": "test"},
+    {"Name": "c", "Text": "test"},
+    {"Name": "d", "Text": "test"}
+]}
+#END
+
+#MUML
+e |; `	    
+    	hello   
+	`
+#JSON
+{"Members": [{"Name": "e", "Text": "hello"}]}
+#END
+
+#MUML formatting doesn't touch escaped whitespace
+e |; ' \thello\t\x20 '
+#JSON
+{"Members": [{"Name": "e", "Text": "\thello\t "}]}
+#END
+
+#MUML keep start, strip end
+a |^ '  test  '
+b |=- '  test  '
+c |^ `
+test 
+`
+d |=- `
+test 
+`
+#JSON
+{"Members": [
+    {"Name": "a", "Text": "  test"},
+    {"Name": "b", "Text": "  test"},
+    {"Name": "c", "Text": "\ntest"},
+    {"Name": "d", "Text": "\ntest"}
+]}
+#END
+
+#MUML keep end, strip start
+a |;* '  test  '
+b |;* `
+test
+`
+#JSON
+{"Members": [
+    {"Name": "a", "Text": "test  "},
+    {"Name": "b", "Text": "test\n"}
+]}
+#END
+
+#MUML
+a || '''one two three four'''
+b || '''one two
+    three
+    four'''
+c || '''
+    one two
+    three
+    four'''
+d || '''
+    one two
+    three
+    four
+'''
+e || '''
+    one two
+    three
+    four
+    
+    '''
+f || '''
+    one two
+    three
+    four   
+    
+'''
+#JSON
+{"Members": [
+    {"Name": "a", "Text": "one two three four"},
+    {"Name": "b", "Text": "one two\n    three\n    four"},
+    {"Name": "c", "Text": "one two\nthree\nfour"},
+    {"Name": "d", "Text": "one two\nthree\nfour\n"},
+    {"Name": "e", "Text": "one two\nthree\nfour\n"},
+    {"Name": "f", "Text": "one two\nthree\nfour\n"},
+]}
+#END
+
+#MUML deindent whitespace at line endings
+a || '''
+    one		 
+    two  
+    three
+    four 
+'''
+b ||* '''
+    one		 
+    two  
+    three
+    four 
+'''
+#JSON
+{"Members": [
+    {"Name": "a", "Text": "one\t\t \ntwo  \nthree\nfour\n"},
+    {"Name": "b", "Text": "one\t\t \ntwo  \nthree\nfour \n"}
+]}
+#END
+
+#MUML fold whitespace at line endings
+a |> '''
+    one	 
+    two  	
+    
+    three  
+    four	
+'''
+b |>* '''
+    one	 
+    two  	
+    
+    three  
+    four	
+'''
+#JSON
+{"Members": [
+    {"Name": "a", "Text": "one two  \t\nthree four\n"},
+    {"Name": "b", "Text": "one two  \t\nthree four\t\n"}
+]}
+#END
+
+#MUML end formatting
+a |= '''
+  test  
+    
+  
+  '''
+b |=* '''
+  test  
+    
+  
+  '''
+c |=$ '''
+  test  
+    
+  
+  '''
+d |=+ '''
+  test  
+    
+  
+  '''
+e |=- '''
+  test  
+    
+  
+  '''
+#JSON
+{"Members": [
+    {"Name": "a", "Text": "\n  test  \n    \n  \n  "},
+    {"Name": "b", "Text": "\n  test  \n    \n  \n  "},
+    {"Name": "c", "Text": "\n  test\n"},
+    {"Name": "d", "Text": "\n  test  \n    \n  \n"},
+    {"Name": "e", "Text": "\n  test"}
+]}
+#END
+
+#MUML
+a || '''
+	Hello,
+	tabs!
+	
+	I prefer
+	spaces...
+'''
+b ||.. '''
+	  Hello,
+	tabs!
+	
+	  I prefer
+	spaces...
+'''
+c |> '''
+	Hello,
+	tabs!
+	
+	I prefer
+	spaces...
+'''
+d |>.. '''
+	  Hello,
+	tabs!
+	
+	  I prefer
+	spaces...
+'''
+e |>.. '''
+	  Hello,
+	tabs!
+	  I prefer
+	spaces...
+'''
+#JSON
+{"Members": [{
+    "Name": "a",
+    "Text": "Hello,\ntabs!\n\nI prefer\nspaces...\n"
+}, {
+    "Name": "b",
+    "Text": "  Hello,\ntabs!\n\n  I prefer\nspaces...\n"
+}, {
+    "Name": "c",
+    "Text": "Hello, tabs!\nI prefer spaces...\n"
+}, {
+    "Name": "d",
+    "Text": "  Hello, tabs!\n  I prefer spaces...\n"
+}, {
+    "Name": "e",
+    "Text": "  Hello, tabs!\n  I prefer spaces...\n"
+}]}
+#END
+
+#MUML
+e || '''
+    one
+   two
+  three
+    four
+     five
+'''
+#JSON
+{"Members": [
+    {"Name": "e", "Text": "one\ntwo\nthree\nfour\n five\n"}
+]}
+#END
+
+#MUML
+e |> '''
+    one
+   two
+  three
+    four
+     five
+'''
+#JSON
+{"Members": [
+    {"Name": "e", "Text": "one two three four\n five\n"}
+]}
+#END
+
+#MUML
+|| e
+#JSON
+{"Members": [{"Name": "e"}]}
+#ERRORS
+ExpectedStringAfterFormatSpecifier L1:1
+#END
+
+#MUML
+|= |^ |; || |>
+||* ||$ ||+ ||-
+|>. |>.. |>....
+e
+#JSON
+{"Members": [{"Name": "e"}]}
+#ERRORS
+ExpectedStringAfterFormatSpecifier L1:1
+ExpectedStringAfterFormatSpecifier L1:4
+ExpectedStringAfterFormatSpecifier L1:7
+ExpectedStringAfterFormatSpecifier L1:10
+ExpectedStringAfterFormatSpecifier L1:13
+ExpectedStringAfterFormatSpecifier L2:1
+ExpectedStringAfterFormatSpecifier L2:5
+ExpectedStringAfterFormatSpecifier L2:9
+ExpectedStringAfterFormatSpecifier L2:13
+ExpectedStringAfterFormatSpecifier L3:1
+ExpectedStringAfterFormatSpecifier L3:5
+ExpectedStringAfterFormatSpecifier L3:10
+#END

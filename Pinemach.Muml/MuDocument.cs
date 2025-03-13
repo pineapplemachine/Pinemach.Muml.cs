@@ -13,7 +13,7 @@ namespace Pinemach.Muml;
 public class MuDocumentContentComparer : IEqualityComparer<MuDocument> {
     public static readonly MuDocumentContentComparer Instance = new();
     public bool Equals(MuDocument doc1, MuDocument doc2) => doc1?.ContentEquals(doc2) ?? false;
-    public int GetHashCode(MuDocument doc) => doc?.GetHashCode() ?? 0;
+    public int GetHashCode(MuDocument doc) => doc.GetHashCode();
 }
 
 /// <summary>
@@ -22,7 +22,7 @@ public class MuDocumentContentComparer : IEqualityComparer<MuDocument> {
 public class MuElementContentComparer : IEqualityComparer<MuElement> {
     public static readonly MuElementContentComparer Instance = new();
     public bool Equals(MuElement el1, MuElement el2) => el1?.ContentEquals(el2) ?? false;
-    public int GetHashCode(MuElement el) => el?.GetHashCode() ?? 0;
+    public int GetHashCode(MuElement el) => el.GetHashCode();
 }
 
 /// <summary>
@@ -38,10 +38,10 @@ public static class MuHasMembersExtensions {
     );
     
     public static MuElement GetFirstMember(this IMuHasMembers obj) => (
-        obj.Members == null ? null : obj.Members[0]
+        obj.Members is { Count: > 0 } ? obj.Members[0] : null
     );
     public static MuElement GetLastMember(this IMuHasMembers obj) => (
-        obj.Members == null ? null : obj.Members[^1]
+        obj.Members is { Count: > 0 } ? obj.Members[^1] : null
     );
     
     public static void AddMember(this IMuHasMembers obj, MuElement el) {
@@ -63,18 +63,18 @@ public static class MuHasValuesExtensions {
     );
     
     public static string GetFirstValue(this IMuHasValues obj) => (
-        obj.Values == null ? null : obj.Values[0]
+        obj.Values is { Count: > 0 } ? obj.Values[0] : null
     );
     public static string GetLastValue(this IMuHasValues obj) => (
-        obj.Values == null ? null : obj.Values[^1]
+        obj.Values is { Count: > 0 } ? obj.Values[^1] : null
     );
     public static bool TryGetFirstValue(this IMuHasValues obj, out string value) {
-        bool ok = obj.Values is { Count: >= 0 };
+        bool ok = obj.Values is { Count: > 0 };
         value = ok ? obj.Values[0] : null;
         return ok;
     }
     public static bool TryGetLastValue(this IMuHasValues obj, out string value) {
-        bool ok = obj.Values is { Count: >= 0 };
+        bool ok = obj.Values is { Count: > 0 };
         value = ok ? obj.Values[^1] : null;
         return ok;
     }
@@ -98,19 +98,19 @@ public static class MuHasAttributesExtensions {
     );
     
     public static MuAttribute? GetFirstAttribute(this IMuHasAttributes obj) => (
-        obj.Attributes == null ? null : obj.Attributes[0]
+        obj.Attributes is { Count: > 0 } ? obj.Attributes[0] : null
     );
     public static MuAttribute? GetLastAttribute(this IMuHasAttributes obj) => (
-        obj.Attributes == null ? null : obj.Attributes[^1]
+        obj.Attributes is { Count: > 0 } ? obj.Attributes[^1] : null
     );
-    public static bool TryGetFirstAttribute(this IMuHasAttributes obj, out MuAttribute attr) {
-        bool ok = obj.Attributes is { Count: >= 0 };
-        attr = ok ? obj.Attributes[0] : new();
+    public static bool TryGetFirstAttribute(this IMuHasAttributes obj, out MuAttribute value) {
+        bool ok = obj.Attributes is { Count: > 0 };
+        value = ok ? obj.Attributes[0] : new();
         return ok;
     }
-    public static bool TryGetLastAttribute(this IMuHasAttributes obj, out MuAttribute attr) {
-        bool ok = obj.Attributes is { Count: >= 0 };
-        attr = ok ? obj.Attributes[^1] : new();
+    public static bool TryGetLastAttribute(this IMuHasAttributes obj, out MuAttribute value) {
+        bool ok = obj.Attributes is { Count: > 0 };
+        value = ok ? obj.Attributes[^1] : new();
         return ok;
     }
     
@@ -255,7 +255,7 @@ public class MuElement : IMuHasValues, IMuHasAttributes, IMuHasMembers {
 /// MuDocument.
 /// </summary>
 public class MuValues : List<string> {
-    public MuValues() : base() {}
+    public MuValues() {}
     public MuValues(int capacity) : base(capacity) {}
     public MuValues(IEnumerable<string> collection) : base(collection) {}
     
@@ -273,7 +273,7 @@ public class MuValues : List<string> {
 /// MuDocument.
 /// </summary>
 public class MuMembers : List<MuElement> {
-    public MuMembers() : base() {}
+    public MuMembers() {}
     public MuMembers(int capacity) : base(capacity) {}
     public MuMembers(IEnumerable<MuElement> collection) : base(collection) {}
     
@@ -363,7 +363,7 @@ public class MuMembers : List<MuElement> {
 /// Represents a list of attributes belonging to a MuElement.
 /// </summary>
 public class MuAttributes : List<MuAttribute> {
-    public MuAttributes() : base() {}
+    public MuAttributes() {}
     public MuAttributes(int capacity) : base(capacity) {}
     public MuAttributes(IEnumerable<MuAttribute> collection) : base(collection) {}
     public MuAttributes(IEnumerable<KeyValuePair<string, string>> collection) :

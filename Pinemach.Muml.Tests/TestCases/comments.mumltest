@@ -1,0 +1,96 @@
+###
+
+Test cases related to comments.
+
+###
+
+#MUML
+# comment
+e | hello # not a comment!
+# comment
+#JSON
+{"Members": [{
+    "Name": "e",
+    "Text": "hello # not a comment!"
+}]}
+#END
+
+#MUML
+# comment
+e "hello" [x=1] # comment
+# comment
+#JSON
+{"Members": [{
+    "Name": "e",
+    "Text": "hello",
+    "Attributes": [{"Name": "x", "Value": "1"}]
+}]}
+#END
+
+#MUML
+### comment ### first ### comment ###
+e ### comment ### "hello" ### comment ### [x=1]
+### comment ### last ### comment ###
+#JSON
+{"Members": [{
+    "Name": "first"
+}, {
+    "Name": "e",
+    "Text": "hello",
+    "Attributes": [{"Name": "x", "Value": "1"}]
+}, {
+    "Name": "last"
+}]}
+#END
+
+#MUML
+#[ comment #] first #[ comment #]
+e #[ comment #] "hello" #[ comment #] [x=1]
+#[ comment #] last #[ comment #]
+#JSON
+{"Members": [{
+    "Name": "first"
+}, {
+    "Name": "e",
+    "Text": "hello",
+    "Attributes": [{"Name": "x", "Value": "1"}]
+}, {
+    "Name": "last"
+}]}
+#END
+
+#MUML
+#[ #[ #[ #[ #] #] #] #] first #[ #[ #[ #[ #] #] #] #]
+#[ #[ #] #] e #[ #] 'hello' #[ #[ #[ #[ #] #] #] #] [x=1]
+#[ #[ #[ #[ #] #] #] #] last #[ #[ #[ #[ #] #] #] #]
+#JSON
+{"Members": [{
+    "Name": "first"
+}, {
+    "Name": "e",
+    "Text": "hello",
+    "Attributes": [{"Name": "x", "Value": "1"}]
+}, {
+    "Name": "last"
+}]}
+#END
+
+#MUML
+el # line comment that ends at EOF is not an error
+#JSON
+{"Members": [{"Name": "el"}]}
+#END
+
+#MUML
+el ### fence comment that ends at EOF is not an error
+#JSON
+{"Members": [{"Name": "el"}]}
+#END
+
+#MUML
+el #[ nested comments #[ ending at EOF #[ is an error
+#JSON
+{"Members": [{"Name": "el"}]}
+#ERRORS
+UnterminatedNestedBlockComment L1:4
+#END

@@ -86,67 +86,61 @@ e ```` ``` ````
 }]}
 #END
 
-#MUML escape sequences
-e '\0\a\b\t\n\v\f\r\e'
+#MUML
+e | hello 𐍈 []{}()<>?&;=|`'" \n\t\x
 #JSON
 {"Members": [{"Name": "e", "Text":
-    "\u0000\u0007\u0008\u0009\u000a\u000b\u000c\u000d\u001b"
+    "hello 𐍈 []{}()<>?&;=|`'\" \\n\\t\\x"
 }]}
 #END
 
-#MUML escape sequences
-e '\\ \' \"'
+#MUML
+e | one
+  | two
+  | three
 #JSON
 {"Members": [{"Name": "e", "Text":
-    "\u005c \u0027 \u0022"
+    "one two three"
 }]}
 #END
 
-#MUML escape sequences
-e '\x00\x01\x10\x0a\x1B\x7f'
+#MUML
+e   | zero
+    | one
+    | two
+    | three
+    |
+    | four
+    | five
 #JSON
 {"Members": [{"Name": "e", "Text":
-    "\u0000\u0001\u0010\u000a\u001b\u007f"
+    "zero one two three\nfour five"
 }]}
 #END
 
-#MUML escape sequences
-e '\u0000\u0001 \U00000000\U00000001'
+#MUML
+e
+| one
+|
+| two
+| three
 #JSON
 {"Members": [{"Name": "e", "Text":
-    "\u0000\u0001 \u0000\u0001"
+    "one\ntwo three"
 }]}
 #END
 
-#MUML unicode escape sequence 'Ä'
-e 'Ä \xc3\x84 \u00c4 \U000000C4'
+#MUML
+e
+| one
+|
+| two
+| three
+''
+'four' 'five'
 #JSON
 {"Members": [{"Name": "e", "Text":
-    "Ä Ä Ä Ä"
-}]}
-#END
-
-#MUML unicode escape sequence '☺'
-e '☺ \xE2\x98\xBA \u263A \U0000263A'
-#JSON
-{"Members": [{"Name": "e", "Text":
-    "☺ ☺ ☺ ☺"
-}]}
-#END
-
-#MUML unicode escape sequence '𐍈' (surrogate pair)
-e '𐍈 \xF0\x90\x8D\x88 \uD800\uDF48 \U00010348'
-#JSON
-{"Members": [{"Name": "e", "Text":
-    "𐍈 𐍈 𐍈 𐍈"
-}]}
-#END
-
-#MUML unicode escape sequence maximum allowed U+10ffff
-e '􏿿 \xf4\x0f\x3f\x3f \udbff\udfff \U0010ffff'
-#JSON
-{"Members": [{"Name": "e", "Text":
-    "􏿿 􏿿 􏿿 􏿿"
+    "one\ntwo three\nfour five"
 }]}
 #END
 
@@ -178,6 +172,16 @@ e """\"hello""""
 }]}
 #ERRORS
 UnterminatedStringLiteral L1:16
+#END
+
+#MUML
+e ```hello````
+#JSON
+{"Members": [{"Name": "e", "Text":
+    "hello\n"
+}]}
+#ERRORS
+UnterminatedStringLiteral L1:14
 #END
 
 #MUML
