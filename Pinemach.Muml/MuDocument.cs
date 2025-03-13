@@ -36,18 +36,6 @@ public static class MuHasMembersExtensions {
     public static bool HasMembers(this IMuHasMembers obj) => (
         obj.Members != null && obj.Members.Count > 0
     );
-    
-    public static MuElement GetFirstMember(this IMuHasMembers obj) => (
-        obj.Members is { Count: > 0 } ? obj.Members[0] : null
-    );
-    public static MuElement GetLastMember(this IMuHasMembers obj) => (
-        obj.Members is { Count: > 0 } ? obj.Members[^1] : null
-    );
-    
-    public static void AddMember(this IMuHasMembers obj, MuElement el) {
-        obj.Members ??= new();
-        obj.Members.Add(el);
-    }
 }
 
 /// <summary>

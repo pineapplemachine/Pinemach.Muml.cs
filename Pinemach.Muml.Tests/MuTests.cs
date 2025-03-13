@@ -136,23 +136,15 @@ public class MuTests {
         MuElement elSolo = doc.Members[1];
         MuElement elFruits = doc.Members[2];
         Assert.False(elNone.HasMembers());
-        Assert.Null(elNone.GetFirstMember());
-        Assert.Null(elNone.GetLastMember());
         Assert.Equal("{}", elNone.Members.ToString());
         Assert.True(elSolo.HasMembers());
-        Assert.Equal("1", elSolo.GetFirstMember().Name);
-        Assert.Equal("1", elSolo.GetLastMember().Name);
         Assert.Equal("{ 1 }", elSolo.Members.ToString());
         Assert.True(elFruits.HasMembers());
-        Assert.Equal("apple", elFruits.GetFirstMember().Name);
-        Assert.Equal("citrus", elFruits.GetLastMember().Name);
         Assert.Equal("{ apple berry citrus }", elFruits.Members.ToString());
-        // addMember
+        // Members.Add
         Assert.Equal(3, elFruits.Members.Count);
-        elFruits.AddMember(new MuElement("durian"));
+        elFruits.Members.Add(new MuElement("durian"));
         Assert.Equal(4, elFruits.Members.Count);
-        Assert.Equal("apple", elFruits.GetFirstMember().Name);
-        Assert.Equal("durian", elFruits.GetLastMember().Name);
         Assert.Equal("{ apple berry citrus durian }", elFruits.Members.ToString());
     }
     
