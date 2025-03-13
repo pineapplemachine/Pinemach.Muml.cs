@@ -70,12 +70,6 @@ public readonly struct MuToken {
         MuTokenType.NestedBlockComment => true,
         _ => false,
     };
-    public MuCommentType GetCommentType() => this.Type switch {
-        MuTokenType.LineComment => MuCommentType.Line,
-        MuTokenType.FencedComment => MuCommentType.Fenced,
-        MuTokenType.NestedBlockComment => MuCommentType.NestedBlock,
-        _ => MuCommentType.None,
-    };
     
     public bool IsIdentifier() => this.Type == MuTokenType.Identifier;
     public bool IsString() => this.Type == MuTokenType.String;

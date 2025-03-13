@@ -8,28 +8,6 @@ using System.Text;
 namespace Pinemach.Muml;
 
 /// <summary>
-/// Enumeration of possible comment types that a MuElement may represent.
-/// </summary>
-public enum MuCommentType {
-    /// <summary>
-    /// Not a comment.
-    /// </summary>
-    None = 0,
-    /// <summary>
-    /// End of line comment. <pre># comment</pre>
-    /// </summary>
-    Line,
-    /// <summary>
-    /// Fenced comment. <pre>### comment ###</pre>
-    /// </summary>
-    Fenced,
-    /// <summary>
-    /// Nesting block comment. <pre>#[ comment #]</pre>
-    /// </summary>
-    NestedBlock,
-}
-
-/// <summary>
 /// Comparer which checks equality of document content.
 /// </summary>
 public class MuDocumentContentComparer : IEqualityComparer<MuDocument> {
@@ -207,7 +185,6 @@ public class MuDocument : IMuHasValues, IMuHasMembers {
 public class MuElement : IMuHasValues, IMuHasAttributes, IMuHasMembers {
     public string Name;
     public MuSourceSpan SourceSpan;
-    public MuCommentType CommentType;
     public string Text;
     public MuValues Values { get; set; } = new();
     public MuAttributes Attributes { get; set; } = new();
@@ -217,7 +194,6 @@ public class MuElement : IMuHasValues, IMuHasAttributes, IMuHasMembers {
     
     public MuElement(
         string name = null,
-        MuCommentType commentType = MuCommentType.None,
         string text = null,
         IEnumerable<string> values = null,
         IEnumerable<MuAttribute> attributes = null,
@@ -225,7 +201,6 @@ public class MuElement : IMuHasValues, IMuHasAttributes, IMuHasMembers {
     ) : this(
         MuSourceSpan.None,
         name,
-        commentType,
         text,
         values,
         attributes,
@@ -235,7 +210,6 @@ public class MuElement : IMuHasValues, IMuHasAttributes, IMuHasMembers {
     public MuElement(
         MuSourceSpan sourceSpan,
         string name = null,
-        MuCommentType commentType = MuCommentType.None,
         string text = null,
         IEnumerable<string> values = null,
         IEnumerable<MuAttribute> attributes = null,
@@ -243,16 +217,12 @@ public class MuElement : IMuHasValues, IMuHasAttributes, IMuHasMembers {
     ) {
         this.Name = name;
         this.SourceSpan = sourceSpan;
-        this.CommentType = commentType;
         this.Text = text;
         this.Values = MuValues.From(values);
         this.Attributes = MuAttributes.From(attributes);
         this.Members = MuMembers.From(members);
     }
     
-    public bool IsComment() => this.CommentType != MuCommentType.None;
-    public bool IsLineComment() => this.CommentType == MuCommentType.Line;
-    public bool IsNestedBlockComment() => this.CommentType == MuCommentType.NestedBlock;
     public bool HasName() => !string.IsNullOrEmpty(this.Name);
     public bool HasIdentifierName() => MuUtil.IsIdentifierString(this.Name);
     public bool HasText() => !string.IsNullOrEmpty(this.Text);
@@ -263,7 +233,6 @@ public class MuElement : IMuHasValues, IMuHasAttributes, IMuHasMembers {
     public bool ContentEquals(MuElement el) => (
         el != null &&
         this.Name == el.Name &&
-        this.CommentType == el.CommentType &&
         this.Text == el.Text &&
         MuUtil.SequencesEqual(this.Values, el.Values) &&
         MuUtil.SequencesEqual(this.Attributes, el.Attributes) &&
