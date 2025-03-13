@@ -175,7 +175,7 @@ public class MuDocument : IMuHasValues, IMuHasMembers {
     
     public bool HasText() => !string.IsNullOrEmpty(this.Text);
     
-    public override string ToString() => MuWriter.Default.WriteDocument(this);
+    public override string ToString() => MuWriter.Condensed.WriteDocument(this);
     
     public bool ContentEquals(object obj) => this.ContentEquals(obj as MuDocument);
     public bool ContentEquals(MuDocument doc) => (
@@ -237,7 +237,7 @@ public class MuElement : IMuHasValues, IMuHasAttributes, IMuHasMembers {
     public bool HasIdentifierName() => MuUtil.IsIdentifierString(this.Name);
     public bool HasText() => !string.IsNullOrEmpty(this.Text);
     
-    public override string ToString() => MuWriter.Default.WriteElement(this);
+    public override string ToString() => MuWriter.Condensed.WriteElement(this);
     
     public bool ContentEquals(object obj) => this.ContentEquals(obj as MuElement);
     public bool ContentEquals(MuElement el) => (
@@ -265,7 +265,7 @@ public class MuValues : List<string> {
         new()
     );
     
-    public override string ToString() => MuWriter.Default.WriteValues(this);
+    public override string ToString() => MuWriter.Condensed.WriteValues(this);
 }
 
 /// <summary>
@@ -283,7 +283,7 @@ public class MuMembers : List<MuElement> {
         new()
     );
     
-    public override string ToString() => MuWriter.Default.WriteMembers(this);
+    public override string ToString() => MuWriter.Condensed.WriteMembers(this);
     
     /// <summary>
     /// Enumerate all elements in a tree, depth-first.
@@ -515,7 +515,7 @@ public class MuAttributes : List<MuAttribute> {
     /// <summary>
     /// Get a Muml representation of this attribute list.
     /// </summary>
-    public override string ToString() => MuWriter.Default.WriteAttributes(this);
+    public override string ToString() => MuWriter.Condensed.WriteAttributes(this);
 }
 
 /// <summary>
@@ -534,7 +534,7 @@ public struct MuAttribute {
     
     public bool HasValue() => !string.IsNullOrEmpty(this.Value);
     
-    public override string ToString() => MuWriter.Default.WriteAttribute(this);
+    public override string ToString() => MuWriter.Condensed.WriteAttribute(this);
 
     public override int GetHashCode() {
         return HashCode.Combine(this.Name, this.Value);
