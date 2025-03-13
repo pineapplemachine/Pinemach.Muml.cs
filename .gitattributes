@@ -16,6 +16,7 @@
 *.yml text eol=lf
 *.cs text eol=lf
 *.muml text eol=lf
+*.mumltest text eol=lf
 .gitignore text eol=lf
 .gitattributes text eol=lf
 LICENSE text eol=lf

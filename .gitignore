@@ -401,3 +401,5 @@ FodyWeavers.xsd
 
 # This project
 .idea
+Pinemach.Muml.Tests/CoverageReport/*
+*.sublime-workspace
