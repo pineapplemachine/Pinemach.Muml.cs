@@ -7,13 +7,13 @@ using System.Text;
 namespace Pinemach.Muml;
 
 public enum MuTextType {
-    Auto = 0,
     DoubleQuote, // "text"
     SingleQuote, // 'text'
     Backtick, // `text`
     DoubleQuoteFence, // """text"""
     SingleQuoteFence, // '''text'''
     BacktickFence, // ```text```
+    Default = DoubleQuote,
 }
 
 /// <summary>
@@ -320,7 +320,6 @@ public static class MuUtil {
     /// </summary>
     public static string ToQuotedString(string text, MuTextType textType) => textType switch {
         // TODO: fence lengths, fallbacks when not well formed. formatting?
-        MuTextType.Auto => MuUtil.ToQuotedStringDoubleQuoted(text),
         MuTextType.DoubleQuote => MuUtil.ToQuotedStringDoubleQuoted(text),
         MuTextType.SingleQuote => MuUtil.ToQuotedStringSingleQuoted(text),
         MuTextType.Backtick => MuUtil.ToQuotedStringBackticks(text),
@@ -477,9 +476,9 @@ public static class MuUtil {
     /// </summary>
     public static string ToQuotedStringBacktickFence(string text) {
         if(string.IsNullOrEmpty(text)) return "``";
-        int quoteLength = MuUtil.CountMaxConsecutiveChars(text, '\'');
+        int quoteLength = MuUtil.CountMaxConsecutiveChars(text, '`');
         int fenceLength = Math.Max(3, 1 + quoteLength);
-        string fence = new string('\'', fenceLength);
+        string fence = new string('`', fenceLength);
         bool startBacktick = (text[0] == '`');
         bool endBacktick = (text[^1] == '`');
         if(startBacktick && endBacktick) {
@@ -490,7 +489,7 @@ public static class MuUtil {
             return format + fence + ' ' + text + fence;
         }
         else if(endBacktick) {
-            string format = MuUtil.IsWhitespaceChar(text[^0]) ? "|^" : "|;";
+            string format = MuUtil.IsWhitespaceChar(text[0]) ? "|^" : "|;";
             return format + fence + text + ' ' + fence;
         }
         else {

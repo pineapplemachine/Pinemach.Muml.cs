@@ -78,11 +78,6 @@ public static class MuHasValuesExtensions {
         value = ok ? obj.Values[^1] : null;
         return ok;
     }
-    
-    public static void AddValue(this IMuHasValues obj, string el) {
-        obj.Values ??= new();
-        obj.Values.Add(el);
-    }
 }
 
 /// <summary>
@@ -96,28 +91,6 @@ public static class MuHasAttributesExtensions {
     public static bool HasAttributes(this IMuHasAttributes obj) => (
         obj.Attributes != null && obj.Attributes.Count > 0
     );
-    
-    public static MuAttribute? GetFirstAttribute(this IMuHasAttributes obj) => (
-        obj.Attributes is { Count: > 0 } ? obj.Attributes[0] : null
-    );
-    public static MuAttribute? GetLastAttribute(this IMuHasAttributes obj) => (
-        obj.Attributes is { Count: > 0 } ? obj.Attributes[^1] : null
-    );
-    public static bool TryGetFirstAttribute(this IMuHasAttributes obj, out MuAttribute value) {
-        bool ok = obj.Attributes is { Count: > 0 };
-        value = ok ? obj.Attributes[0] : new();
-        return ok;
-    }
-    public static bool TryGetLastAttribute(this IMuHasAttributes obj, out MuAttribute value) {
-        bool ok = obj.Attributes is { Count: > 0 };
-        value = ok ? obj.Attributes[^1] : new();
-        return ok;
-    }
-    
-    public static void AddAttribute(this IMuHasAttributes obj, MuAttribute el) {
-        obj.Attributes ??= new();
-        obj.Attributes.Add(el);
-    }
 }
 
 /// <summary>
@@ -264,6 +237,18 @@ public class MuValues : List<string> {
         values != null ? new(values) :
         new()
     );
+    
+    /// <summary>
+    /// Get a HashSet representation of this attribute list.
+    /// </summary>
+    public HashSet<string> GetHashSet() => new(this);
+    
+    public bool ContainsValue(string value) {
+        foreach(string val in this) {
+            if(val == value) return true;
+        }
+        return false;
+    }
     
     public override string ToString() => MuWriter.Condensed.WriteValues(this);
 }
@@ -412,8 +397,9 @@ public class MuAttributes : List<MuAttribute> {
     /// If not, then add a new attribute with the given name and value.
     /// </summary>
     public void Set(string name, string value) {
-        if(this.Get(name) is {} attr) {
-            attr.Value = value;
+        int i = this.IndexOf(name);
+        if(i >= 0) {
+            this[i] = new MuAttribute(name, value);
         }
         else {
             this.Add(new MuAttribute(name, value));
@@ -453,14 +439,25 @@ public class MuAttributes : List<MuAttribute> {
     }
     
     /// <summary>
-    /// Get the first attribute with a matching name.
-    /// Returns null when there was no matching attribute.
+    /// Get the index of the first attribute with a matching name.
+    /// Returns -1 when there was no matching attribute.
     /// </summary>
-    public MuAttribute? Get(string name) {
-        foreach(MuAttribute attr in this) {
-            if(attr.Name == name) return attr;
+    public int IndexOf(string name) {
+        for(int i = 0; i < this.Count; i++) {
+            if(this[i].Name == name) return i;
         }
-        return null;
+        return -1;
+    }
+    
+    /// <summary>
+    /// Get the index of the last attribute with a matching name.
+    /// Returns -1 when there was no matching attribute.
+    /// </summary>
+    public int LastIndexOf(string name) {
+        for(int i = this.Count - 1; i >= 0; i--) {
+            if(this[i].Name == name) return i;
+        }
+        return -1;
     }
     
     /// <summary>
@@ -492,15 +489,6 @@ public class MuAttributes : List<MuAttribute> {
         }
         value = null;
         return false;
-    }
-    
-    /// <summary>
-    /// Get an enumerable of all attributes with matching names.
-    /// </summary>
-    public IEnumerable<MuAttribute> GetAll(string name) {
-        foreach(MuAttribute attr in this) {
-            if(attr.Name == name) yield return attr;
-        }
     }
     
     /// <summary>
@@ -571,16 +559,14 @@ public struct MuAttribute {
         NumberStyles.Integer |
         NumberStyles.AllowThousands |
         NumberStyles.AllowTrailingSign |
-        NumberStyles.AllowParentheses |
-        NumberStyles.AllowHexSpecifier
+        NumberStyles.AllowParentheses
     );
     private const NumberStyles FloatNumberStyles = (
         NumberStyles.Float |
         NumberStyles.Number |
         NumberStyles.AllowThousands |
         NumberStyles.AllowTrailingSign |
-        NumberStyles.AllowParentheses |
-        NumberStyles.AllowHexSpecifier
+        NumberStyles.AllowParentheses
     );
     
     /// <summary>
@@ -591,10 +577,7 @@ public struct MuAttribute {
     /// <summary>
     /// Get the attribute's value, coerced to a boolean.
     /// </summary>
-    public bool AsBool() => (
-        string.IsNullOrEmpty(this.Value) ||
-        this.Value.ToLowerInvariant() is "f" or "false"
-    );
+    public bool AsBool() => (this.Value == "true");
     
     /// <summary>
     /// Get the attribute's value, coerced to an int.
@@ -624,7 +607,7 @@ public struct MuAttribute {
         MuAttribute.FloatNumberStyles,
         CultureInfo.InvariantCulture,
         out float result
-    ) ? result : 0;
+    ) ? result : float.NaN;
     
     /// <summary>
     /// Get the attribute's value, coerced to a double.
@@ -634,5 +617,5 @@ public struct MuAttribute {
         MuAttribute.FloatNumberStyles,
         CultureInfo.InvariantCulture,
         out double result
-    ) ? result : 0;
+    ) ? result : double.NaN;
 }

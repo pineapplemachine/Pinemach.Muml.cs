@@ -25,15 +25,38 @@ public class MuWriter {
     public MuTextType PreferAttributeValueType;
     public bool ReduceSpaces;
     
+    public MuWriter() : this(MuWriter.DefaultIndent, MuWriter.DefaultNewline) {}
+    public MuWriter(string indent) : this(indent, MuWriter.DefaultNewline) {}
+    public MuWriter(string indent, string newline, bool reduceSpaces = false) :
+        this(indent, newline, MuTextType.Default, reduceSpaces: reduceSpaces)
+    {}
+    
     public MuWriter(
-        string indent = MuWriter.DefaultIndent,
-        string newline = MuWriter.DefaultNewline,
-        MuTextType preferHeaderType = MuTextType.Auto,
-        MuTextType preferTagType = MuTextType.Auto,
-        MuTextType preferValueType = MuTextType.Auto,
-        MuTextType preferTextType = MuTextType.Auto,
-        MuTextType preferAttributeNameType = MuTextType.Auto,
-        MuTextType preferAttributeValueType = MuTextType.Auto,
+        string indent,
+        string newline,
+        MuTextType preferTextType,
+        bool reduceSpaces = false
+    ) : this(
+        indent,
+        newline,
+        preferHeaderType: preferTextType,
+        preferTagType: preferTextType,
+        preferValueType: preferTextType,
+        preferTextType: preferTextType,
+        preferAttributeNameType: preferTextType,
+        preferAttributeValueType: preferTextType,
+        reduceSpaces: reduceSpaces
+    ) {}
+    
+    public MuWriter(
+        string indent,
+        string newline,
+        MuTextType preferHeaderType,
+        MuTextType preferTagType,
+        MuTextType preferValueType,
+        MuTextType preferTextType,
+        MuTextType preferAttributeNameType,
+        MuTextType preferAttributeValueType,
         bool reduceSpaces = false
     ) {
         this.Indent = indent;
