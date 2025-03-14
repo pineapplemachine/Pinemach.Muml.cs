@@ -47,9 +47,11 @@ body {
 
 This package can be installed with NuGet, e.g. via `nuget install Pinemach.Muml` in a CLI.
 
-**Complete API documentation** for `Pinemach.Muml` is here:
+**Generated API documentation** for `Pinemach.Muml` is here:
 
-Here's a basic usage example:
+https://pineapplemachine.github.io/Pinemach.Muml.cs/
+
+Basic usage example:
 
 ```cs
 using Pinemach.Muml;
