@@ -122,6 +122,14 @@ public class MuTests {
             new List<string> {"root", "h1", "bool", "false", "true", "vector", "eq=", "footer"},
             doc.Members.EnumerateTreeBreadthFirst().Select(el => el.Name)
         );
+        Assert.Equal(
+            "root [hello=world] { " +
+            "h1 \"Example text\" bool { false true } " +
+            "vector [x=1 y=2 z=3] {\"eq=\"} =1 =1 =2 =2 " +
+            "} " +
+            "footer=bottom [a=1 a=2 a=3]",
+            doc.ToString()
+        );
     }
     
     [Fact]
@@ -317,12 +325,12 @@ public class MuTests {
             "el `\"\"\"` el ` \"\"\"` el `\"\"\" ` el ` \"\"\" ` " +
             "el '```' el ' ```' el '``` ' el ' ``` '"
         );
-        Assert.Equal(doc, MuDocument.Parse(doc.Write(new(null, " ", MuTextType.DoubleQuote))), MuDocumentContentComparer.Instance);
-        Assert.Equal(doc, MuDocument.Parse(doc.Write(new(null, " ", MuTextType.SingleQuote))), MuDocumentContentComparer.Instance);
-        Assert.Equal(doc, MuDocument.Parse(doc.Write(new(null, " ", MuTextType.Backtick))), MuDocumentContentComparer.Instance);
-        Assert.Equal(doc, MuDocument.Parse(doc.Write(new(null, " ", MuTextType.DoubleQuoteFence))), MuDocumentContentComparer.Instance);
-        Assert.Equal(doc, MuDocument.Parse(doc.Write(new(null, " ", MuTextType.SingleQuoteFence))), MuDocumentContentComparer.Instance);
-        Assert.Equal(doc, MuDocument.Parse(doc.Write(new(null, " ", MuTextType.BacktickFence))), MuDocumentContentComparer.Instance);
+        Assert.Equal(doc, MuDocument.Parse(doc.ToString(new(null, " ", MuTextType.DoubleQuote))), MuDocumentContentComparer.Instance);
+        Assert.Equal(doc, MuDocument.Parse(doc.ToString(new(null, " ", MuTextType.SingleQuote))), MuDocumentContentComparer.Instance);
+        Assert.Equal(doc, MuDocument.Parse(doc.ToString(new(null, " ", MuTextType.Backtick))), MuDocumentContentComparer.Instance);
+        Assert.Equal(doc, MuDocument.Parse(doc.ToString(new(null, " ", MuTextType.DoubleQuoteFence))), MuDocumentContentComparer.Instance);
+        Assert.Equal(doc, MuDocument.Parse(doc.ToString(new(null, " ", MuTextType.SingleQuoteFence))), MuDocumentContentComparer.Instance);
+        Assert.Equal(doc, MuDocument.Parse(doc.ToString(new(null, " ", MuTextType.BacktickFence))), MuDocumentContentComparer.Instance);
     }
     
     [Fact]

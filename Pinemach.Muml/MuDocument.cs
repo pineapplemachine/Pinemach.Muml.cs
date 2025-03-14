@@ -11,10 +11,21 @@ namespace Pinemach.Muml;
 /// Interface implemented by MuDocument and MuElement.
 /// </summary>
 public interface IMuHasMembers {
+    /// <summary>
+    /// Members belonging to this object.
+    /// In a document, members are all top-level elements.
+    /// An element's members are enclosed within curly braces.
+    /// </summary>
     public MuMembers Members { get; set; }
 }
 
+/// <summary>
+/// Extension methods for MuDocument and MuElement objects.
+/// </summary>
 public static class MuHasMembersExtensions {
+    /// <summary>
+    /// Returns true when the object has at least one member.
+    /// </summary>
     public static bool HasMembers(this IMuHasMembers obj) => (
         obj.Members.Count > 0
     );
@@ -24,10 +35,20 @@ public static class MuHasMembersExtensions {
 /// Interface implemented by MuDocument and MuElement.
 /// </summary>
 public interface IMuHasValues {
+    /// <summary>
+    /// Values belonging to this object.
+    /// Values are text preceded with an equals sign.
+    /// </summary>
     public MuValues Values { get; set; }
 }
 
+/// <summary>
+/// Extension methods for MuDocument and MuElement objects.
+/// </summary>
 public static class MuHasValuesExtensions {
+    /// <summary>
+    /// Returns true when the object has at least one value.
+    /// </summary>
     public static bool HasValues(this IMuHasValues obj) => (
         obj.Values.Count > 0
     );
@@ -54,10 +75,20 @@ public static class MuHasValuesExtensions {
 /// Interface implemented by MuElement.
 /// </summary>
 public interface IMuHasAttributes {
+    /// <summary>
+    /// Attributes belonging to this object.
+    /// Attributes are key, value pairs, with non-unique keys.
+    /// </summary>
     public MuAttributes Attributes { get; set; }
 }
 
+/// <summary>
+/// Extension methods for MuElement objects.
+/// </summary>
 public static class MuHasAttributesExtensions {
+    /// <summary>
+    /// Returns true when the object has at least one attribute.
+    /// </summary>
     public static bool HasAttributes(this IMuHasAttributes obj) => (
         obj.Attributes.Count > 0
     );
@@ -69,7 +100,15 @@ public static class MuHasAttributesExtensions {
 /// plus optional header content.
 /// </summary>
 public class MuDocument : IMuHasValues, IMuHasMembers {
+    /// <summary>
+    /// Error log object, representing errors which occurred while parsing
+    /// this document.
+    /// </summary>
     public readonly MuSourceErrors Errors = new();
+    
+    /// <summary>
+    /// Returns true when the document has no parse errors associated with it.
+    /// </summary>
     public bool IsOk() => (this.Errors.Count == 0);
     
     public string? Text;
@@ -91,39 +130,70 @@ public class MuDocument : IMuHasValues, IMuHasMembers {
         this.Members = MuMembers.From(members);
         this.Errors = MuSourceErrors.From(errors);
     }
-    
+    /// <summary>
+    /// Parse and produce a MuDocument given a Muml document file.
+    /// </summary>
     public static MuDocument Load(string filePath) => MuDocument.Parse(filePath, new StreamReader(filePath));
+    
+    /// <inheritdoc cref="Load(string)"/>
     public static MuDocument Load(string filePath, Encoding encoding) => MuDocument.Parse(filePath, new StreamReader(filePath, encoding));
     
+    /// <summary>
+    /// Parse and produce a MuDocument given a Muml source.
+    /// </summary>
     public static MuDocument Parse(string source) => MuDocument.Parse(null, new StringReader(source));
+    
+    /// <inheritdoc cref="Parse(string)"/>
     public static MuDocument Parse(TextReader reader) => MuDocument.Parse(null, reader);
+    
+    /// <inheritdoc cref="Parse(string)"/>
     public static MuDocument Parse(string? fileName, string source) => MuDocument.Parse(fileName, new StringReader(source));
+    
+    /// <inheritdoc cref="Parse(string)"/>
     public static MuDocument Parse(string? fileName, TextReader reader) {
         MuParser parser = new(fileName, reader);
         parser.Parse();
         return parser.Document;
     }
     
-    public string Write() => this.Write(MuWriter.Default);
-    public string Write(MuWriter writer) => writer.WriteDocument(this);
-    public void Write(MuWriter writer, TextWriter textWriter) => writer.WriteDocument(this, textWriter);
-    
+    /// <summary>
+    /// Encode the document as Muml and write it to a destination.
+    /// </summary>
     public void Save(TextWriter textWriter) => MuWriter.Default.WriteDocument(this, textWriter);
+    
+    /// <inheritdoc cref="Save(TextWriter)"/>
     public void Save(TextWriter textWriter, MuWriter mumlWriter) => mumlWriter.WriteDocument(this, textWriter);
+    
+    /// <inheritdoc cref="Save(TextWriter)"/>
     public void Save(string path) => this.Save(path, MuWriter.Default);
+    
+    /// <inheritdoc cref="Save(TextWriter)"/>
     public void Save(string path, MuWriter mumlWriter) {
         using StreamWriter writer = new(path);
         mumlWriter.WriteDocument(this, writer);
     }
     
-    public bool HasText() => !string.IsNullOrEmpty(this.Text);
+    /// <summary>
+    /// Returns true if the document has non-null text.
+    /// </summary>
+    public bool HasText() => this.Text is not null;
     
     /// <summary>
     /// Get a Muml representation of this document.
     /// </summary>
     public override string ToString() => MuWriter.Condensed.WriteDocument(this);
     
+    /// <summary>
+    /// Get a Muml representation of this document, using the settings of a given MuWriter.
+    /// </summary>
+    public string ToString(MuWriter writer) => writer.WriteDocument(this);
+    
+    /// <summary>
+    /// Compare equality of the contents of this document with another.
+    /// </summary>
     public bool ContentEquals(object obj) => this.ContentEquals(obj as MuDocument);
+
+    /// <inheritdoc cref="ContentEquals(object)" />
     public bool ContentEquals(MuDocument? doc) => (
         doc is not null &&
         this.Text == doc.Text &&
@@ -179,16 +249,29 @@ public class MuElement : IMuHasValues, IMuHasAttributes, IMuHasMembers {
         this.Members = MuMembers.From(members);
     }
     
-    public bool HasName() => !string.IsNullOrEmpty(this.Name);
+    /// <summary>
+    /// Returns true when this element's name is possible to represent
+    /// as a plain identifier string.
+    /// Otherwise, the element's name can only be represented using a
+    /// braced identifier.
+    /// </summary>
     public bool HasIdentifierName() => MuUtil.IsIdentifierString(this.Name);
-    public bool HasText() => !string.IsNullOrEmpty(this.Text);
+    
+    /// <summary>
+    /// Returns true if the element has non-null text.
+    /// </summary>
+    public bool HasText() => this.Text is not null;
     
     /// <summary>
     /// Get a Muml representation of this element.
     /// </summary>
     public override string ToString() => MuWriter.Condensed.WriteElement(this);
     
+    /// <summary>
+    /// Compare equality of the contents of this element with another.
+    /// </summary>
     public bool ContentEquals(object obj) => this.ContentEquals(obj as MuElement);
+    /// <inheritdoc cref="ContentEquals(object)" />
     public bool ContentEquals(MuElement? el) => (
         el is not null &&
         this.Name == el.Name &&
