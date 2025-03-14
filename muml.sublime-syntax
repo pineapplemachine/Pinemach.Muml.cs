@@ -14,7 +14,7 @@ file_extensions:
 
 variables:
   escape: '\\[0abtnvfre"''\\]|\\x[0-9a-fA-F]{2}|\\u[0-9a-fA-F]{4}|\\U[0-9a-fA-F]{8}'
-  plain_identifier: '[^ \t\r\n`''"()\[\]{}|&;#=]+'
+  plain_identifier: '[^ \t\r\n`''"()\[\]{}|&;,#=]+'
 
 contexts:
   main:

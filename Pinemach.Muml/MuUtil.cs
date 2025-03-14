@@ -22,12 +22,12 @@ public enum MuTextType {
 public static class MuUtil {
     /// <summary>
     /// Check whether a character is a Muml metacharacter.
-    /// The metacharacters are ASCII <pre>#=|;&amp;()[]{}`'"</pre>.
+    /// The metacharacters are ASCII <pre>#=|,;&amp;()[]{}`'"</pre>.
     /// This includes hashes, equals, open and close braces, open and close
     /// brackets, backticks, single quotes, and double quotes.
     /// </summary>
     public static bool IsMetaChar(int ch) => (
-        ch is '#' or '=' or '|' or '&' or ';' or '(' or ')' or '[' or ']' or '{' or '}' or '`' or '"' or '\''
+        ch is '#' or '=' or '|' or '&' or ';' or ',' or '(' or ')' or '[' or ']' or '{' or '}' or '`' or '"' or '\''
     );
     
     /// <summary>

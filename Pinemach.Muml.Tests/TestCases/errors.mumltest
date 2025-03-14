@@ -6,22 +6,22 @@ possible parsing errors.
 ###
 
 #MUML reserved metacharacters
-hello & '&;()' ; # &;()
-{'&;()'} ( '' )
+hello & '&;,()' ; # &;,()
+{'&;,()'} ( '' )
 #JSON
 {"Members": [
-    {"Name": "hello", "Text": "&;()"},
-    {"Name": "&;()", "Text": ""}
+    {"Name": "hello", "Text": "&;,()"},
+    {"Name": "&;,()", "Text": ""}
 ]}
 #ERRORS
 UnexpectedCharacter L1:7
-UnexpectedCharacter L1:16
-UnexpectedCharacter L2:10
-UnexpectedCharacter L2:15
+UnexpectedCharacter L1:17
+UnexpectedCharacter L2:11
+UnexpectedCharacter L2:16
 #END
 
 #MUML reserved metacharacters error condensing
-hello &;() 'world' ;()&
+hello &;() 'world' ;()&,
 #JSON
 {"Members": [{"Name": "hello", "Text": "world"}]}
 #ERRORS
