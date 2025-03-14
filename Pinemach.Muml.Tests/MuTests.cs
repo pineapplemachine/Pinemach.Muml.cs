@@ -19,7 +19,7 @@ public readonly struct MuTestCase {
         this.Json = json;
         this.Errors = errors;
     }
-
+    
     public override string ToString() => (
         (string.IsNullOrEmpty(this.Muml) ? "#MUML_BLANK\n" : $"#MUML\n{this.Muml}\n") +
         $"#JSON\n{this.Json}\n" +
@@ -102,15 +102,15 @@ public class MuTests {
     
     [Fact]
     public void DocumentAccessApi() {
-        MuDocument doc = MuDocument.Parse("""
-            root [hello=world] {
-                h1 | Example text
-                bool { false true }
-                vector [x=1 y=2 z=3]
-                {"eq="} =1 =1 =2 =2
-            }
-            footer=bottom [a=1 a=2 a=3]
-        """);
+        MuDocument doc = MuDocument.Parse(
+            "root [hello=world] { " +
+            "    h1 'Example text' " +
+            "    bool { false true } " +
+            "    vector [x=1 y=2 z=3] " +
+            "    {'eq='} =1 =1 =2 =2 " +
+            "} " +
+            "footer=bottom [a=1 a=2 a=3]"
+        );
         Assert.False(doc.HasText());
         Assert.False(doc.HasValues());
         Assert.Equal(3, doc.Members.GetDepth());
@@ -126,11 +126,11 @@ public class MuTests {
     
     [Fact]
     public void HasMembers() {
-        MuDocument doc = MuDocument.Parse("""
-            none {}
-            solo { 1 }
-            fruits { apple berry citrus }
-        """);
+        MuDocument doc = MuDocument.Parse(
+            "none {} " +
+            "solo { 1 } " +
+            "fruits { apple berry citrus }"
+        );
         Assert.Equal(3, doc.Members.Count);
         MuElement elNone = doc.Members[0];
         MuElement elSolo = doc.Members[1];
@@ -150,11 +150,11 @@ public class MuTests {
     
     [Fact]
     public void HasValues() {
-        MuDocument doc = MuDocument.Parse("""
-            none
-            one=value
-            multi =1 =2 =3 =1 =2 =3
-        """);
+        MuDocument doc = MuDocument.Parse(
+            "none " +
+            "one=value " +
+            "multi =1 =2 =3 =1 =2 =3"
+        );
         Assert.Equal(3, doc.Members.Count);
         MuElement elNone = doc.Members[0];
         MuElement elOne = doc.Members[1];
@@ -178,12 +178,12 @@ public class MuTests {
     
     [Fact]
     public void HasAttributes() {
-        MuDocument doc = MuDocument.Parse("""
-            none
-            one [name=value]
-            vector [x=1 y=2 z=3]
-            repeat [a=1 b=2 a=3 b=4]
-        """);
+        MuDocument doc = MuDocument.Parse(
+            "none " +
+            "one [name=value] " +
+            "vector [x=1 y=2 z=3] " +
+            "repeat [a=1 b=2 a=3 b=4]"
+        );
         Assert.Equal(4, doc.Members.Count);
         MuElement elNone = doc.Members[0];
         MuElement elOne = doc.Members[1];
@@ -309,14 +309,14 @@ public class MuTests {
     
     [Fact]
     public void WriteStrings() {
-        MuDocument doc = MuDocument.Parse("""
-            el `'x'` el `'x` el `x'` el `'x ` el ` x'`
-            el `"x"` el `"x` el `x"` el `"x ` el ` x"`
-            el '`x`' el '`x' el 'x`' el '`x ' el ' x`'
-            el `'''` el ` '''` el `''' ` el ` ''' `
-            el `\"\"\"` el ` \"\"\"` el `\"\"\" ` el ` \"\"\" `
-            el '```' el ' ```' el '``` ' el ' ``` '
-        """);
+        MuDocument doc = MuDocument.Parse(
+            "el `'x'` el `'x` el `x'` el `'x ` el ` x'` " +
+            "el `\"x\"` el `\"x` el `x\"` el `\"x ` el ` x\"` " +
+            "el '`x`' el '`x' el 'x`' el '`x ' el ' x`' " +
+            "el `'''` el ` '''` el `''' ` el ` ''' ` " +
+            "el `\"\"\"` el ` \"\"\"` el `\"\"\" ` el ` \"\"\" ` " +
+            "el '```' el ' ```' el '``` ' el ' ``` '"
+        );
         Assert.Equal(doc, MuDocument.Parse(doc.Write(new(null, " ", MuTextType.DoubleQuote))), MuDocumentContentComparer.Instance);
         Assert.Equal(doc, MuDocument.Parse(doc.Write(new(null, " ", MuTextType.SingleQuote))), MuDocumentContentComparer.Instance);
         Assert.Equal(doc, MuDocument.Parse(doc.Write(new(null, " ", MuTextType.Backtick))), MuDocumentContentComparer.Instance);
