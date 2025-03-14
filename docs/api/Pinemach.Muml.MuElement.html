@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class MuElement | Pinemach.Muml </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class MuElement | Pinemach.Muml ">
+      
+      <meta name="description" content="Represents an element within a Muml document. Elements are the fundamental unit of structure and data within a document. name=value &quot;text&quot; [attrName=attrValue] {memberName}">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/pineapplemachine/Pinemach.Muml.cs/new/docs/apiSpec/new?filename=Pinemach_Muml_MuElement.md&amp;value=---%0Auid%3A%20Pinemach.Muml.MuElement%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+    <!-- Add Muml code block highlighting -->
+    <script src="./../public/highlight.min.js"></script>
+    <script src="./../public/highlight-muml.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        hljs.highlightAll();
+    });
+    </script>
+
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Pinemach.Muml">
+            Pinemach.Muml
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Pinemach.Muml.MuElement">
+
+
+
+  <h1 id="Pinemach_Muml_MuElement" data-uid="Pinemach.Muml.MuElement" class="text-break">
+Class MuElement  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuDocument.cs/#L156"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Pinemach.html">Pinemach</a>.<a class="xref" href="Pinemach.Muml.html">Muml</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Pinemach.Muml.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Represents an element within a Muml document.
+Elements are the fundamental unit of structure and data within
+a document.</p>
+<pre>name=value "text" [attrName=attrValue] {memberName}</pre>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class MuElement : IMuHasValues, IMuHasAttributes, IMuHasMembers</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">MuElement</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="Pinemach.Muml.IMuHasValues.html">IMuHasValues</a></div>
+      <div><a class="xref" href="Pinemach.Muml.IMuHasAttributes.html">IMuHasAttributes</a></div>
+      <div><a class="xref" href="Pinemach.Muml.IMuHasMembers.html">IMuHasMembers</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+  </dd></dl>
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="Pinemach.Muml.MuHasAttributesExtensions.html#Pinemach_Muml_MuHasAttributesExtensions_HasAttributes_Pinemach_Muml_IMuHasAttributes_">MuHasAttributesExtensions.HasAttributes(IMuHasAttributes)</a>
+  </div>
+  <div>
+      <a class="xref" href="Pinemach.Muml.MuHasMembersExtensions.html#Pinemach_Muml_MuHasMembersExtensions_HasMembers_Pinemach_Muml_IMuHasMembers_">MuHasMembersExtensions.HasMembers(IMuHasMembers)</a>
+  </div>
+  <div>
+      <a class="xref" href="Pinemach.Muml.MuHasValuesExtensions.html#Pinemach_Muml_MuHasValuesExtensions_GetFirstValue_Pinemach_Muml_IMuHasValues_">MuHasValuesExtensions.GetFirstValue(IMuHasValues)</a>
+  </div>
+  <div>
+      <a class="xref" href="Pinemach.Muml.MuHasValuesExtensions.html#Pinemach_Muml_MuHasValuesExtensions_GetLastValue_Pinemach_Muml_IMuHasValues_">MuHasValuesExtensions.GetLastValue(IMuHasValues)</a>
+  </div>
+  <div>
+      <a class="xref" href="Pinemach.Muml.MuHasValuesExtensions.html#Pinemach_Muml_MuHasValuesExtensions_HasValues_Pinemach_Muml_IMuHasValues_">MuHasValuesExtensions.HasValues(IMuHasValues)</a>
+  </div>
+  <div>
+      <a class="xref" href="Pinemach.Muml.MuHasValuesExtensions.html#Pinemach_Muml_MuHasValuesExtensions_TryGetFirstValue_Pinemach_Muml_IMuHasValues_System_String__">MuHasValuesExtensions.TryGetFirstValue(IMuHasValues, out string?)</a>
+  </div>
+  <div>
+      <a class="xref" href="Pinemach.Muml.MuHasValuesExtensions.html#Pinemach_Muml_MuHasValuesExtensions_TryGetLastValue_Pinemach_Muml_IMuHasValues_System_String__">MuHasValuesExtensions.TryGetLastValue(IMuHasValues, out string?)</a>
+  </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Pinemach_Muml_MuElement__ctor_" data-uid="Pinemach.Muml.MuElement.#ctor*"></a>
+
+  <h3 id="Pinemach_Muml_MuElement__ctor" data-uid="Pinemach.Muml.MuElement.#ctor">
+  MuElement()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuDocument.cs/#L164"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MuElement()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuElement__ctor_" data-uid="Pinemach.Muml.MuElement.#ctor*"></a>
+
+  <h3 id="Pinemach_Muml_MuElement__ctor_Pinemach_Muml_MuSourceSpan_System_String_System_String_System_Collections_Generic_IEnumerable_System_String__System_Collections_Generic_IEnumerable_Pinemach_Muml_MuAttribute__System_Collections_Generic_IEnumerable_Pinemach_Muml_MuElement__" data-uid="Pinemach.Muml.MuElement.#ctor(Pinemach.Muml.MuSourceSpan,System.String,System.String,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{Pinemach.Muml.MuAttribute},System.Collections.Generic.IEnumerable{Pinemach.Muml.MuElement})">
+  MuElement(MuSourceSpan, string, string?, IEnumerable&lt;string&gt;?, IEnumerable&lt;MuAttribute&gt;?, IEnumerable&lt;MuElement&gt;?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuDocument.cs/#L181"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MuElement(MuSourceSpan sourceSpan, string name, string? text = null, IEnumerable&lt;string&gt;? values = null, IEnumerable&lt;MuAttribute&gt;? attributes = null, IEnumerable&lt;MuElement&gt;? members = null)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>sourceSpan</code> <a class="xref" href="Pinemach.Muml.MuSourceSpan.html">MuSourceSpan</a></dt>
+    <dd></dd>
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>text</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>values</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd></dd>
+    <dt><code>attributes</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Pinemach.Muml.MuAttribute.html">MuAttribute</a>&gt;</dt>
+    <dd></dd>
+    <dt><code>members</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Pinemach.Muml.MuElement.html">MuElement</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuElement__ctor_" data-uid="Pinemach.Muml.MuElement.#ctor*"></a>
+
+  <h3 id="Pinemach_Muml_MuElement__ctor_System_String_System_String_System_Collections_Generic_IEnumerable_System_String__System_Collections_Generic_IEnumerable_Pinemach_Muml_MuAttribute__System_Collections_Generic_IEnumerable_Pinemach_Muml_MuElement__" data-uid="Pinemach.Muml.MuElement.#ctor(System.String,System.String,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{Pinemach.Muml.MuAttribute},System.Collections.Generic.IEnumerable{Pinemach.Muml.MuElement})">
+  MuElement(string, string?, IEnumerable&lt;string&gt;?, IEnumerable&lt;MuAttribute&gt;?, IEnumerable&lt;MuElement&gt;?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuDocument.cs/#L166"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MuElement(string name, string? text = null, IEnumerable&lt;string&gt;? values = null, IEnumerable&lt;MuAttribute&gt;? attributes = null, IEnumerable&lt;MuElement&gt;? members = null)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>text</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>values</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd></dd>
+    <dt><code>attributes</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Pinemach.Muml.MuAttribute.html">MuAttribute</a>&gt;</dt>
+    <dd></dd>
+    <dt><code>members</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Pinemach.Muml.MuElement.html">MuElement</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="fields">Fields
+</h2>
+
+
+
+  <h3 id="Pinemach_Muml_MuElement_Name" data-uid="Pinemach.Muml.MuElement.Name">
+  Name
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuDocument.cs/#L157"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Name</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Pinemach_Muml_MuElement_SourceSpan" data-uid="Pinemach.Muml.MuElement.SourceSpan">
+  SourceSpan
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuDocument.cs/#L158"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MuSourceSpan SourceSpan</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Pinemach.Muml.MuSourceSpan.html">MuSourceSpan</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Pinemach_Muml_MuElement_Text" data-uid="Pinemach.Muml.MuElement.Text">
+  Text
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuDocument.cs/#L159"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string? Text</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Pinemach_Muml_MuElement_Attributes_" data-uid="Pinemach.Muml.MuElement.Attributes*"></a>
+
+  <h3 id="Pinemach_Muml_MuElement_Attributes" data-uid="Pinemach.Muml.MuElement.Attributes">
+  Attributes
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuDocument.cs/#L161"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MuAttributes Attributes { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Pinemach.Muml.MuAttributes.html">MuAttributes</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuElement_Members_" data-uid="Pinemach.Muml.MuElement.Members*"></a>
+
+  <h3 id="Pinemach_Muml_MuElement_Members" data-uid="Pinemach.Muml.MuElement.Members">
+  Members
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuDocument.cs/#L162"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MuMembers Members { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Pinemach.Muml.MuMembers.html">MuMembers</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuElement_Values_" data-uid="Pinemach.Muml.MuElement.Values*"></a>
+
+  <h3 id="Pinemach_Muml_MuElement_Values" data-uid="Pinemach.Muml.MuElement.Values">
+  Values
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuDocument.cs/#L160"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MuValues Values { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Pinemach.Muml.MuValues.html">MuValues</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Pinemach_Muml_MuElement_ContentEquals_" data-uid="Pinemach.Muml.MuElement.ContentEquals*"></a>
+
+  <h3 id="Pinemach_Muml_MuElement_ContentEquals_Pinemach_Muml_MuElement_" data-uid="Pinemach.Muml.MuElement.ContentEquals(Pinemach.Muml.MuElement)">
+  ContentEquals(MuElement?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuDocument.cs/#L204"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool ContentEquals(MuElement? el)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>el</code> <a class="xref" href="Pinemach.Muml.MuElement.html">MuElement</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuElement_ContentEquals_" data-uid="Pinemach.Muml.MuElement.ContentEquals*"></a>
+
+  <h3 id="Pinemach_Muml_MuElement_ContentEquals_System_Object_" data-uid="Pinemach.Muml.MuElement.ContentEquals(System.Object)">
+  ContentEquals(object)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuDocument.cs/#L203"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool ContentEquals(object obj)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>obj</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuElement_HasIdentifierName_" data-uid="Pinemach.Muml.MuElement.HasIdentifierName*"></a>
+
+  <h3 id="Pinemach_Muml_MuElement_HasIdentifierName" data-uid="Pinemach.Muml.MuElement.HasIdentifierName">
+  HasIdentifierName()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuDocument.cs/#L198"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool HasIdentifierName()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuElement_HasName_" data-uid="Pinemach.Muml.MuElement.HasName*"></a>
+
+  <h3 id="Pinemach_Muml_MuElement_HasName" data-uid="Pinemach.Muml.MuElement.HasName">
+  HasName()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuDocument.cs/#L197"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool HasName()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuElement_HasText_" data-uid="Pinemach.Muml.MuElement.HasText*"></a>
+
+  <h3 id="Pinemach_Muml_MuElement_HasText" data-uid="Pinemach.Muml.MuElement.HasText">
+  HasText()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuDocument.cs/#L199"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool HasText()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuElement_ToString_" data-uid="Pinemach.Muml.MuElement.ToString*"></a>
+
+  <h3 id="Pinemach_Muml_MuElement_ToString" data-uid="Pinemach.Muml.MuElement.ToString">
+  ToString()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuDocument.cs/#L201"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns a string that represents the current object.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>A string that represents the current object.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuDocument.cs/#L156" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

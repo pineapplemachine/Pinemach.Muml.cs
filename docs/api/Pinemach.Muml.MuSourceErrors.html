@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class MuSourceErrors | Pinemach.Muml </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class MuSourceErrors | Pinemach.Muml ">
+      
+      <meta name="description" content="Represents the list of errors encountered while parsing Muml source.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/pineapplemachine/Pinemach.Muml.cs/new/docs/apiSpec/new?filename=Pinemach_Muml_MuSourceErrors.md&amp;value=---%0Auid%3A%20Pinemach.Muml.MuSourceErrors%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+    <!-- Add Muml code block highlighting -->
+    <script src="./../public/highlight.min.js"></script>
+    <script src="./../public/highlight-muml.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        hljs.highlightAll();
+    });
+    </script>
+
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Pinemach.Muml">
+            Pinemach.Muml
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Pinemach.Muml.MuSourceErrors">
+
+
+
+  <h1 id="Pinemach_Muml_MuSourceErrors" data-uid="Pinemach.Muml.MuSourceErrors" class="text-break">
+Class MuSourceErrors  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L128"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Pinemach.html">Pinemach</a>.<a class="xref" href="Pinemach.Muml.html">Muml</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Pinemach.Muml.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Represents the list of errors encountered while parsing Muml source.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class MuSourceErrors : List&lt;MuSourceError&gt;, IList&lt;MuSourceError&gt;, ICollection&lt;MuSourceError&gt;, IReadOnlyList&lt;MuSourceError&gt;, IReadOnlyCollection&lt;MuSourceError&gt;, IEnumerable&lt;MuSourceError&gt;, IList, ICollection, IEnumerable</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="Pinemach.Muml.MuSourceError.html">MuSourceError</a>&gt;</div>
+      <div><span class="xref">MuSourceErrors</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="Pinemach.Muml.MuSourceError.html">MuSourceError</a>&gt;</div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1">ICollection</a>&lt;<a class="xref" href="Pinemach.Muml.MuSourceError.html">MuSourceError</a>&gt;</div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="Pinemach.Muml.MuSourceError.html">MuSourceError</a>&gt;</div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1">IReadOnlyCollection</a>&lt;<a class="xref" href="Pinemach.Muml.MuSourceError.html">MuSourceError</a>&gt;</div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Pinemach.Muml.MuSourceError.html">MuSourceError</a>&gt;</div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.ilist">IList</a></div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.icollection">ICollection</a></div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.ienumerable">IEnumerable</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.add">List&lt;MuSourceError&gt;.Add(MuSourceError)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.addrange">List&lt;MuSourceError&gt;.AddRange(IEnumerable&lt;MuSourceError&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.asreadonly">List&lt;MuSourceError&gt;.AsReadOnly()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.binarysearch#system-collections-generic-list-1-binarysearch(system-int32-system-int32-0-system-collections-generic-icomparer((-0)))">List&lt;MuSourceError&gt;.BinarySearch(int, int, MuSourceError, IComparer&lt;MuSourceError&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.binarysearch#system-collections-generic-list-1-binarysearch(-0)">List&lt;MuSourceError&gt;.BinarySearch(MuSourceError)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.binarysearch#system-collections-generic-list-1-binarysearch(-0-system-collections-generic-icomparer((-0)))">List&lt;MuSourceError&gt;.BinarySearch(MuSourceError, IComparer&lt;MuSourceError&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.clear">List&lt;MuSourceError&gt;.Clear()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.contains">List&lt;MuSourceError&gt;.Contains(MuSourceError)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.convertall">List&lt;MuSourceError&gt;.ConvertAll&lt;TOutput&gt;(Converter&lt;MuSourceError, TOutput&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.copyto#system-collections-generic-list-1-copyto(system-int32-0()-system-int32-system-int32)">List&lt;MuSourceError&gt;.CopyTo(int, MuSourceError[], int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.copyto#system-collections-generic-list-1-copyto(-0())">List&lt;MuSourceError&gt;.CopyTo(MuSourceError[])</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.copyto#system-collections-generic-list-1-copyto(-0()-system-int32)">List&lt;MuSourceError&gt;.CopyTo(MuSourceError[], int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.ensurecapacity">List&lt;MuSourceError&gt;.EnsureCapacity(int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.exists">List&lt;MuSourceError&gt;.Exists(Predicate&lt;MuSourceError&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.find">List&lt;MuSourceError&gt;.Find(Predicate&lt;MuSourceError&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.findall">List&lt;MuSourceError&gt;.FindAll(Predicate&lt;MuSourceError&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.findindex#system-collections-generic-list-1-findindex(system-int32-system-int32-system-predicate((-0)))">List&lt;MuSourceError&gt;.FindIndex(int, int, Predicate&lt;MuSourceError&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.findindex#system-collections-generic-list-1-findindex(system-int32-system-predicate((-0)))">List&lt;MuSourceError&gt;.FindIndex(int, Predicate&lt;MuSourceError&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.findindex#system-collections-generic-list-1-findindex(system-predicate((-0)))">List&lt;MuSourceError&gt;.FindIndex(Predicate&lt;MuSourceError&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.findlast">List&lt;MuSourceError&gt;.FindLast(Predicate&lt;MuSourceError&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.findlastindex#system-collections-generic-list-1-findlastindex(system-int32-system-int32-system-predicate((-0)))">List&lt;MuSourceError&gt;.FindLastIndex(int, int, Predicate&lt;MuSourceError&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.findlastindex#system-collections-generic-list-1-findlastindex(system-int32-system-predicate((-0)))">List&lt;MuSourceError&gt;.FindLastIndex(int, Predicate&lt;MuSourceError&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.findlastindex#system-collections-generic-list-1-findlastindex(system-predicate((-0)))">List&lt;MuSourceError&gt;.FindLastIndex(Predicate&lt;MuSourceError&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.foreach">List&lt;MuSourceError&gt;.ForEach(Action&lt;MuSourceError&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.getenumerator">List&lt;MuSourceError&gt;.GetEnumerator()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.getrange">List&lt;MuSourceError&gt;.GetRange(int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.indexof#system-collections-generic-list-1-indexof(-0)">List&lt;MuSourceError&gt;.IndexOf(MuSourceError)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.indexof#system-collections-generic-list-1-indexof(-0-system-int32)">List&lt;MuSourceError&gt;.IndexOf(MuSourceError, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.indexof#system-collections-generic-list-1-indexof(-0-system-int32-system-int32)">List&lt;MuSourceError&gt;.IndexOf(MuSourceError, int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.insert">List&lt;MuSourceError&gt;.Insert(int, MuSourceError)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.insertrange">List&lt;MuSourceError&gt;.InsertRange(int, IEnumerable&lt;MuSourceError&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.lastindexof#system-collections-generic-list-1-lastindexof(-0)">List&lt;MuSourceError&gt;.LastIndexOf(MuSourceError)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.lastindexof#system-collections-generic-list-1-lastindexof(-0-system-int32)">List&lt;MuSourceError&gt;.LastIndexOf(MuSourceError, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.lastindexof#system-collections-generic-list-1-lastindexof(-0-system-int32-system-int32)">List&lt;MuSourceError&gt;.LastIndexOf(MuSourceError, int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.remove">List&lt;MuSourceError&gt;.Remove(MuSourceError)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.removeall">List&lt;MuSourceError&gt;.RemoveAll(Predicate&lt;MuSourceError&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.removeat">List&lt;MuSourceError&gt;.RemoveAt(int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.removerange">List&lt;MuSourceError&gt;.RemoveRange(int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.reverse#system-collections-generic-list-1-reverse">List&lt;MuSourceError&gt;.Reverse()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.reverse#system-collections-generic-list-1-reverse(system-int32-system-int32)">List&lt;MuSourceError&gt;.Reverse(int, int)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.sort#system-collections-generic-list-1-sort">List&lt;MuSourceError&gt;.Sort()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.sort#system-collections-generic-list-1-sort(system-collections-generic-icomparer((-0)))">List&lt;MuSourceError&gt;.Sort(IComparer&lt;MuSourceError&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.sort#system-collections-generic-list-1-sort(system-comparison((-0)))">List&lt;MuSourceError&gt;.Sort(Comparison&lt;MuSourceError&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.sort#system-collections-generic-list-1-sort(system-int32-system-int32-system-collections-generic-icomparer((-0)))">List&lt;MuSourceError&gt;.Sort(int, int, IComparer&lt;MuSourceError&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.toarray">List&lt;MuSourceError&gt;.ToArray()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.trimexcess">List&lt;MuSourceError&gt;.TrimExcess()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.trueforall">List&lt;MuSourceError&gt;.TrueForAll(Predicate&lt;MuSourceError&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.capacity">List&lt;MuSourceError&gt;.Capacity</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.count">List&lt;MuSourceError&gt;.Count</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">List&lt;MuSourceError&gt;.this[int]</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Pinemach_Muml_MuSourceErrors__ctor_" data-uid="Pinemach.Muml.MuSourceErrors.#ctor*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors__ctor" data-uid="Pinemach.Muml.MuSourceErrors.#ctor">
+  MuSourceErrors()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L129"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MuSourceErrors()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors__ctor_" data-uid="Pinemach.Muml.MuSourceErrors.#ctor*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors__ctor_System_Collections_Generic_IEnumerable_Pinemach_Muml_MuSourceError__" data-uid="Pinemach.Muml.MuSourceErrors.#ctor(System.Collections.Generic.IEnumerable{Pinemach.Muml.MuSourceError})">
+  MuSourceErrors(IEnumerable&lt;MuSourceError&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L131"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MuSourceErrors(IEnumerable&lt;MuSourceError&gt; collection)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>collection</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Pinemach.Muml.MuSourceError.html">MuSourceError</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors__ctor_" data-uid="Pinemach.Muml.MuSourceErrors.#ctor*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors__ctor_System_Int32_" data-uid="Pinemach.Muml.MuSourceErrors.#ctor(System.Int32)">
+  MuSourceErrors(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L130"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MuSourceErrors(int capacity)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>capacity</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_Add_" data-uid="Pinemach.Muml.MuSourceErrors.Add*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_Add_Pinemach_Muml_MuSourceErrorType_Pinemach_Muml_MuSourceLocation_" data-uid="Pinemach.Muml.MuSourceErrors.Add(Pinemach.Muml.MuSourceErrorType,Pinemach.Muml.MuSourceLocation)">
+  Add(MuSourceErrorType, MuSourceLocation)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L143"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Add(MuSourceErrorType type, MuSourceLocation location)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>type</code> <a class="xref" href="Pinemach.Muml.MuSourceErrorType.html">MuSourceErrorType</a></dt>
+    <dd></dd>
+    <dt><code>location</code> <a class="xref" href="Pinemach.Muml.MuSourceLocation.html">MuSourceLocation</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_Add_" data-uid="Pinemach.Muml.MuSourceErrors.Add*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_Add_Pinemach_Muml_MuSourceErrorType_Pinemach_Muml_MuSourceSpan_" data-uid="Pinemach.Muml.MuSourceErrors.Add(Pinemach.Muml.MuSourceErrorType,Pinemach.Muml.MuSourceSpan)">
+  Add(MuSourceErrorType, MuSourceSpan)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L146"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Add(MuSourceErrorType type, MuSourceSpan span)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>type</code> <a class="xref" href="Pinemach.Muml.MuSourceErrorType.html">MuSourceErrorType</a></dt>
+    <dd></dd>
+    <dt><code>span</code> <a class="xref" href="Pinemach.Muml.MuSourceSpan.html">MuSourceSpan</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddExpectedStringAfterFormatSpecifier_" data-uid="Pinemach.Muml.MuSourceErrors.AddExpectedStringAfterFormatSpecifier*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddExpectedStringAfterFormatSpecifier_Pinemach_Muml_MuSourceLocation_" data-uid="Pinemach.Muml.MuSourceErrors.AddExpectedStringAfterFormatSpecifier(Pinemach.Muml.MuSourceLocation)">
+  AddExpectedStringAfterFormatSpecifier(MuSourceLocation)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L179"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddExpectedStringAfterFormatSpecifier(MuSourceLocation loc)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>loc</code> <a class="xref" href="Pinemach.Muml.MuSourceLocation.html">MuSourceLocation</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddExpectedStringAfterFormatSpecifier_" data-uid="Pinemach.Muml.MuSourceErrors.AddExpectedStringAfterFormatSpecifier*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddExpectedStringAfterFormatSpecifier_Pinemach_Muml_MuSourceSpan_" data-uid="Pinemach.Muml.MuSourceErrors.AddExpectedStringAfterFormatSpecifier(Pinemach.Muml.MuSourceSpan)">
+  AddExpectedStringAfterFormatSpecifier(MuSourceSpan)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L178"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddExpectedStringAfterFormatSpecifier(MuSourceSpan span)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>span</code> <a class="xref" href="Pinemach.Muml.MuSourceSpan.html">MuSourceSpan</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddExpectedValueAfterEquals_" data-uid="Pinemach.Muml.MuSourceErrors.AddExpectedValueAfterEquals*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddExpectedValueAfterEquals_Pinemach_Muml_MuSourceLocation_" data-uid="Pinemach.Muml.MuSourceErrors.AddExpectedValueAfterEquals(Pinemach.Muml.MuSourceLocation)">
+  AddExpectedValueAfterEquals(MuSourceLocation)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L181"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddExpectedValueAfterEquals(MuSourceLocation loc)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>loc</code> <a class="xref" href="Pinemach.Muml.MuSourceLocation.html">MuSourceLocation</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddExpectedValueAfterEquals_" data-uid="Pinemach.Muml.MuSourceErrors.AddExpectedValueAfterEquals*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddExpectedValueAfterEquals_Pinemach_Muml_MuSourceSpan_" data-uid="Pinemach.Muml.MuSourceErrors.AddExpectedValueAfterEquals(Pinemach.Muml.MuSourceSpan)">
+  AddExpectedValueAfterEquals(MuSourceSpan)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L180"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddExpectedValueAfterEquals(MuSourceSpan span)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>span</code> <a class="xref" href="Pinemach.Muml.MuSourceSpan.html">MuSourceSpan</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddMalformedBracesIdentifier_" data-uid="Pinemach.Muml.MuSourceErrors.AddMalformedBracesIdentifier*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddMalformedBracesIdentifier_Pinemach_Muml_MuSourceLocation_" data-uid="Pinemach.Muml.MuSourceErrors.AddMalformedBracesIdentifier(Pinemach.Muml.MuSourceLocation)">
+  AddMalformedBracesIdentifier(MuSourceLocation)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L175"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddMalformedBracesIdentifier(MuSourceLocation loc)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>loc</code> <a class="xref" href="Pinemach.Muml.MuSourceLocation.html">MuSourceLocation</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddMalformedBracesIdentifier_" data-uid="Pinemach.Muml.MuSourceErrors.AddMalformedBracesIdentifier*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddMalformedBracesIdentifier_Pinemach_Muml_MuSourceSpan_" data-uid="Pinemach.Muml.MuSourceErrors.AddMalformedBracesIdentifier(Pinemach.Muml.MuSourceSpan)">
+  AddMalformedBracesIdentifier(MuSourceSpan)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L174"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddMalformedBracesIdentifier(MuSourceSpan span)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>span</code> <a class="xref" href="Pinemach.Muml.MuSourceSpan.html">MuSourceSpan</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddMalformedStringEscapeSequence_" data-uid="Pinemach.Muml.MuSourceErrors.AddMalformedStringEscapeSequence*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddMalformedStringEscapeSequence_Pinemach_Muml_MuSourceLocation_" data-uid="Pinemach.Muml.MuSourceErrors.AddMalformedStringEscapeSequence(Pinemach.Muml.MuSourceLocation)">
+  AddMalformedStringEscapeSequence(MuSourceLocation)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L177"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddMalformedStringEscapeSequence(MuSourceLocation loc)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>loc</code> <a class="xref" href="Pinemach.Muml.MuSourceLocation.html">MuSourceLocation</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddMalformedStringEscapeSequence_" data-uid="Pinemach.Muml.MuSourceErrors.AddMalformedStringEscapeSequence*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddMalformedStringEscapeSequence_Pinemach_Muml_MuSourceSpan_" data-uid="Pinemach.Muml.MuSourceErrors.AddMalformedStringEscapeSequence(Pinemach.Muml.MuSourceSpan)">
+  AddMalformedStringEscapeSequence(MuSourceSpan)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L176"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddMalformedStringEscapeSequence(MuSourceSpan span)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>span</code> <a class="xref" href="Pinemach.Muml.MuSourceSpan.html">MuSourceSpan</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddUnexpectedCharacter_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedCharacter*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddUnexpectedCharacter_Pinemach_Muml_MuSourceLocation_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedCharacter(Pinemach.Muml.MuSourceLocation)">
+  AddUnexpectedCharacter(MuSourceLocation)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L151"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddUnexpectedCharacter(MuSourceLocation loc)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>loc</code> <a class="xref" href="Pinemach.Muml.MuSourceLocation.html">MuSourceLocation</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddUnexpectedCharacter_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedCharacter*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddUnexpectedCharacter_Pinemach_Muml_MuSourceSpan_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedCharacter(Pinemach.Muml.MuSourceSpan)">
+  AddUnexpectedCharacter(MuSourceSpan)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L150"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddUnexpectedCharacter(MuSourceSpan span)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>span</code> <a class="xref" href="Pinemach.Muml.MuSourceSpan.html">MuSourceSpan</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddUnexpectedCloseBrace_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedCloseBrace*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddUnexpectedCloseBrace_Pinemach_Muml_MuSourceLocation_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedCloseBrace(Pinemach.Muml.MuSourceLocation)">
+  AddUnexpectedCloseBrace(MuSourceLocation)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L159"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddUnexpectedCloseBrace(MuSourceLocation loc)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>loc</code> <a class="xref" href="Pinemach.Muml.MuSourceLocation.html">MuSourceLocation</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddUnexpectedCloseBrace_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedCloseBrace*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddUnexpectedCloseBrace_Pinemach_Muml_MuSourceSpan_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedCloseBrace(Pinemach.Muml.MuSourceSpan)">
+  AddUnexpectedCloseBrace(MuSourceSpan)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L158"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddUnexpectedCloseBrace(MuSourceSpan span)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>span</code> <a class="xref" href="Pinemach.Muml.MuSourceSpan.html">MuSourceSpan</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddUnexpectedCloseBracket_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedCloseBracket*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddUnexpectedCloseBracket_Pinemach_Muml_MuSourceLocation_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedCloseBracket(Pinemach.Muml.MuSourceLocation)">
+  AddUnexpectedCloseBracket(MuSourceLocation)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L157"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddUnexpectedCloseBracket(MuSourceLocation loc)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>loc</code> <a class="xref" href="Pinemach.Muml.MuSourceLocation.html">MuSourceLocation</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddUnexpectedCloseBracket_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedCloseBracket*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddUnexpectedCloseBracket_Pinemach_Muml_MuSourceSpan_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedCloseBracket(Pinemach.Muml.MuSourceSpan)">
+  AddUnexpectedCloseBracket(MuSourceSpan)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L156"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddUnexpectedCloseBracket(MuSourceSpan span)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>span</code> <a class="xref" href="Pinemach.Muml.MuSourceSpan.html">MuSourceSpan</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddUnexpectedEquals_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedEquals*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddUnexpectedEquals_Pinemach_Muml_MuSourceLocation_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedEquals(Pinemach.Muml.MuSourceLocation)">
+  AddUnexpectedEquals(MuSourceLocation)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L161"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddUnexpectedEquals(MuSourceLocation loc)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>loc</code> <a class="xref" href="Pinemach.Muml.MuSourceLocation.html">MuSourceLocation</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddUnexpectedEquals_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedEquals*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddUnexpectedEquals_Pinemach_Muml_MuSourceSpan_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedEquals(Pinemach.Muml.MuSourceSpan)">
+  AddUnexpectedEquals(MuSourceSpan)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L160"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddUnexpectedEquals(MuSourceSpan span)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>span</code> <a class="xref" href="Pinemach.Muml.MuSourceSpan.html">MuSourceSpan</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddUnexpectedNewlineInStringLiteral_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedNewlineInStringLiteral*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddUnexpectedNewlineInStringLiteral_Pinemach_Muml_MuSourceLocation_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedNewlineInStringLiteral(Pinemach.Muml.MuSourceLocation)">
+  AddUnexpectedNewlineInStringLiteral(MuSourceLocation)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L165"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddUnexpectedNewlineInStringLiteral(MuSourceLocation loc)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>loc</code> <a class="xref" href="Pinemach.Muml.MuSourceLocation.html">MuSourceLocation</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddUnexpectedNewlineInStringLiteral_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedNewlineInStringLiteral*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddUnexpectedNewlineInStringLiteral_Pinemach_Muml_MuSourceSpan_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedNewlineInStringLiteral(Pinemach.Muml.MuSourceSpan)">
+  AddUnexpectedNewlineInStringLiteral(MuSourceSpan)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L164"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddUnexpectedNewlineInStringLiteral(MuSourceSpan span)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>span</code> <a class="xref" href="Pinemach.Muml.MuSourceSpan.html">MuSourceSpan</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddUnexpectedOpenBrace_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedOpenBrace*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddUnexpectedOpenBrace_Pinemach_Muml_MuSourceLocation_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedOpenBrace(Pinemach.Muml.MuSourceLocation)">
+  AddUnexpectedOpenBrace(MuSourceLocation)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L155"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddUnexpectedOpenBrace(MuSourceLocation loc)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>loc</code> <a class="xref" href="Pinemach.Muml.MuSourceLocation.html">MuSourceLocation</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddUnexpectedOpenBrace_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedOpenBrace*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddUnexpectedOpenBrace_Pinemach_Muml_MuSourceSpan_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedOpenBrace(Pinemach.Muml.MuSourceSpan)">
+  AddUnexpectedOpenBrace(MuSourceSpan)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L154"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddUnexpectedOpenBrace(MuSourceSpan span)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>span</code> <a class="xref" href="Pinemach.Muml.MuSourceSpan.html">MuSourceSpan</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddUnexpectedOpenBracket_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedOpenBracket*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddUnexpectedOpenBracket_Pinemach_Muml_MuSourceLocation_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedOpenBracket(Pinemach.Muml.MuSourceLocation)">
+  AddUnexpectedOpenBracket(MuSourceLocation)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L153"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddUnexpectedOpenBracket(MuSourceLocation loc)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>loc</code> <a class="xref" href="Pinemach.Muml.MuSourceLocation.html">MuSourceLocation</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddUnexpectedOpenBracket_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedOpenBracket*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddUnexpectedOpenBracket_Pinemach_Muml_MuSourceSpan_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedOpenBracket(Pinemach.Muml.MuSourceSpan)">
+  AddUnexpectedOpenBracket(MuSourceSpan)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L152"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddUnexpectedOpenBracket(MuSourceSpan span)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>span</code> <a class="xref" href="Pinemach.Muml.MuSourceSpan.html">MuSourceSpan</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddUnexpectedStringLiteral_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedStringLiteral*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddUnexpectedStringLiteral_Pinemach_Muml_MuSourceLocation_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedStringLiteral(Pinemach.Muml.MuSourceLocation)">
+  AddUnexpectedStringLiteral(MuSourceLocation)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L163"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddUnexpectedStringLiteral(MuSourceLocation loc)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>loc</code> <a class="xref" href="Pinemach.Muml.MuSourceLocation.html">MuSourceLocation</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddUnexpectedStringLiteral_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedStringLiteral*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddUnexpectedStringLiteral_Pinemach_Muml_MuSourceSpan_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnexpectedStringLiteral(Pinemach.Muml.MuSourceSpan)">
+  AddUnexpectedStringLiteral(MuSourceSpan)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L162"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddUnexpectedStringLiteral(MuSourceSpan span)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>span</code> <a class="xref" href="Pinemach.Muml.MuSourceSpan.html">MuSourceSpan</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddUnterminatedAttributes_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnterminatedAttributes*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddUnterminatedAttributes_Pinemach_Muml_MuSourceLocation_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnterminatedAttributes(Pinemach.Muml.MuSourceLocation)">
+  AddUnterminatedAttributes(MuSourceLocation)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L171"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddUnterminatedAttributes(MuSourceLocation loc)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>loc</code> <a class="xref" href="Pinemach.Muml.MuSourceLocation.html">MuSourceLocation</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddUnterminatedAttributes_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnterminatedAttributes*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddUnterminatedAttributes_Pinemach_Muml_MuSourceSpan_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnterminatedAttributes(Pinemach.Muml.MuSourceSpan)">
+  AddUnterminatedAttributes(MuSourceSpan)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L170"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddUnterminatedAttributes(MuSourceSpan span)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>span</code> <a class="xref" href="Pinemach.Muml.MuSourceSpan.html">MuSourceSpan</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddUnterminatedMembers_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnterminatedMembers*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddUnterminatedMembers_Pinemach_Muml_MuSourceLocation_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnterminatedMembers(Pinemach.Muml.MuSourceLocation)">
+  AddUnterminatedMembers(MuSourceLocation)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L173"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddUnterminatedMembers(MuSourceLocation loc)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>loc</code> <a class="xref" href="Pinemach.Muml.MuSourceLocation.html">MuSourceLocation</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddUnterminatedMembers_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnterminatedMembers*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddUnterminatedMembers_Pinemach_Muml_MuSourceSpan_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnterminatedMembers(Pinemach.Muml.MuSourceSpan)">
+  AddUnterminatedMembers(MuSourceSpan)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L172"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddUnterminatedMembers(MuSourceSpan span)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>span</code> <a class="xref" href="Pinemach.Muml.MuSourceSpan.html">MuSourceSpan</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddUnterminatedNestedBlockComment_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnterminatedNestedBlockComment*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddUnterminatedNestedBlockComment_Pinemach_Muml_MuSourceLocation_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnterminatedNestedBlockComment(Pinemach.Muml.MuSourceLocation)">
+  AddUnterminatedNestedBlockComment(MuSourceLocation)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L169"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddUnterminatedNestedBlockComment(MuSourceLocation loc)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>loc</code> <a class="xref" href="Pinemach.Muml.MuSourceLocation.html">MuSourceLocation</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddUnterminatedNestedBlockComment_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnterminatedNestedBlockComment*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddUnterminatedNestedBlockComment_Pinemach_Muml_MuSourceSpan_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnterminatedNestedBlockComment(Pinemach.Muml.MuSourceSpan)">
+  AddUnterminatedNestedBlockComment(MuSourceSpan)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L168"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddUnterminatedNestedBlockComment(MuSourceSpan span)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>span</code> <a class="xref" href="Pinemach.Muml.MuSourceSpan.html">MuSourceSpan</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddUnterminatedStringLiteral_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnterminatedStringLiteral*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddUnterminatedStringLiteral_Pinemach_Muml_MuSourceLocation_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnterminatedStringLiteral(Pinemach.Muml.MuSourceLocation)">
+  AddUnterminatedStringLiteral(MuSourceLocation)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L167"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddUnterminatedStringLiteral(MuSourceLocation loc)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>loc</code> <a class="xref" href="Pinemach.Muml.MuSourceLocation.html">MuSourceLocation</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_AddUnterminatedStringLiteral_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnterminatedStringLiteral*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_AddUnterminatedStringLiteral_Pinemach_Muml_MuSourceSpan_" data-uid="Pinemach.Muml.MuSourceErrors.AddUnterminatedStringLiteral(Pinemach.Muml.MuSourceSpan)">
+  AddUnterminatedStringLiteral(MuSourceSpan)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L166"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddUnterminatedStringLiteral(MuSourceSpan span)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>span</code> <a class="xref" href="Pinemach.Muml.MuSourceSpan.html">MuSourceSpan</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_From_" data-uid="Pinemach.Muml.MuSourceErrors.From*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_From_System_Collections_Generic_IEnumerable_Pinemach_Muml_MuSourceError__" data-uid="Pinemach.Muml.MuSourceErrors.From(System.Collections.Generic.IEnumerable{Pinemach.Muml.MuSourceError})">
+  From(IEnumerable&lt;MuSourceError&gt;?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L133"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static MuSourceErrors From(IEnumerable&lt;MuSourceError&gt;? errors)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>errors</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="Pinemach.Muml.MuSourceError.html">MuSourceError</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Pinemach.Muml.MuSourceErrors.html">MuSourceErrors</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_IsLastErrorType_" data-uid="Pinemach.Muml.MuSourceErrors.IsLastErrorType*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_IsLastErrorType_Pinemach_Muml_MuSourceErrorType_" data-uid="Pinemach.Muml.MuSourceErrors.IsLastErrorType(Pinemach.Muml.MuSourceErrorType)">
+  IsLastErrorType(MuSourceErrorType)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L139"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsLastErrorType(MuSourceErrorType type)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>type</code> <a class="xref" href="Pinemach.Muml.MuSourceErrorType.html">MuSourceErrorType</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Pinemach_Muml_MuSourceErrors_ToString_" data-uid="Pinemach.Muml.MuSourceErrors.ToString*"></a>
+
+  <h3 id="Pinemach_Muml_MuSourceErrors_ToString" data-uid="Pinemach.Muml.MuSourceErrors.ToString">
+  ToString()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L183"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns a string that represents the current object.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>A string that represents the current object.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/Pinemach.Muml/MuSourceError.cs/#L128" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

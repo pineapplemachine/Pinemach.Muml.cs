@@ -1,0 +1,475 @@
+{
+  "source_base_path": "E:/Sync/Projects/cs/Pinemach.Muml/docfx",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      }
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.IMuHasAttributes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.IMuHasAttributes.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.IMuHasAttributes",
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.IMuHasAttributes.yml\" sourcestartlinenumber=\"1\">Interface implemented by MuElement.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.IMuHasMembers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.IMuHasMembers.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.IMuHasMembers",
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.IMuHasMembers.yml\" sourcestartlinenumber=\"1\">Interface implemented by MuDocument and MuElement.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.IMuHasValues.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.IMuHasValues.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.IMuHasValues",
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.IMuHasValues.yml\" sourcestartlinenumber=\"1\">Interface implemented by MuDocument and MuElement.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.MuAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.MuAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.MuAttribute",
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.MuAttribute.yml\" sourcestartlinenumber=\"1\">Represents an attribute belonging to a MuElement.\nAn attribute is fundamentally a key, value pair.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.MuAttributes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.MuAttributes.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.MuAttributes",
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.MuAttributes.yml\" sourcestartlinenumber=\"1\">Represents a list of attributes belonging to a MuElement.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.MuDocument.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.MuDocument.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.MuDocument",
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.MuDocument.yml\" sourcestartlinenumber=\"1\">Represents a Muml document, typically corresponding to a single file.\nA document is a collection of one or more top-level Muml elements,\nplus optional header content.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.MuDocumentContentComparer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.MuDocumentContentComparer.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.MuDocumentContentComparer",
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.MuDocumentContentComparer.yml\" sourcestartlinenumber=\"1\">Comparer which checks equality of document content.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.MuElement.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.MuElement.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.MuElement",
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.MuElement.yml\" sourcestartlinenumber=\"1\">Represents an element within a Muml document.\nElements are the fundamental unit of structure and data within\na document.</p>\n<pre>name=value \"text\" [attrName=attrValue] {memberName}</pre>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.MuElementContentComparer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.MuElementContentComparer.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.MuElementContentComparer",
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.MuElementContentComparer.yml\" sourcestartlinenumber=\"1\">Comparer which checks equality of element content.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.MuHasAttributesExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.MuHasAttributesExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.MuHasAttributesExtensions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.MuHasMembersExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.MuHasMembersExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.MuHasMembersExtensions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.MuHasValuesExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.MuHasValuesExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.MuHasValuesExtensions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.MuMembers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.MuMembers.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.MuMembers",
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.MuMembers.yml\" sourcestartlinenumber=\"1\">Represents a list of member elements associated with a MuElement or\nMuDocument.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.MuParser.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.MuParser.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.MuParser",
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.MuParser.yml\" sourcestartlinenumber=\"1\">Implements a parser which takes Muml source in and outputs a\ncorresponding MuDocument object.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.MuSourceError.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.MuSourceError.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.MuSourceError",
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.MuSourceError.yml\" sourcestartlinenumber=\"1\">Represents an error encountered while parsing Muml source.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.MuSourceErrorType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.MuSourceErrorType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.MuSourceErrorType",
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.MuSourceErrorType.yml\" sourcestartlinenumber=\"1\">Enumeration of possible errors that may occur when dealing with Muml\nsource text.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.MuSourceErrors.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.MuSourceErrors.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.MuSourceErrors",
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.MuSourceErrors.yml\" sourcestartlinenumber=\"1\">Represents the list of errors encountered while parsing Muml source.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.MuSourceLocation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.MuSourceLocation.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.MuSourceLocation",
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.MuSourceLocation.yml\" sourcestartlinenumber=\"1\">Represents a single specific byte location within a source text.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.MuSourceSpan.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.MuSourceSpan.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.MuSourceSpan",
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.MuSourceSpan.yml\" sourcestartlinenumber=\"1\">Represents a byte span within a source text, with start and end location.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.MuTextFormatSpecifier.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.MuTextFormatSpecifier.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.MuTextFormatSpecifier",
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.MuTextFormatSpecifier.yml\" sourcestartlinenumber=\"1\">Format settings relevant for parsing multi-line strings.\nText format specifiers start with a vertical bar character.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.MuTextFormatSpecifierBlock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.MuTextFormatSpecifierBlock.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.MuTextFormatSpecifierBlock",
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.MuTextFormatSpecifierBlock.yml\" sourcestartlinenumber=\"1\">Formatting options for how to handle lines within a multi-line Muml\nstring.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.MuTextFormatSpecifierEnd.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.MuTextFormatSpecifierEnd.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.MuTextFormatSpecifierEnd",
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.MuTextFormatSpecifierEnd.yml\" sourcestartlinenumber=\"1\">Formatting options for how to handle lines at the end of a multi-line\nMuml string.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.MuTextType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.MuTextType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.MuTextType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.MuToken.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.MuToken.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.MuToken",
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.MuToken.yml\" sourcestartlinenumber=\"1\">Represents a single token within Muml source.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.MuTokenType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.MuTokenType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.MuTokenType",
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.MuTokenType.yml\" sourcestartlinenumber=\"1\">Enumeration of recognized Muml token types.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.MuTokenizer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.MuTokenizer.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.MuTokenizer",
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.MuTokenizer.yml\" sourcestartlinenumber=\"1\">Implements parsing logic for separating an input text stream into\nMuml tokens. This is used by the MuParser.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.MuUtil.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.MuUtil.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.MuUtil",
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.MuUtil.yml\" sourcestartlinenumber=\"1\">Contains an assortment of utility and helper functions related\nto Muml functionality.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.MuValues.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.MuValues.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.MuValues",
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.MuValues.yml\" sourcestartlinenumber=\"1\">Represents a list of value strings associated with a MuElement or\nMuDocument.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.MuWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.MuWriter.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml.MuWriter",
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.MuWriter.yml\" sourcestartlinenumber=\"1\">Implements functions for serializing Muml objects to strings.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Pinemach.Muml.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pinemach.Muml.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Pinemach.Muml",
+      "Summary": null
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html"
+        },
+        ".json": {
+          "relative_path": "api/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html"
+        },
+        ".json": {
+          "relative_path": "toc.json"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

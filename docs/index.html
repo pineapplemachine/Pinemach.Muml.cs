@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Pinemach.Muml: Micro Markup Language for C# | Pinemach.Muml </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Pinemach.Muml: Micro Markup Language for C# | Pinemach.Muml ">
+      
+      
+      <link rel="icon" href="favicon.ico">
+      <link rel="stylesheet" href="public/docfx.min.css">
+      <link rel="stylesheet" href="public/main.css">
+      <meta name="docfx:navrel" content="toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/docfx/index.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./public/docfx.min.js"></script>
+    <!-- Add Muml code block highlighting -->
+    <script src="./public/highlight.min.js"></script>
+    <script src="./public/highlight-muml.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        hljs.highlightAll();
+    });
+    </script>
+
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="index.html">
+            <img id="logo" class="svg" src="logo.svg" alt="Pinemach.Muml">
+            Pinemach.Muml
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+
+      <div class="content">
+        <div class="actionbar">
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="pinemachmuml-micro-markup-language-for-c">Pinemach.Muml: Micro Markup Language for C#</h1>
+
+<p>Muml (or <em>μml</em>) is the Micro Markup Language. It is intended as an alternative to XML with a simplified, less verbose, and more human-readable syntax.</p>
+<p>This library implements an API for parsing, serializing, navigating, and manipulating Muml documents in C#. It works with UTF-8 and ASCII string encodings. It does not interpret or coerce data types, but presents everything as strings.</p>
+<p>Every Muml document is a self-contained unit. A Muml parser will never access other files, send network requests, or execute arbitrary code in the process of parsing a document.</p>
+<pre><code class="lang-muml"># This is an example Muml document
+
+h1 &quot;Hello, world!&quot; [style=bold micro=yes]
+p |&gt; '''
+    Muml is the Micro Markup Language.
+    It's similar to XML, but simplified and less verbose.
+'''
+ul &quot;When to use Muml&quot; {
+    li | You want something like XML but more human-friendly
+    li | You want it small, simple, and robust
+    li | You want it easy and simple to work with in code
+}
+a &quot;Homepage&quot; [
+    href=&quot;https://github.com/pineapplemachine/muml.cs&quot;
+]
+</code></pre>
+<p>The most important semantic different from XML is the absence of text nodes. With Muml, you must attach text to an element with an explicit name.</p>
+<pre><code class="lang-xml">&lt;body&gt;
+    &lt;h1&gt;Hello, world!&lt;/h1&gt;
+    In XML, it's permitted to put text between elements.
+    This creates text nodes, distinct from element nodes.
+    &lt;span&gt;Neat!&lt;/span&gt;
+&lt;/body&gt;
+</code></pre>
+<pre><code class="lang-muml">body {
+    h1 | Hello, world!
+    text | In Muml, text must be associated with an element.
+    span | Gotcha!
+}
+</code></pre>
+<h2 id="c-api">C# API</h2>
+<p>This package can be installed with NuGet, e.g. via <code>nuget install Pinemach.Muml</code> in a CLI.</p>
+<p><strong>Generated API documentation</strong> for <code>Pinemach.Muml</code> is here:</p>
+<p><a href="https://pineapplemachine.github.io/Pinemach.Muml.cs/">https://pineapplemachine.github.io/Pinemach.Muml.cs/</a></p>
+<p>Basic usage example:</p>
+<pre><code class="lang-cs">using Pinemach.Muml;
+
+public class Example {
+    public static void Main() {
+        // Parse Muml document from a file
+        var doc = MuDocument.Load(path);
+        
+        // Manipulate Muml document
+        var el = new MuElement(&quot;div&quot;);
+        el.AddAttribute(&quot;hello&quot;, &quot;world&quot;);
+        doc.AddMember(el);
+        
+        // Get Muml source from a MuDocument
+        string mumlSrc = doc.ToString();
+        Console.WriteLine(mumlSrc);
+        
+        // Save MuDocument to a file
+        doc.Save(&quot;mydocument.muml&quot;);
+    }
+}
+</code></pre>
+<h2 id="document-structure">Document structure</h2>
+<p>A Muml <strong>document</strong> is an ordered list of one or more member <strong>elements</strong>.</p>
+<p>An element has:</p>
+<ul>
+<li>A <strong>name</strong>, always.</li>
+<li>Any number of <strong>values</strong>, each of which is a string.</li>
+<li>Any number of <strong>attributes</strong>, each of which is a <code>name=value</code> pair.</li>
+<li>Any number of <strong>members</strong>, each of which is another Muml element.</li>
+</ul>
+<p>Here is what an element with one of every component looks like:</p>
+<pre><code class="lang-muml">name=value &quot;text&quot; [attrName=attrValue] {memberName}
+</code></pre>
+<p>The order and amount of items is not strict, except that the element's name must come first. Values, text, attributes, and members are always associated with the last named element.</p>
+<h3 id="element-name---muelementname">Element name - <code>MuElement.Name</code></h3>
+<p>Element names are written as either an identifier string <code>like-so</code>, or a quoted string inside braces <code>{&quot;like so&quot;}</code>. This is the only mandatory part of an element to include.</p>
+<pre><code class="lang-muml">name
+{&quot;name with spaces and special characters $?[]&quot;}
+</code></pre>
+<h3 id="element-values---muelementvalues">Element values - <code>MuElement.Values</code></h3>
+<p>Element values are indicated with an equals sign <code>=</code>.</p>
+<h3 id="element-text---muelementtext">Element text - <code>MuElement.Text</code></h3>
+<p>Element text cannot be written as an identifier, but must be written as a quoted string.</p>
+<h3 id="element-attributes---muelementattributes">Element attributes - <code>MuElement.Attributes</code></h3>
+<p>Element attributes are <code>name=value</code> attribute assignments enclosed within a pair of brackets <code>[]</code>.</p>
+<p>Attribute names are not required to be unique.</p>
+<p>These are also valid attribute assignments:</p>
+<pre><code class="lang-muml">element [attrName]
+element [attrName=]
+element [=attrValue]
+</code></pre>
+<p>Note that in this C# implementation, an omitted attribute name or value is represented as <code>null</code> rather than as an empty string.</p>
+<h3 id="element-members---muelementmembers">Element members - <code>MuElement.Members</code></h3>
+<p>Element members is a sequence of any number of other elements, enclosed within a pair of braces <code>{}</code>.</p>
+<h3 id="document-metadata---mudocumentheader--mudocumentvalues">Document metadata - <code>MuDocument.Header</code> &amp; <code>MuDocument.Values</code></h3>
+<p>If text or values appear at the beginning of a document, before the first element, then they are interpreted as document metadata.</p>
+<pre><code class="lang-muml">&quot;Document header&quot;
+=value1
+=value2
+
+first-element
+</code></pre>
+<h2 id="comments">Comments</h2>
+<p>Muml has three options for comments: <code># line comments</code>, <code>### fenced comments ###</code>, and <code>#[ block comments #]</code>.</p>
+<p>A fenced begins with at least three hashes <code>#</code> and ends the next time that same number of consecutive hashes is found again.</p>
+<pre><code class="lang-muml"># Line comment
+h1 | Hello
+
+### Fenced comment ###
+span | world
+
+###
+Fenced comments can be multi-line.
+###
+div [style='cool']
+
+#[ Block comment #]
+h2 | Lorem
+
+#[
+    Block comments can be #[ nested #]
+    and can span multiple lines.
+#]
+span | ipsum
+</code></pre>
+<h2 id="strings">Strings</h2>
+<p>Strings in Muml are divided into the two categories of <strong>quoted strings</strong> and <strong>identifier strings</strong>.</p>
+<p>The distinction between identifier strings and quoted strings is that element names <em>must</em> be written as identifier strings and element text <em>must</em> be written as quoted strings. In all other places, they may be used interchangeably.</p>
+<pre><code class="lang-muml">element-name &quot;text associated with the element&quot;
+element-name &quot;text&quot; &quot;and more text&quot;
+element-name another-element-name
+element-name {&quot;another element name&quot;}
+</code></pre>
+<h3 id="string-syntax">String syntax</h3>
+<p>There are several ways to write quoted strings in Muml.</p>
+<ul>
+<li>Double quoted, <code>&quot;like this&quot;</code>.</li>
+<li>Single quoted, <code>'like this'</code>.</li>
+<li>Backtick enclosed, <code>`like this`</code>.</li>
+<li>Double quote fenced, <code>&quot;&quot;&quot;like this&quot;&quot;&quot;</code>.</li>
+<li>Single quote fenced, <code>'''like this'''</code>.</li>
+<li>Backtick fenced, <code>```like this```</code>.</li>
+<li>To end of line, <code>| like this</code>.</li>
+</ul>
+<p>And there are two ways to write identifier strings.</p>
+<ul>
+<li>Plain, <code>like-this</code>.</li>
+<li>Braced, <code>{&quot;like this&quot;}</code>.</li>
+</ul>
+<p>A string that is made up entirely of non-whitespace characters and non-metacharacters (everything but <code> \t\r\n``'&quot;()[]{}|&amp;;=#</code>) can be written as a <strong>plain identifier</strong>, without any enclosing quotes, <code>like-so</code>.</p>
+<p>Other strings can be written as <strong>braced identifiers</strong> by adding braces around a quoted string, <code>{&quot;like this&quot;}</code>.</p>
+<p><strong>Double quoted</strong> and <strong>single quoted</strong> strings may not span across multiple lines. They use backslash escape sequences for special characters, like <code>\n</code> or <code>\&quot;</code> or <code>\\</code>.</p>
+<p><strong>Backtick enclosed</strong> strings may span multiple lines. The only escape sequence recognized inside a backtick string is two consecutive backticks <code>``</code> representing a single escaped backtick.</p>
+<p><strong>Double quote fenced</strong> and <strong>single quote fenced</strong> strings are allowed to span multiple lines. They use backslash escape sequences for special characters. They begin with three or more consecutive quote characters and end with the same.</p>
+<p><strong>Backtick fenced</strong> strings may span multiple lines. They begin with three or more consecutive backtick characters and end with the same. They do not recognize any escape sequences whatosever.</p>
+<p><strong>To end of line</strong> strings count as quoted strings when distinguishing between element names and text. They begin with a vertical bar <code>|</code> follow by at least one whitespace character. They end at the next newline. The resulting string has any preceding or trailing whitespace stripped from it. These strings do not recognize any escape sequences.</p>
+<h3 id="format-specifiers">Format specifiers</h3>
+<p>Non-identifier strings can be written with a preceding <strong>string format specifier</strong> which affects how multi-line strings should be parsed, like <code>|</code> or <code>|&gt;</code>.</p>
+<p>They are also allowed inside braced identifiers, e.g. <code>{|; 'name'}</code>.</p>
+<p>See <strong>String format specifiers</strong> for more information about format specifiers.</p>
+<pre><code class="lang-muml">element |&gt; '''
+    This is folded text,
+    like when writing
+    `key: &gt; ...` in YAML.
+'''
+</code></pre>
+<h3 id="omitted-and-empty-strings">Omitted and empty strings</h3>
+<p>Note that Muml does distinguish between omitted strings and explicitly defined empty strings. These are represented as <code>null</code> and the empty string <code>&quot;&quot;</code> respectively, in this C# API.</p>
+<pre><code class="lang-muml">element # omitted text (null)
+element &quot;&quot; # explicit empty text (&quot;&quot;)
+</code></pre>
+<h2 id="string-escape-sequences">String escape sequences</h2>
+<p>Muml recognizes these standard escape sequences:</p>
+<ul>
+<li><code>\0</code> - Null character (0x00)</li>
+<li><code>\a</code> - Alert (0x07)</li>
+<li><code>\b</code> - Backspace (0x08)</li>
+<li><code>\t</code> - Tab (0x09)</li>
+<li><code>\n</code> - Line feed (0x0a)</li>
+<li><code>\v</code> - Vertical tab (0x0b)</li>
+<li><code>\f</code> - Form feed (0x0c)</li>
+<li><code>\r</code> - Carriage return (0x0d)</li>
+<li><code>\e</code> - Escape character (0x1b)</li>
+<li><code>\&quot;</code> - Double quote, same character</li>
+<li><code>\'</code> - Single quote, same character</li>
+<li><code>\\</code> - Backslash, same character</li>
+<li><code>\xhh</code> - UTF-8 code unit</li>
+<li><code>\uhhhh</code> - UTF-16 code unit</li>
+<li><code>\Uhhhhhhhh</code> - Unicode code point</li>
+</ul>
+<p>This C# implementation produces an error for any series of <code>\xhh</code> escape sequences that does not represent valid <a href="https://simonsapin.github.io/wtf-8/">WTF-8</a> text. (This means UTF-8 plus legal surrogate pair characters.)</p>
+<p>Muml implementations for languages that use UTF-8 encoded strings internally are encouraged to provide a configuration option to accept arbitrary <code>\xhh</code> byte sequences, but should produce an error by default.</p>
+<h2 id="string-format-specifiers">String format specifiers</h2>
+<p>Strings can optionally be preceded by a format specifier, which is a special series of characters starting with a vertical bar <code>|</code>. Format specifiers are intended mainly for use with multi-line strings. They behave similarly to <a href="https://yaml-multiline.info/">block scalar headers</a> in YAML, with some expanded options.</p>
+<p>Muml retains the same line endings as whatever was found in the source when deindenting or folding strings. (This means LF/CRLF is preserved.)</p>
+<p>Format specifiers have one mandatory part and two optional parts: Block format, ending format, and first-line indentation.</p>
+<p>The block format is one of these:</p>
+<ul>
+<li><code>||</code> - Deindent: Deindent based on indentation of the first non-blank line. Second part defaults to <em>Keep One</em>.</li>
+<li><code>|&gt;</code> - Fold: Deindent lines and fold paragraphs, similar to Markdown. Second part defaults to <em>Keep One</em>.</li>
+<li><code>|;</code> - Strip: Strip leading whitespace. Second part defaults to <em>Strip</em> as well.</li>
+<li><code>|^</code> - Keep: No change to leading whitespace. Second part defaults to <em>Strip</em>.</li>
+<li><code>|=</code> - Keep: No change to leading whitespace. Second part defaults to <em>Keep All</em>.</li>
+</ul>
+<p>The ending format is one of these:</p>
+<ul>
+<li><code>$</code> - Keep One. Remove all trailing whitespace, except one newline if there was any.</li>
+<li><code>+</code> - Keep Lines. Keep all trailing lines, but trim trailing whitespace on the last line.</li>
+<li><code>*</code> - Keep All. Don't remove any trailing whitespace.</li>
+<li><code>-</code> - Strip. Remove any and all trailing whitespace.</li>
+</ul>
+<p>The third part, the first-line indentation, is zero or more period <code>.</code> characters. This may be relevant when deindenting or folding lines. Each period <code>.</code> corresponds to one whitespace character by which the first non-blank line is deliberately indented further than the subsequent lines.</p>
+<p>With all of this put together, the format specifier <code>||+..</code> for example would deindent lines, keep trailing newlines, and indicate that the first line is intentionally indented by two more characters than the second line.</p>
+<pre><code class="lang-muml">e ||+.. '''
+      Lorem ipsum dolor sit amet, consectetur adipiscing
+    elit, sed do eiusmod tempor incididunt ut labore et
+    dolore magna aliqua.
+
+      Ut enim ad minim veniam, quis nostrud exercitation
+    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    
+'''
+</code></pre>
+<pre><code>  Lorem ipsum dolor sit amet, consectetur adipiscing
+elit, sed do eiusmod tempor incididunt ut labore et
+dolore magna aliqua.
+
+  Ut enim ad minim veniam, quis nostrud exercitation
+ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+</code></pre>
+<p>With <strong>deindent</strong> formatting, all lines after the first not-blank line have matching whitespace removed from their beginning.</p>
+<pre><code class="lang-muml">p || '''
+    Lorem ipsum dolor sit amet, consectetur adipiscing
+    elit, sed do eiusmod tempor incididunt ut labore et
+    dolore magna aliqua.
+    
+    Ut enim ad minim veniam, quis nostrud exercitation
+    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+'''
+</code></pre>
+<pre><code>Lorem ipsum dolor sit amet, consectetur adipiscing
+elit, sed do eiusmod tempor incididunt ut labore et
+dolore magna aliqua.
+
+Ut enim ad minim veniam, quis nostrud exercitation
+ullamco laboris nisi ut aliquip ex ea commodo consequat.
+</code></pre>
+<p>With <strong>fold</strong> formatting, lines separated by only a single newline are treated as being part of a same paragraph.</p>
+<pre><code class="lang-muml">p |&gt; '''
+    Lorem ipsum dolor sit amet, consectetur adipiscing
+    elit, sed do eiusmod tempor incididunt ut labore et
+    dolore magna aliqua.
+    
+    Ut enim ad minim veniam, quis nostrud exercitation
+    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+'''
+</code></pre>
+<pre><code>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+</code></pre>
+<h3 id="repeated-element-items">Repeated element items</h3>
+<p>The items following an element name are not required to be unique.</p>
+<p>Multiple values are all attached to an element in order.</p>
+<pre><code class="lang-muml">name =value1 =value2 =value3
+</code></pre>
+<p>Multiple text items are all concatenated together in order.</p>
+<p>If the new text item is blank, a newline is appended to the previous text. Otherwise, it's concatenated with the previous text, and a single space <code> </code> is added between them if there would not otherwise be any whitespace in between.</p>
+<pre><code class="lang-muml"># These two elements are equivalent
+name &quot;Hello,&quot; &quot;World!&quot;
+name &quot;Hello, World!&quot;
+
+# So are these
+name &quot;One two three\nFour five&quot;
+name
+    | One two
+    | three
+    |
+    | Four
+    | five
+</code></pre>
+<p>Multiple attribute lists are concatenated in order.</p>
+<pre><code class="lang-muml"># These two elements are equivalent
+name [x=1 y=2] [z=3 w=4] []
+name [x=1 y=2 z=3 w=4]
+</code></pre>
+<p>Multiple member lists are concatenated in order.</p>
+<pre><code class="lang-muml"># These two elements are equivalent
+name {a b} {} {c d}
+name {a b c d}
+</code></pre>
+<h2 id="miscellanea">Miscellanea</h2>
+<p><em>Muml</em> should be pronounced like <em>myu-mul</em>.</p>
+<p>The ampersand <code>&amp;</code>, semicolon <code>;</code>, comma <code>,</code>, and parentheses <code>()</code> are currently unused metacharacters, reserved for future use.</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/pineapplemachine/Pinemach.Muml.cs/blob/docs/docfx/index.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
