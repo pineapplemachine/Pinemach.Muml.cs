@@ -20,7 +20,7 @@ ul "When to use Muml" {
     li | You want it easy and simple to work with in code
 }
 a "Homepage" [
-    href="https://github.com/pineapplemachine/muml.cs"
+    href="https://github.com/pineapplemachine/Pinemach.Muml.cs"
 ]
 ```
 
