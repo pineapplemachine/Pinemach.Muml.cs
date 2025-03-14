@@ -404,3 +404,5 @@ FodyWeavers.xsd
 Pinemach.Muml.Tests/CoverageReport/*
 *.sublime-workspace
 docfx/index.md
+_exported_templates
+docfx/_exported_templates

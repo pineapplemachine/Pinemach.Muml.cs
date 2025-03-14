@@ -41,7 +41,7 @@
     "template": [
       "default",
       "modern",
-      "templates/modern-muml"
+      "_exported_templates/modern"
     ],
     "globalMetadata": {
       "_rootPath": "readme.md",
