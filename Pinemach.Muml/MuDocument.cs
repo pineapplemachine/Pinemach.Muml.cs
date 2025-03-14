@@ -140,7 +140,7 @@ public class MuDocument : IMuHasValues, IMuHasMembers {
     
     public bool ContentEquals(object obj) => this.ContentEquals(obj as MuDocument);
     public bool ContentEquals(MuDocument? doc) => (
-        doc != null &&
+        doc is not null &&
         this.Text == doc.Text &&
         MuUtil.SequencesEqual(this.Values, doc.Values) &&
         MuUtil.SequencesEqual(this.Members, doc.Members, MuElementContentComparer.Instance)
@@ -202,7 +202,7 @@ public class MuElement : IMuHasValues, IMuHasAttributes, IMuHasMembers {
     
     public bool ContentEquals(object obj) => this.ContentEquals(obj as MuElement);
     public bool ContentEquals(MuElement? el) => (
-        el != null &&
+        el is not null &&
         this.Name == el.Name &&
         this.Text == el.Text &&
         MuUtil.SequencesEqual(this.Values, el.Values) &&
@@ -222,7 +222,7 @@ public class MuValues : List<string> {
     
     public static MuValues From(IEnumerable<string>? values) => (
         values is MuValues list ? list :
-        values != null ? new(values) :
+        values is not null ? new(values) :
         new()
     );
     
@@ -232,7 +232,7 @@ public class MuValues : List<string> {
     public HashSet<string> GetHashSet() => new(this);
     
     public bool ContainsValue(string? value) {
-        if(value == null) return false;
+        if(value is null) return false;
         foreach(string val in this) {
             if(val == value) return true;
         }
@@ -253,7 +253,7 @@ public class MuMembers : List<MuElement> {
     
     public static MuMembers From(IEnumerable<MuElement>? members) => (
         members is MuMembers list ? list :
-        members != null ? new(members) :
+        members is not null ? new(members) :
         new()
     );
     
@@ -278,7 +278,7 @@ public class MuMembers : List<MuElement> {
             }
             else {
                 stack.RemoveAt(stack.Count - 1);
-                if(el != null) yield return el;
+                if(el is not null) yield return el;
             }
         }
     }
@@ -291,7 +291,7 @@ public class MuMembers : List<MuElement> {
     );
     public IEnumerable<MuElement> EnumerateTreeBreadthFirst(MuElement? elRoot) {
         if(this.Count <= 0) yield break;
-        if(elRoot != null) yield return elRoot;
+        if(elRoot is not null) yield return elRoot;
         List<(MuMembers, int)> stack = new();
         stack.Add((this, 0));
         while(stack.Count > 0) {
@@ -346,11 +346,11 @@ public class MuAttributes : List<MuAttribute> {
     
     public static MuAttributes From(IEnumerable<MuAttribute>? attrs) => (
         attrs is MuAttributes list ? list :
-        attrs != null ? new(attrs) :
+        attrs is not null ? new(attrs) :
         new()
     );
     public static MuAttributes From(IEnumerable<KeyValuePair<string?, string?>>? attrs) => (
-        attrs != null ? new(attrs) : new()
+        attrs is not null ? new(attrs) : new()
     );
     
     /// <summary>
@@ -361,7 +361,7 @@ public class MuAttributes : List<MuAttribute> {
     public Dictionary<string, string?> GetDictionary() {
         Dictionary<string, string?> dict = new();
         for(int i = this.Count - 1; i >= 0; i--) {
-            if(this[i].Name != null) dict[this[i].Name!] = this[i].Value;
+            if(this[i].Name is not null) dict[this[i].Name!] = this[i].Value;
         }
         return dict;
     }

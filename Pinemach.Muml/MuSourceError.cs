@@ -132,7 +132,7 @@ public class MuSourceErrors : List<MuSourceError> {
     
     public static MuSourceErrors From(IEnumerable<MuSourceError>? errors) => (
         errors is MuSourceErrors list ? list :
-        errors != null ? new(errors) :
+        errors is not null ? new(errors) :
         new()
     );
     

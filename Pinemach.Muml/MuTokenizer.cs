@@ -74,7 +74,7 @@ public readonly struct MuToken {
     public static bool operator !=(MuToken left, MuToken right) => !(left == right);
     
     public override string? ToString() => (
-        this.Type != MuTokenType.None && this.Span.IsStartValid() && this.Text != null ?
+        this.Type != MuTokenType.None && this.Span.IsStartValid() && this.Text is not null ?
         $"{this.Span.ToLString()} {this.Type} {MuUtil.ToQuotedString(this.Text)}" :
         null
     );

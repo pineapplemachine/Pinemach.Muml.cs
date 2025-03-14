@@ -151,7 +151,7 @@ public class MuParser : IDisposable {
             }
             MuElement? el = this.elTop();
             if(this.isAfterEquals && (
-                el == null ||
+                el is null ||
                 el.Attributes.Count <= 0 ||
                 el.Attributes[^1].Equals(null, null)
             )) {
@@ -192,7 +192,7 @@ public class MuParser : IDisposable {
     
     private void handleString(bool isIdentifier, MuToken token) {
         MuElement? el = this.elTop();
-        if(this.inAttributes && el != null) {
+        if(this.inAttributes && el is not null) {
             if(this.isAfterEquals) {
                 this.isAfterEquals = false;
                 this.isAfterAttributeName = false;
@@ -211,8 +211,8 @@ public class MuParser : IDisposable {
         }
         else if(this.isAfterEquals) {
             this.isAfterEquals = false;
-            if(token.Text != null) {
-                if(el != null) {
+            if(token.Text is not null) {
+                if(el is not null) {
                     el.Values.Add(token.Text);
                 }
                 else {
@@ -221,7 +221,7 @@ public class MuParser : IDisposable {
             }
         }
         else if(!isIdentifier) {
-            if(el != null) {
+            if(el is not null) {
                 el.Text = MuParser.appendText(el.Text, token.Text);
             }
             else {

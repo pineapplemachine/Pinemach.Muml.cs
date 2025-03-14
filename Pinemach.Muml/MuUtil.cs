@@ -438,7 +438,7 @@ public static class MuUtil {
             }
         }
         if(i > j) sb.Append(text[j..i]);
-        if(fence != null) sb.Append(fence);
+        if(fence is not null) sb.Append(fence);
         if(chQuote >= 0) sb.Append((char) chQuote);
         return sb.ToString();
     }
@@ -503,8 +503,8 @@ public static class MuUtil {
         MuUtil.SequencesEqual(seq1, seq2, EqualityComparer<T>.Default)
     );
     internal static bool SequencesEqual<T>(IEnumerable<T>? seq1, IEnumerable<T>? seq2, IEqualityComparer<T> comparer) {
-        if(seq1 == null) return seq2 == null || !seq2.Any();
-        else if(seq2 == null) return !seq1.Any();
+        if(seq1 is null) return seq2 == null || !seq2.Any();
+        else if(seq2 is null) return !seq1.Any();
         else return seq1.SequenceEqual(seq2, comparer);
     }
 }

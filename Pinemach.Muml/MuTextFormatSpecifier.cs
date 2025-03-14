@@ -151,9 +151,9 @@ public struct MuTextFormatSpecifier {
         string? indent = null;
         foreach(string line in MuTextFormatSpecifier.iterLines(text)) {
             if(string.IsNullOrEmpty(line)) {
-                if(indent != null) yield return "";
+                if(indent is not null) yield return "";
             }
-            else if(indent == null) {
+            else if(indent is null) {
                 int i = 0;
                 while(i < line.Length && MuUtil.IsWhitespaceChar(line[i])) i++;
                 if(i >= line.Length) continue;

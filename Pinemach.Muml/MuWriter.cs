@@ -101,8 +101,8 @@ public class MuWriter {
     }
     
     public void WriteDocument(MuDocument? doc, TextWriter writer) {
-        if(doc == null) return;
-        if(doc.Text != null) {
+        if(doc is null) return;
+        if(doc.Text is not null) {
             writer.Write(MuUtil.ToQuotedString(doc.Text, this.PreferTextType));
             writer.Write(this.Newline);
         }
@@ -115,7 +115,7 @@ public class MuWriter {
     }
     
     public void WriteElement(MuElement? el, string? indent, TextWriter writer) {
-        if(el == null) return;
+        if(el is null) return;
         string name = MuUtil.ToIdentifierString(el.Name, this.PreferTagType);
         if(el.HasIdentifierName()) {
             writer.Write(name);
@@ -129,7 +129,7 @@ public class MuWriter {
             if(el.Values.Count > 1 && !this.ReduceSpaces) writer.Write(' ');
             this.WriteValues(el.Values, writer, false);
         }
-        if(el.Text != null) {
+        if(el.Text is not null) {
             if(!this.ReduceSpaces) writer.Write(' ');
             writer.Write(MuUtil.ToQuotedString(el.Text, this.PreferTextType));
         }
@@ -144,7 +144,7 @@ public class MuWriter {
     }
     
     public void WriteMembers(IEnumerable<MuElement>? members, string? indent, TextWriter writer) {
-        if(members == null) {
+        if(members is null) {
             writer.Write("{}");
             return;
         }
@@ -163,7 +163,7 @@ public class MuWriter {
     }
     
     public void WriteAttributes(IEnumerable<MuAttribute>? attrs, TextWriter writer) {
-        if(attrs == null) {
+        if(attrs is null) {
             writer.Write("[]");
             return;
         }
@@ -180,20 +180,20 @@ public class MuWriter {
     }
     
     public void WriteAttribute(MuAttribute attr, TextWriter writer) {
-        if(attr.Name != null) {
+        if(attr.Name is not null) {
             writer.Write(MuUtil.ToIdentifierString(attr.Name, this.PreferAttributeNameType));
         }
-        if(attr.Name == null && attr.Value == null) {
+        if(attr.Name is null && attr.Value is null) {
             writer.Write('=');
         }
-        if(attr.Value != null) {
+        if(attr.Value is not null) {
             writer.Write('=');
             writer.Write(MuUtil.ToIdentifierString(attr.Value, this.PreferAttributeValueType));
         }
     }
     
     public void WriteValues(IEnumerable<string>? values, TextWriter writer, bool lineSep) {
-        if(values == null) return;
+        if(values is null) return;
         bool first = true;
         foreach(string value in values) {
             if(!first) {
