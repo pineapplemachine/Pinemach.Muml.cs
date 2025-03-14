@@ -860,31 +860,6 @@ references:
   isSpec: "True"
   fullName: Pinemach.Muml.MuDocument.Values
   nameWithType: MuDocument.Values
-- uid: Pinemach.Muml.MuDocument.Write
-  name: Write()
-  href: api/Pinemach.Muml.MuDocument.html#Pinemach_Muml_MuDocument_Write
-  commentId: M:Pinemach.Muml.MuDocument.Write
-  fullName: Pinemach.Muml.MuDocument.Write()
-  nameWithType: MuDocument.Write()
-- uid: Pinemach.Muml.MuDocument.Write(Pinemach.Muml.MuWriter)
-  name: Write(MuWriter)
-  href: api/Pinemach.Muml.MuDocument.html#Pinemach_Muml_MuDocument_Write_Pinemach_Muml_MuWriter_
-  commentId: M:Pinemach.Muml.MuDocument.Write(Pinemach.Muml.MuWriter)
-  fullName: Pinemach.Muml.MuDocument.Write(Pinemach.Muml.MuWriter)
-  nameWithType: MuDocument.Write(MuWriter)
-- uid: Pinemach.Muml.MuDocument.Write(Pinemach.Muml.MuWriter,System.IO.TextWriter)
-  name: Write(MuWriter, TextWriter)
-  href: api/Pinemach.Muml.MuDocument.html#Pinemach_Muml_MuDocument_Write_Pinemach_Muml_MuWriter_System_IO_TextWriter_
-  commentId: M:Pinemach.Muml.MuDocument.Write(Pinemach.Muml.MuWriter,System.IO.TextWriter)
-  fullName: Pinemach.Muml.MuDocument.Write(Pinemach.Muml.MuWriter, System.IO.TextWriter)
-  nameWithType: MuDocument.Write(MuWriter, TextWriter)
-- uid: Pinemach.Muml.MuDocument.Write*
-  name: Write
-  href: api/Pinemach.Muml.MuDocument.html#Pinemach_Muml_MuDocument_Write_
-  commentId: Overload:Pinemach.Muml.MuDocument.Write
-  isSpec: "True"
-  fullName: Pinemach.Muml.MuDocument.Write
-  nameWithType: MuDocument.Write
 - uid: Pinemach.Muml.MuDocumentContentComparer
   name: MuDocumentContentComparer
   href: api/Pinemach.Muml.MuDocumentContentComparer.html
@@ -1038,19 +1013,6 @@ references:
   isSpec: "True"
   fullName: Pinemach.Muml.MuElement.HasIdentifierName
   nameWithType: MuElement.HasIdentifierName
-- uid: Pinemach.Muml.MuElement.HasName
-  name: HasName()
-  href: api/Pinemach.Muml.MuElement.html#Pinemach_Muml_MuElement_HasName
-  commentId: M:Pinemach.Muml.MuElement.HasName
-  fullName: Pinemach.Muml.MuElement.HasName()
-  nameWithType: MuElement.HasName()
-- uid: Pinemach.Muml.MuElement.HasName*
-  name: HasName
-  href: api/Pinemach.Muml.MuElement.html#Pinemach_Muml_MuElement_HasName_
-  commentId: Overload:Pinemach.Muml.MuElement.HasName
-  isSpec: "True"
-  fullName: Pinemach.Muml.MuElement.HasName
-  nameWithType: MuElement.HasName
 - uid: Pinemach.Muml.MuElement.HasText
   name: HasText()
   href: api/Pinemach.Muml.MuElement.html#Pinemach_Muml_MuElement_HasText

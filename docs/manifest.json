@@ -148,7 +148,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Pinemach.Muml.MuHasAttributesExtensions",
-      "Summary": null
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.MuHasAttributesExtensions.yml\" sourcestartlinenumber=\"1\">Extension methods for MuElement objects.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -162,7 +162,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Pinemach.Muml.MuHasMembersExtensions",
-      "Summary": null
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.MuHasMembersExtensions.yml\" sourcestartlinenumber=\"1\">Extension methods for MuDocument and MuElement objects.</p>\n"
     },
     {
       "type": "ManagedReference",
@@ -176,7 +176,7 @@
       "Uid": null,
       "IsMRef": true,
       "Title": "Pinemach.Muml.MuHasValuesExtensions",
-      "Summary": null
+      "Summary": "<p sourcefile=\"api/Pinemach.Muml.MuHasValuesExtensions.yml\" sourcestartlinenumber=\"1\">Extension methods for MuDocument and MuElement objects.</p>\n"
     },
     {
       "type": "ManagedReference",
