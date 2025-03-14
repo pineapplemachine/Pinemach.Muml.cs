@@ -8,24 +8,6 @@ using System.Text;
 namespace Pinemach.Muml;
 
 /// <summary>
-/// Comparer which checks equality of document content.
-/// </summary>
-public class MuDocumentContentComparer : IEqualityComparer<MuDocument> {
-    public static readonly MuDocumentContentComparer Instance = new();
-    public bool Equals(MuDocument? doc1, MuDocument? doc2) => doc1?.ContentEquals(doc2) ?? false;
-    public int GetHashCode(MuDocument doc) => doc.GetHashCode();
-}
-
-/// <summary>
-/// Comparer which checks equality of element content.
-/// </summary>
-public class MuElementContentComparer : IEqualityComparer<MuElement> {
-    public static readonly MuElementContentComparer Instance = new();
-    public bool Equals(MuElement? el1, MuElement? el2) => el1?.ContentEquals(el2) ?? false;
-    public int GetHashCode(MuElement el) => el.GetHashCode();
-}
-
-/// <summary>
 /// Interface implemented by MuDocument and MuElement.
 /// </summary>
 public interface IMuHasMembers {
@@ -136,6 +118,9 @@ public class MuDocument : IMuHasValues, IMuHasMembers {
     
     public bool HasText() => !string.IsNullOrEmpty(this.Text);
     
+    /// <summary>
+    /// Get a Muml representation of this document.
+    /// </summary>
     public override string ToString() => MuWriter.Condensed.WriteDocument(this);
     
     public bool ContentEquals(object obj) => this.ContentEquals(obj as MuDocument);
@@ -198,6 +183,9 @@ public class MuElement : IMuHasValues, IMuHasAttributes, IMuHasMembers {
     public bool HasIdentifierName() => MuUtil.IsIdentifierString(this.Name);
     public bool HasText() => !string.IsNullOrEmpty(this.Text);
     
+    /// <summary>
+    /// Get a Muml representation of this element.
+    /// </summary>
     public override string ToString() => MuWriter.Condensed.WriteElement(this);
     
     public bool ContentEquals(object obj) => this.ContentEquals(obj as MuElement);
@@ -220,6 +208,7 @@ public class MuValues : List<string> {
     public MuValues(int capacity) : base(capacity) {}
     public MuValues(IEnumerable<string> collection) : base(collection) {}
     
+    /// <summary>Initialize MuValues from values.</summary>
     public static MuValues From(IEnumerable<string>? values) => (
         values is MuValues list ? list :
         values is not null ? new(values) :
@@ -239,6 +228,9 @@ public class MuValues : List<string> {
         return false;
     }
     
+    /// <summary>
+    /// Get a Muml representation of this value list.
+    /// </summary>
     public override string ToString() => MuWriter.Condensed.WriteValues(this);
 }
 
@@ -251,12 +243,14 @@ public class MuMembers : List<MuElement> {
     public MuMembers(int capacity) : base(capacity) {}
     public MuMembers(IEnumerable<MuElement> collection) : base(collection) {}
     
+    /// <summary>Initialize MuMembers from elements.</summary>
     public static MuMembers From(IEnumerable<MuElement>? members) => (
         members is MuMembers list ? list :
         members is not null ? new(members) :
         new()
     );
     
+    /// <inheritdoc />
     public override string ToString() => MuWriter.Condensed.WriteMembers(this);
     
     /// <summary>
@@ -265,6 +259,8 @@ public class MuMembers : List<MuElement> {
     public IEnumerable<MuElement> EnumerateTreeDepthFirst() => (
         this.EnumerateTreeDepthFirst(null)
     );
+    
+    /// <inheritdoc cref="EnumerateTreeDepthFirst()" />
     public IEnumerable<MuElement> EnumerateTreeDepthFirst(MuElement? elRoot) {
         if(this.Count <= 0) yield break;
         List<(MuElement?, MuMembers, int)> stack = new();
@@ -289,6 +285,8 @@ public class MuMembers : List<MuElement> {
     public IEnumerable<MuElement> EnumerateTreeBreadthFirst() => (
         this.EnumerateTreeBreadthFirst(null)
     );
+
+    /// <inheritdoc cref="EnumerateTreeBreadthFirst()" />
     public IEnumerable<MuElement> EnumerateTreeBreadthFirst(MuElement? elRoot) {
         if(this.Count <= 0) yield break;
         if(elRoot is not null) yield return elRoot;
@@ -344,11 +342,14 @@ public class MuAttributes : List<MuAttribute> {
         base(collection.Select(attr => new MuAttribute(attr.Key, attr.Value)))
     {}
     
+    /// <summary>Initialize MuAttributes from attributes.</summary>
     public static MuAttributes From(IEnumerable<MuAttribute>? attrs) => (
         attrs is MuAttributes list ? list :
         attrs is not null ? new(attrs) :
         new()
     );
+    
+    /// <summary>Initialize MuAttributes from key, value pairs.</summary>
     public static MuAttributes From(IEnumerable<KeyValuePair<string?, string?>>? attrs) => (
         attrs is not null ? new(attrs) : new()
     );
