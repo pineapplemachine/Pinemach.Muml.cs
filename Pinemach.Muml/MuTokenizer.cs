@@ -105,7 +105,14 @@ public readonly struct MuToken {
 /// Muml tokens. This is used by the MuParser.
 /// </summary>
 public class MuTokenizer : IDisposable {
+    /// <summary>
+    /// Error log object, to which tokenization errors are added.
+    /// </summary>
     public readonly MuSourceErrors Errors = new();
+    
+    /// <summary>
+    /// Returns true when the tokenizer has no errors associated with it.
+    /// </summary>
     public bool IsOk() => (this.Errors.Count == 0);
     
     private readonly TextReader reader;

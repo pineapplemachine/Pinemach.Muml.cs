@@ -9,9 +9,19 @@ namespace Pinemach.Muml;
 /// corresponding MuDocument object.
 /// </summary>
 public class MuParser : IDisposable {
+    /// <summary>
+    /// Document object constructed from the parsed Muml input.
+    /// </summary>
     public readonly MuDocument Document;
     
+    /// <summary>
+    /// Error log object, to which parsing errors are added.
+    /// </summary>
     public readonly MuSourceErrors Errors;
+    
+    /// <summary>
+    /// Returns true when the parser has no errors associated with it.
+    /// </summary>
     public bool IsOk() => (this.Errors.Count == 0);
     
     private readonly MuTokenizer tokenizer;
@@ -76,7 +86,7 @@ public class MuParser : IDisposable {
     private bool inAttributes;
     private MuToken inAttributesToken;
     private bool isAfterBeginMembers;
-    private List<MuToken> beginMembersTokenStack = new();
+    private readonly List<MuToken> beginMembersTokenStack = new();
     private bool isAfterAttributeName;
     private bool isAfterEquals;
     private MuToken isAfterEqualsToken;

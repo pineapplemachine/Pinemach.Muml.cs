@@ -110,7 +110,15 @@ public class MuWriter {
             this.WriteValues(doc.Values, writer, true);
         }
         if(doc.HasMembers()) {
-            this.WriteMembers(doc.Members, null, writer);
+            if(doc.HasValues()) writer.Write(this.Newline);
+            bool first = true;
+            foreach(MuElement member in doc.Members) {
+                if(!first) {
+                    writer.Write(this.Newline);
+                }
+                first = false;
+                this.WriteElement(member, null, writer);
+            }
         }
     }
     
