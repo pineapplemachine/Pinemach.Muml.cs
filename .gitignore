@@ -403,3 +403,4 @@ FodyWeavers.xsd
 .idea
 Pinemach.Muml.Tests/CoverageReport/*
 *.sublime-workspace
+docfx/index.md

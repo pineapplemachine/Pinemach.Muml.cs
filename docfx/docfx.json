@@ -1,0 +1,54 @@
+{
+  "$schema": "https://raw.githubusercontent.com/dotnet/docfx/main/schemas/docfx.schema.json",
+  "metadata": [
+    {
+      "src": [
+        {
+          "src": "../Pinemach.Muml",
+          "files": [
+            "Pinemach.Muml.csproj",
+            "bin/Debug/net6.0/Pinemach.Muml.dll",
+            "bin/Debug/net6.0/Pinemach.Muml.xml"
+          ]
+        }
+      ],
+      "dest": "api"
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          // "**/*.{md,yml}"
+          "index.md",
+          "readme.md",
+          "toc.yml",
+          "api/**.{md,yml}"
+        ],
+        "exclude": [
+          "_site/**"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "images/**"
+        ]
+      }
+    ],
+    "output": "_site",
+    "template": [
+      "default",
+      "modern",
+      "templates/modern-muml"
+    ],
+    "globalMetadata": {
+      "_rootPath": "readme.md",
+      "_appName": "Pinemach.Muml",
+      "_appTitle": "Pinemach.Muml",
+      "_enableSearch": true,
+      "pdf": false
+    }
+  }
+}

@@ -9,5 +9,6 @@
     <Authors>Sophie Kirschner</Authors>
     <PackageTags>Muml,Markup,XML,Configuration</PackageTags>
     <Description>Parse and serialize Muml documents.</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 </Project>
