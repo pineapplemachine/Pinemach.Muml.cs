@@ -1,6 +1,9 @@
 """
 Use this script to build generated API docs.
 
+To build for GitHub pages:
+$ python docfx/build.py
+
 To serve generated docs locally:
 $ python docfx/build.py --serve
 """
