@@ -834,6 +834,12 @@ references:
   commentId: M:Pinemach.Muml.MuDocument.ToString
   fullName: Pinemach.Muml.MuDocument.ToString()
   nameWithType: MuDocument.ToString()
+- uid: Pinemach.Muml.MuDocument.ToString(Pinemach.Muml.MuWriter)
+  name: ToString(MuWriter)
+  href: api/Pinemach.Muml.MuDocument.html#Pinemach_Muml_MuDocument_ToString_Pinemach_Muml_MuWriter_
+  commentId: M:Pinemach.Muml.MuDocument.ToString(Pinemach.Muml.MuWriter)
+  fullName: Pinemach.Muml.MuDocument.ToString(Pinemach.Muml.MuWriter)
+  nameWithType: MuDocument.ToString(MuWriter)
 - uid: Pinemach.Muml.MuDocument.ToString*
   name: ToString
   href: api/Pinemach.Muml.MuDocument.html#Pinemach_Muml_MuDocument_ToString_
