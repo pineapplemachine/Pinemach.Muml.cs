@@ -297,6 +297,21 @@ e |> '''
 ExpectedStringAfterFormatSpecifier L1:1
 #END
 
+#MUML invalid character following format specifier
+a ||? 'test1'
+b ||& 'test2'
+#JSON
+{"Members": [
+    {"Name": "a"},
+    {"Name": "?", "Text": "test1"},
+    {"Name": "b", "Text": "test2"},
+]}
+#ERRORS
+ExpectedStringAfterFormatSpecifier L1:3
+ExpectedStringAfterFormatSpecifier L2:3
+UnexpectedCharacter L2:5
+#END
+
 #MUML
 |= |^ |; || |>
 ||* ||$ ||+ ||-
