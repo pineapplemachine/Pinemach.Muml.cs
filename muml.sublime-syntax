@@ -30,7 +30,6 @@ contexts:
       scope: punctuation.separator.key-value.muml
       push:
         - meta_scope: meta.value.muml
-        - meta_include_prototype: false
         - include: identifier_strings
         - match: ''
           pop: true
@@ -41,15 +40,26 @@ contexts:
       push: in_attributes
   in_attributes:
     - meta_scope: meta.attributes.muml
-    - meta_include_prototype: false
     - include: comments
     - include: identifier_strings
     - include: quoted_strings
     - match: '='
       scope: punctuation.separator.key-value.muml
+      push: in_attributes_value
     - match: '\]'
       scope: punctuation.definition.attributes.end.muml
       pop: true
+  in_attributes_value:
+    - meta_scope: meta.value.attribute.muml
+    - include: comments
+    - match: '{{plain_identifier}}'
+      scope: entity.name.plain.muml
+      pop: true
+    - match: '(?=\S)'
+      pop: true
+    - match: '\]'
+      scope: punctuation.definition.attributes.end.muml
+      pop: 2
 
   members:
     - match: '\{'
@@ -57,7 +67,6 @@ contexts:
       push: in_members
   in_members:
     - meta_scope: meta.members.muml
-    - meta_include_prototype: false
     - include: comments
     - include: identifier_strings
     - include: quoted_strings
@@ -76,7 +85,6 @@ contexts:
       scope: punctuation.definition.comment.begin.muml
       push:
         - meta_scope: comment.block.muml
-        - meta_include_prototype: false
         - match: '\1'
           scope: punctuation.definition.comment.end.muml
           pop: true
@@ -84,13 +92,11 @@ contexts:
       scope: punctuation.definition.comment.line.number-sign.muml
       push:
         - meta_scope: comment.line.number-sign.muml
-        - meta_include_prototype: false
         - match: '\n'
           pop: true
 
   nested_comment:
     - meta_scope: comment.block.muml
-    - meta_include_prototype: false
     - match: '#\['
       scope: punctuation.definition.comment.begin.muml
       push: nested_comment
@@ -102,15 +108,12 @@ contexts:
     - match: '{{plain_identifier}}'
       scope: entity.name.plain.muml
 
-  quoted_strings:
+  format_specifier:
     - match: '\|[|>;^=][$+*\-]?\.*'
       scope: storage.modifier.string.muml
-    - match: '\|\{'
-      scope: punctuation.definition.string.begin.muml
-      push:
-      - meta_scope: meta.string.muml string.block.muml
-      - match: '\|\}'
-        pop: true
+
+  quoted_strings:
+    - include: format_specifier
     - match: '\|'
       scope: punctuation.definition.string.begin.muml
       push:
