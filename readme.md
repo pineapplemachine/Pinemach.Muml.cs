@@ -63,8 +63,8 @@ public class Example {
         
         // Manipulate Muml document
         var el = new MuElement("div");
-        el.AddAttribute("hello", "world");
-        doc.AddMember(el);
+        el.Attributes.Add("hello", "world");
+        doc.Members.Add(el);
         
         // Get Muml source from a MuDocument
         string mumlSrc = doc.ToString();
